@@ -1,0 +1,21 @@
+# src/data/places/work/arsenal-braintech-closed.yaml
+name: "Arsenal Braintech (Closed)"
+slug: arsenal-braintech-closed
+neighborhood: "Centro Histórico"
+type: "closed"
+last_tested: "2026-06-20"
+tested_by: "Yatan"
+wifi_down_mbps: 1
+wifi_up_mbps: 1
+outlets: "none"
+ac: false
+noise_level: "n/a"
+images:
+  - file: arsenal-brain-tech.jpg
+    caption: "Arsenal Brain Tech - Closed"
+    credit: "Cartagena Up"
+status: "closed"
+local_note: "Arsenal Braintech, a coworking and business center near the convention center, no longer appears to be operating — several local directories now list it under 'currently closed.' Multiple booking aggregators still show it as active, which is misleading. If you're looking for something similar in the area, the convention center coworking nearby is reportedly still active."
+local_note_es: "Arsenal Braintech, un centro de coworking y negocios cerca del centro de convenciones, ya no parece estar operando — varios directorios locales lo listan ahora como 'cerrado actualmente.' Varios agregadores de reservas todavía lo muestran como activo, lo cual es engañoso. Si buscas algo similar en la zona, el coworking del centro de convenciones cercano parece seguir activo."
+maps_link: ""
+active: true
