@@ -2,7 +2,7 @@ name: "Fruto Bendito"
 slug: fruto-bendito
 neighborhood: "Centro Histórico"
 type: "cafe"
-last_tested: "2026-06-28"
+last_tested: "2026-06-25"
 tested_by: "Yatan"
 wifi_network: "Espacio Cultural"
 wifi_down_mbps: 5
@@ -23,6 +23,7 @@ address: "Calle de la Merced (inside Claustro de la Merced), Centro Histórico"
 maps_link: "https://maps.app.goo.gl/64hkVPanT1CJf4UR9"
 local_note: "Dentro del Claustro de la Merced, junto a la Librería Remedios la Bella. WiFi asimétrico — 5 de bajada / 20 de subida cuando se probó, posiblemente conexión móvil. Bien para email y navegación, poco confiable para videollamadas o descargas. Las mesas más cómodas están a la derecha de la entrada, cerca de los dos enchufes. El café y el chai son excelentes. Los sorbetes de fruta tropical valen la pena."
 local_note_en: "Inside the Claustro de la Merced, next to Librería Remedios la Bella. Asymmetric WiFi — 5 down / 20 up when tested, possibly a mobile connection. Fine for email and light browsing, unreliable for video calls or downloads. Best tables: entrance right side, closest to the two outlets. The coffee and chai are genuinely excellent. Exotic fruit sorbets worth trying."
+local_note_es: "Dentro del Claustro de la Merced, junto a la Librería Remedios la Bella. WiFi asimétrico — 5 de bajada / 20 de subida cuando se probó, posiblemente conexión móvil. Bien para email y navegación, poco confiable para videollamadas o descargas. Las mesas más cómodas están a la derecha de la entrada, cerca de los dos enchufes. El café y el chai son excelentes. Los sorbetes de fruta tropical valen la pena."
 hotspot_warning: true
 hotspot_note: "Download speeds were slow when tested. Use your hotspot for calls or anything bandwidth-heavy."
 related_listing: "claustro-la-merced"

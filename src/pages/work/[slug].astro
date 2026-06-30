@@ -36,9 +36,8 @@ const placeJsonLd = {
 };
 
 function shortDate(s) {
-  const [y, m] = s.split('-');
-  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  return `${months[parseInt(m,10)-1]} ${y}`;
+  const d = new Date(s + 'T12:00:00');
+  return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
 }
 ---
 

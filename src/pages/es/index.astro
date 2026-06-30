@@ -84,9 +84,9 @@ function fmtDate(s) {
               </div>
             </div>
           </div>
-          {place.data.local_note && (
+          {(place.data.local_note_es || place.data.local_note) && (
             <p style="font-size: 0.75rem; color: var(--text-muted); font-style: italic; line-height: 1.5; margin: 0.25rem 0 0; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
-              {place.data.local_note}
+              {place.data.local_note_es || place.data.local_note}
             </p>
           )}
         </div>

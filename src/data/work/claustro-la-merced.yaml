@@ -2,7 +2,7 @@ name: "Claustro de la Merced"
 slug: claustro-la-merced
 neighborhood: "Centro Histórico"
 type: "cultural-space"
-last_tested: "2026-06-28"
+last_tested: "2026-06-24"
 tested_by: "Yatan"
 wifi_network: "Claustro La Merced"
 wifi_down_mbps: 20
@@ -19,6 +19,7 @@ address: "Carrera 4 # 38-40, Centro Histórico, Cartagena"
 maps_link: "https://maps.app.goo.gl/ZpdKZxdsTy6iQp6W8"
 local_note: ""
 local_note_en: "A former monastery turned García Márquez memorial. Genuinely beautiful space — worth visiting even if you end up using your hotspot. Inside: Librería Remedios la Bella (FCE Colombia — a major Latin American publisher) and Fruto Bendito café. Hosts frequent cultural events from the Espacio Cultural programming."
+local_note_es: "Un antiguo monasterio convertido en memorial de García Márquez. Un espacio genuinamente hermoso — vale la pena visitarlo incluso si terminas usando tu hotspot. Dentro: Librería Remedios la Bella (FCE Colombia — una editorial latinoamericana importante) y el café Fruto Bendito. Alberga eventos culturales frecuentes de la programación del Espacio Cultural."
 hotspot_warning: true
 hotspot_note: "WiFi is workable for light tasks but bring a hotspot backup for calls or heavy uploads."
 images:

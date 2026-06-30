@@ -22,6 +22,7 @@ hours: ""
 maps_link: "https://share.google/mRU9euNdqtM2OIHuv"
 address: "Plaza de Santo Domingo, Centro Histórico, Cartagena"
 local_note: "One of Cartagena's most iconic café locations — Plaza Santo Domingo, next to Botero's famous reclining figure, across from the church and the Spanish Cultural Centre. The coffee is genuinely excellent, among the best in the city. The WiFi is not — 3 down / 1 up when tested, and this isn't a one-off. Come here for the atmosphere and a great espresso. Bring your own hotspot if you need to work."
+local_note_es: "Una de las ubicaciones de café más icónicas de Cartagena — Plaza Santo Domingo, junto a la famosa figura reclinada de Botero, frente a la iglesia y el Centro Cultural Español. El café es genuinamente excelente, entre los mejores de la ciudad. El WiFi no lo es — 3 de bajada / 1 de subida cuando se probó, y esto no es un caso aislado. Ven aquí por el ambiente y un excelente espresso. Trae tu propio hotspot si necesitas trabajar."
 hotspot_warning: true
 hotspot_note: "WiFi is too slow for reliable work. Bring a hotspot — the location makes it worth it anyway."
 images:

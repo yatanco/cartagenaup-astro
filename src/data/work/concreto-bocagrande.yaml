@@ -2,7 +2,7 @@ name: "Concreto Work and Coffee"
 slug: concreto-bocagrande
 neighborhood: "Bocagrande"
 type: "cafe"
-last_tested: "2026-06-28"
+last_tested: "2026-06-26"
 tested_by: "Yatan"
 wifi_network: "Bis Contact Center"
 wifi_down_mbps: 85
@@ -22,6 +22,7 @@ hours: "Mon–Sun 8am–6pm"
 maps_link: "https://maps.app.goo.gl/7MeGXrdTGDmcXMUY7"
 address: "Cra. 1 #12-118, Bocagrande, Cartagena"
 local_note: "Striking space with a stacked shipping-container feature wall and double-height ceilings facing the beach. You can realistically leave your laptop here and go for a swim — beach access is steps away. The dedicated coworking floor is currently occupied by the Secretaría de Turismo; the public coffee area has two sofas and six four-person tables with strong AC and plenty of outlets. A second Concreto coworking space is opening on the mall's second floor around July 2026 — worth checking back. Slightly awkward to find: enter from outside the mall, take the left front stairs."
+local_note_es: "Espacio llamativo con una pared de contenedores apilados y techos de doble altura frente a la playa. Realmente puedes dejar tu laptop aquí e irte a nadar — el acceso a la playa está a pocos pasos. El piso de coworking dedicado está actualmente ocupado por la Secretaría de Turismo; el área pública de café tiene dos sofás y seis mesas de cuatro personas con buen aire acondicionado y muchos enchufes. Un segundo espacio de coworking Concreto abrirá en el segundo piso del centro comercial alrededor de julio 2026 — vale la pena volver a revisar. Un poco difícil de encontrar: entra desde afuera del centro comercial, sube por las escaleras del frente a la izquierda."
 images:
   - file: concreto-bocagrande.jpg
     caption: "Concreto Work and Coffee — Bocagrande Plaza"

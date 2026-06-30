@@ -14,7 +14,7 @@ export async function getStaticPaths() {
 
 const { place } = Astro.props;
 const lang = 'es';
-const note = place.local_note;
+const note = place.local_note_es || place.local_note;
 
 const placeJsonLd = {
   "@context": "https://schema.org",
@@ -36,9 +36,8 @@ const placeJsonLd = {
 };
 
 function shortDate(s) {
-  const [y, m] = s.split('-');
-  const months = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
-  return `${months[parseInt(m,10)-1]} ${y}`;
+  const d = new Date(s + 'T12:00:00');
+  return d.toLocaleDateString('es-CO', { day: 'numeric', month: 'short' });
 }
 ---
 

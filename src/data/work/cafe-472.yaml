@@ -2,7 +2,7 @@ name: "Café 472"
 slug: cafe-472
 neighborhood: "Manga"
 type: "cafe"
-last_tested: "2026-06"
+last_tested: "2026-06-29"
 tested_by: "Yatan"
 wifi_network: ""
 wifi_down_mbps: 149
@@ -20,6 +20,7 @@ hours: ""
 maps_link: "https://maps.app.goo.gl/YKBNdwoEAuQTnrMJ7"
 address: "Manga, Cartagena"
 local_note: "A neighborhood favorite I come back to often. Two comfy couches and a few less comfortable tables — it's primarily a coffee spot, not built for laptop marathons, but the couches work well for a few hours. There's also a small terrace right on the street if you want fresh air. Coffee is excellent, frappés are great (the Milo frappé is a hit if you bring kids). Internet is solid, AC is good, service is genuinely great. Quietish in the mornings and afternoons."
+local_note_es: "Un lugar favorito del vecindario al que vuelvo seguido. Dos sofás cómodos y algunas mesas menos cómodas — es principalmente un lugar de café, no pensado para maratones de laptop, pero los sofás funcionan bien por unas horas. También hay una pequeña terraza justo en la calle si quieres aire fresco. El café es excelente, los frappés son geniales (el frappé de Milo es un éxito si traes niños). El internet es sólido, el aire acondicionado es bueno, el servicio es genuinamente excelente. Tranquilo en las mañanas y tardes."
 images:
   - file: cafe-472.jpg
     caption: "Café 472 — outdoor terrace"

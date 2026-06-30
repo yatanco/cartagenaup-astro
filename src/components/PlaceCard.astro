@@ -3,7 +3,7 @@ import PlaceCarousel from './PlaceCarousel.jsx';
 const { place, lang = 'en' } = Astro.props;
 const waNumber = '573163946401';
 
-const note    = lang === 'en' ? (place.local_note_en || place.local_note) : place.local_note;
+const note    = lang === 'en' ? (place.local_note_en || place.local_note) : (place.local_note_es || place.local_note);
 const verified = lang === 'es' ? 'VERIFICADO' : 'VERIFIED';
 const mapsLabel = lang === 'es' ? 'Ver en Google Maps' : 'Open in Maps';
 const changedLabel = lang === 'es' ? '¿Algo cambió?' : 'Something changed?';
@@ -12,11 +12,8 @@ const bestLabel  = lang === 'es' ? 'Mejor lugar' : 'Best spot';
 const slugHref = lang === 'es' ? `/es/work/${place.slug}/` : `/work/${place.slug}/`;
 
 function shortDate(s) {
-  const [y, m] = s.split('-');
-  const enMonths = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  const esMonths = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
-  const months = lang === 'es' ? esMonths : enMonths;
-  return `${months[parseInt(m,10)-1]} ${y}`;
+  const d = new Date(s + 'T12:00:00');
+  return d.toLocaleDateString(lang === 'es' ? 'es-CO' : 'en-GB', { day: 'numeric', month: 'short' });
 }
 ---
 

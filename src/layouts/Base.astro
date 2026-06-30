@@ -55,6 +55,17 @@ const altPath = lang === 'es'
   <link rel="alternate" hreflang="x-default" href="https://cartagenaup.com/" />
   <script type="application/ld+json" set:html={jsonLd} />
   {additionalJsonLd && <script type="application/ld+json" set:html={JSON.stringify(additionalJsonLd)} />}
+  {import.meta.env.PROD && (
+    <>
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-113VHTKQ0K"></script>
+      <script is:inline>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-113VHTKQ0K');
+      </script>
+    </>
+  )}
   <!-- Dark mode: prevent FOUC -->
   <script is:inline>
     (function() {

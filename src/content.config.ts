@@ -32,6 +32,7 @@ const workPlaces = defineCollection({
     address: z.string().optional(),
     local_note: z.string().optional(),
     local_note_en: z.string().optional(),
+    local_note_es: z.string().optional(),
     hotspot_warning: z.boolean().optional(),
     hotspot_note: z.string().optional(),
     whatsapp_update_text: z.string().optional(),
