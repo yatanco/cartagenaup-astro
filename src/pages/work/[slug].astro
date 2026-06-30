@@ -1,6 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
 import WhatsAppCTA from '../../components/WhatsAppCTA.astro';
+import PlaceCarousel from '../../components/PlaceCarousel.jsx';
 import { getCollection } from 'astro:content';
 
 export async function getStaticPaths() {
@@ -15,8 +16,6 @@ const { place } = Astro.props;
 const lang = 'en';
 const note = place.local_note_en || place.local_note;
 
-function imgSrc(file)  { return `/images/places/work/${file}`; }
-function webpSrc(file) { return `/images/places/work/${file.replace(/\.(jpg|png)$/, '.webp')}`; }
 function shortDate(s) {
   const [y, m] = s.split('-');
   const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
@@ -38,26 +37,8 @@ function shortDate(s) {
 
     <!-- Photos -->
     {place.images && place.images.length > 0 && (
-      <div style="border-radius: 12px; overflow: hidden; margin-bottom: 1.5rem; border: 0.5px solid var(--card-border);">
-        {place.images.map((img, i) => (
-          <div>
-            <picture>
-              <source srcset={webpSrc(img.file)} type="image/webp" />
-              <img
-                src={imgSrc(img.file)}
-                alt={img.caption || place.name}
-                loading={i === 0 ? 'eager' : 'lazy'}
-                width="1200" height="675"
-                style="width: 100%; object-fit: cover; max-height: 20rem; display: block;"
-              />
-            </picture>
-            {img.caption && (
-              <p style="font-size: 0.7rem; color: var(--text-muted); padding: 0.5rem 1rem; margin: 0; background: var(--card-bg); border-top: 0.5px solid var(--card-border);">
-                {img.caption}
-              </p>
-            )}
-          </div>
-        ))}
+      <div style="margin-bottom: 1.5rem;">
+        <PlaceCarousel client:load images={place.images} placeName={place.name} />
       </div>
     )}
 
