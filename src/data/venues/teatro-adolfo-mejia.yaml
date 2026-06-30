@@ -1,0 +1,9 @@
+name: "Teatro Adolfo Mejía"
+slug: teatro-adolfo-mejia
+neighborhood: "Centro Histórico"
+type: "theatre"
+address: "Centro Histórico, Cartagena"
+maps_link: ""
+description: "Cartagena's main theatre, also known as Teatro Pedro de Heredia. A historic venue in the walled city that hosts concerts, dance festivals, theatrical performances, and major cultural events throughout the year. Not a place to work, but a key venue to know about if you're tracking what's happening in the city."
+description_es: "El teatro principal de Cartagena, también conocido como Teatro Pedro de Heredia. Un recinto histórico dentro de la ciudad amurallada que alberga conciertos, festivales de danza, obras teatrales y grandes eventos culturales a lo largo del año. No es un lugar para trabajar, pero es un espacio clave si quieres saber qué está pasando en la ciudad."
+active: true
