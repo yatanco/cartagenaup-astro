@@ -1,0 +1,28 @@
+name: "Mientras"
+slug: mientras-cartagena
+neighborhood: "Centro Histórico"
+type: "cafe"
+last_tested: "2026-06"
+tested_by: "Yatan"
+wifi_network: ""
+wifi_down_mbps: 531
+wifi_up_mbps: 386
+wifi_latency_ms: 27
+wifi_isp: ""
+video_calls: "good"
+outlets: "limited"
+ac: true
+noise_level: "moderate"
+best_time: "Mornings — quiet, then fills up as the day goes on"
+best_spot: "The bench tables along the wall — big enough to work on"
+price_to_stay: "Coffee, natural juices, lemonades, cocktails, micheladas, sandwiches, croissants — open for here or to go"
+hours: "From 9am till night"
+maps_link: "https://maps.app.goo.gl/RTc1rVMhBwY85tR47"
+address: "Centro Histórico, Cartagena"
+local_note: "A family favorite. Quaint, colorful, walls covered in local art. Serves breakfast through to late night, hosts events, plays great music. The fastest WiFi measured on this site so far — 531 down / 386 up. Tables are just big enough to work on and it's genuinely quiet in the morning. Stick around all day and you'll probably end up talking to someone — this is a place where work has a way of turning into conversation, and conversation into a small party. AC is good, a few outlets available, but it gets lively past the morning."
+images:
+  - file: mientras-cartagena.jpg
+    caption: "Mientras — Centro Histórico"
+    credit: "Cartagena Up"
+whatsapp_update_text: "Update for Mientras listing on Cartagena Up"
+active: true
