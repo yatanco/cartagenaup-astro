@@ -1,0 +1,129 @@
+---
+import PlaceCarousel from './PlaceCarousel.jsx';
+const { place, lang = 'en' } = Astro.props;
+const waNumber = '573163946401';
+
+const note    = lang === 'en' ? (place.local_note_en || place.local_note) : place.local_note;
+const verified = lang === 'es' ? 'VERIFICADO' : 'VERIFIED';
+const mapsLabel = lang === 'es' ? 'Ver en Google Maps' : 'Open in Maps';
+const changedLabel = lang === 'es' ? '¿Algo cambió?' : 'Something changed?';
+const hoursLabel = lang === 'es' ? 'Horario' : 'Hours';
+const bestLabel  = lang === 'es' ? 'Mejor lugar' : 'Best spot';
+const slugHref = lang === 'es' ? `/es/work/${place.slug}/` : `/work/${place.slug}/`;
+
+// Last tested: "2026-06-28" → "Jun 2026"
+function shortDate(s) {
+  const [y, m] = s.split('-');
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  return `${months[parseInt(m,10)-1]} ${y}`;
+}
+---
+
+<article class="place-card">
+
+  <!-- Image carousel -->
+  {place.images && place.images.length > 0 && (
+    <PlaceCarousel
+      client:load
+      images={place.images}
+      placeName={place.name}
+    />
+  )}
+
+  <!-- Card body -->
+  <div style="padding: 1rem 1.25rem 1.25rem;">
+
+    <!-- Verified badge -->
+    <div style="margin-bottom: 0.625rem;">
+      <span style="display: inline-flex; align-items: center; gap: 0.25rem; background: #C45C26; color: #fff; font-size: 0.6rem; font-weight: 700; padding: 0.2rem 0.6rem; border-radius: 9999px; text-transform: uppercase; letter-spacing: 0.08em;">
+        ✓ {shortDate(place.last_tested)}
+      </span>
+    </div>
+
+    <!-- Name -->
+    <h2 style="font-family: Georgia, serif; font-size: 1.075rem; font-weight: 400; margin: 0 0 0.2rem; line-height: 1.25;">
+      <a href={slugHref} style="color: var(--fg); text-decoration: none;">
+        {place.name}
+      </a>
+    </h2>
+
+    <!-- Neighborhood / address -->
+    <p style="font-size: 0.75rem; color: var(--text-muted); margin: 0 0 0.875rem;">
+      {place.neighborhood}{place.address ? ` · ${place.address}` : ''}
+    </p>
+
+    <!-- WiFi stats block -->
+    <div style="border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 0.75rem 0; margin-bottom: 0.875rem; display: flex; gap: 1.75rem;">
+      <div>
+        <div style="font-size: 0.6rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.15rem;">↓ Down</div>
+        <div style="font-size: 1.3rem; font-weight: 600; line-height: 1; color: var(--fg);">
+          {place.wifi_down_mbps}<span style="font-size: 0.7rem; font-weight: 400; color: var(--text-muted);"> Mbps</span>
+        </div>
+      </div>
+      <div>
+        <div style="font-size: 0.6rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.15rem;">↑ Up</div>
+        <div style="font-size: 1.3rem; font-weight: 600; line-height: 1; color: var(--fg);">
+          {place.wifi_up_mbps}<span style="font-size: 0.7rem; font-weight: 400; color: var(--text-muted);"> Mbps</span>
+        </div>
+      </div>
+      {place.wifi_latency_ms && (
+        <div>
+          <div style="font-size: 0.6rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.15rem;">Ping</div>
+          <div style="font-size: 1.3rem; font-weight: 600; line-height: 1; color: var(--fg);">
+            {place.wifi_latency_ms}<span style="font-size: 0.7rem; font-weight: 400; color: var(--text-muted);"> ms</span>
+          </div>
+        </div>
+      )}
+      <div>
+        <div style="font-size: 0.6rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.15rem;">AC</div>
+        <div style={`font-size: 1.3rem; font-weight: 600; line-height: 1; color: ${place.ac ? '#16a34a' : 'var(--text-muted)'};`}>
+          {place.ac ? '✓' : '—'}
+        </div>
+      </div>
+    </div>
+
+    <!-- Hotspot warning -->
+    {place.hotspot_warning && (
+      <p style="font-size: 0.75rem; background: #FFFBEB; border: 1px solid #FDE68A; color: #92400E; border-radius: 6px; padding: 0.4rem 0.75rem; margin-bottom: 0.75rem;">
+        ⚠ {place.hotspot_note || (lang === 'es' ? 'Ten un hotspot de respaldo' : 'Bring a hotspot backup')}
+      </p>
+    )}
+
+    <!-- Local note -->
+    {note && (
+      <p style="font-size: 0.8125rem; line-height: 1.65; color: var(--fg); margin-bottom: 0.75rem;">
+        {note}
+      </p>
+    )}
+
+    <!-- Best spot -->
+    {place.best_spot && (
+      <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.5rem;">
+        <strong style="color: var(--fg); font-weight: 600;">{bestLabel}:</strong> {place.best_spot}
+      </p>
+    )}
+
+    <!-- Hours -->
+    {place.hours && (
+      <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.875rem;">
+        {hoursLabel}: {place.hours}
+      </p>
+    )}
+
+    <!-- Footer links -->
+    <div style="display: flex; gap: 1rem; flex-wrap: wrap; font-size: 0.75rem; margin-top: 0.875rem;">
+      {place.maps_link && (
+        <a href={place.maps_link} target="_blank" rel="noopener"
+          style="color: #C45C26; text-decoration: none; font-weight: 500;">
+          📍 {mapsLabel}
+        </a>
+      )}
+      <a href={`https://wa.me/${waNumber}?text=${encodeURIComponent(place.whatsapp_update_text || `Update for ${place.name} on Cartagena Up`)}`}
+        target="_blank" rel="noopener"
+        style="color: var(--text-muted); text-decoration: underline;">
+        {changedLabel}
+      </a>
+    </div>
+  </div>
+
+</article>

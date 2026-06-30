@@ -1,0 +1,33 @@
+name: "Claustro de la Merced"
+slug: claustro-la-merced
+neighborhood: "Centro Histórico"
+type: "cultural-space"
+last_tested: "2026-06-28"
+tested_by: "Yatan"
+wifi_network: "Claustro La Merced"
+wifi_down_mbps: 20
+wifi_up_mbps: 10
+video_calls: "marginal"
+outlets: "none"
+ac: false
+noise_level: "quiet"
+best_time: "Morning or afternoon — gets hot at midday in the open courtyard"
+best_spot: "Back section of the inner yard gets the strongest signal"
+price_to_stay: "Free — open public access"
+hours: "Mon–Fri 7:30am–7pm · Sat 7:30am–8pm · Sun & holidays 9am–5pm (Fruto Bendito café hours)"
+address: "Carrera 4 # 38-40, Centro Histórico, Cartagena"
+maps_link: "https://maps.app.goo.gl/ZpdKZxdsTy6iQp6W8"
+local_note: ""
+local_note_en: "A former monastery turned García Márquez memorial. Genuinely beautiful space — worth visiting even if you end up using your hotspot. Inside: Librería Remedios la Bella (FCE Colombia — a major Latin American publisher) and Fruto Bendito café. Hosts frequent cultural events from the Espacio Cultural programming."
+hotspot_warning: true
+hotspot_note: "WiFi is workable for light tasks but bring a hotspot backup for calls or heavy uploads."
+images:
+  - file: claustro-courtyard.jpg
+    caption: "The inner courtyard of Claustro de la Merced, Cartagena"
+    credit: "Cartagena Up"
+  - file: fruto-bendito-entrance.jpg
+    caption: "Fruto Bendito café inside the Claustro"
+    credit: "Cartagena Up"
+whatsapp_update_text: "Update for Claustro de la Merced listing on Cartagena Up"
+casa_gaviota_note: ""
+active: true

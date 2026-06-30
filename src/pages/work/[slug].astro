@@ -1,0 +1,181 @@
+---
+import Base from '../../layouts/Base.astro';
+import WhatsAppCTA from '../../components/WhatsAppCTA.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const places = await getCollection('workPlaces', ({ data }) => data.active === true);
+  return places.map(place => ({
+    params: { slug: place.data.slug },
+    props: { place: place.data },
+  }));
+}
+
+const { place } = Astro.props;
+const lang = 'en';
+const note = place.local_note_en || place.local_note;
+
+function imgSrc(file)  { return `/images/places/work/${file}`; }
+function webpSrc(file) { return `/images/places/work/${file.replace(/\.(jpg|png)$/, '.webp')}`; }
+function shortDate(s) {
+  const [y, m] = s.split('-');
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  return `${months[parseInt(m,10)-1]} ${y}`;
+}
+---
+
+<Base
+  title={place.name}
+  description={`${place.name} — WiFi-tested work spot in ${place.neighborhood}, Cartagena. ${place.wifi_down_mbps}↓/${place.wifi_up_mbps}↑ Mbps, verified ${shortDate(place.last_tested)}.`}
+  lang="en"
+  canonicalUrl={`https://cartagenaup.com/work/${place.slug}/`}>
+
+  <div style="padding-top: 1.5rem;">
+    <!-- Breadcrumb -->
+    <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 1.25rem;">
+      <a href="/work/" style="color: #C45C26; text-decoration: none;">← Work in Cartagena</a>
+    </p>
+
+    <!-- Photos -->
+    {place.images && place.images.length > 0 && (
+      <div style="border-radius: 12px; overflow: hidden; margin-bottom: 1.5rem; border: 0.5px solid var(--card-border);">
+        {place.images.map((img, i) => (
+          <div>
+            <picture>
+              <source srcset={webpSrc(img.file)} type="image/webp" />
+              <img
+                src={imgSrc(img.file)}
+                alt={img.caption || place.name}
+                loading={i === 0 ? 'eager' : 'lazy'}
+                width="1200" height="675"
+                style="width: 100%; object-fit: cover; max-height: 20rem; display: block;"
+              />
+            </picture>
+            {img.caption && (
+              <p style="font-size: 0.7rem; color: var(--text-muted); padding: 0.5rem 1rem; margin: 0; background: var(--card-bg); border-top: 0.5px solid var(--card-border);">
+                {img.caption}
+              </p>
+            )}
+          </div>
+        ))}
+      </div>
+    )}
+
+    <!-- Verified badge -->
+    <div style="margin-bottom: 0.75rem;">
+      <span style="display: inline-flex; align-items: center; gap: 0.25rem; background: #C45C26; color: #fff; font-size: 0.6rem; font-weight: 700; padding: 0.2rem 0.6rem; border-radius: 9999px; text-transform: uppercase; letter-spacing: 0.08em;">
+        ✓ {shortDate(place.last_tested)}
+      </span>
+    </div>
+
+    <!-- Name -->
+    <h1 style="font-family: Georgia, serif; font-size: 2rem; font-weight: 400; margin: 0 0 0.25rem; line-height: 1.15; color: var(--fg);">
+      {place.name}
+    </h1>
+    <p style="font-size: 0.8125rem; color: var(--text-muted); margin: 0 0 1.5rem;">
+      {place.neighborhood}{place.address ? ` · ${place.address}` : ''}
+    </p>
+
+    <!-- WiFi stats -->
+    <div style="border: 0.5px solid var(--card-border); border-radius: 10px; padding: 1rem 1.25rem; display: flex; gap: 2rem; flex-wrap: wrap; margin-bottom: 1.5rem; background: var(--card-bg);">
+      <div>
+        <div style="font-size: 0.6rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.25rem;">↓ Down</div>
+        <div style="font-size: 2rem; font-weight: 700; line-height: 1; color: var(--fg);">
+          {place.wifi_down_mbps}<span style="font-size: 0.875rem; font-weight: 400; color: var(--text-muted);"> Mbps</span>
+        </div>
+      </div>
+      <div>
+        <div style="font-size: 0.6rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.25rem;">↑ Up</div>
+        <div style="font-size: 2rem; font-weight: 700; line-height: 1; color: var(--fg);">
+          {place.wifi_up_mbps}<span style="font-size: 0.875rem; font-weight: 400; color: var(--text-muted);"> Mbps</span>
+        </div>
+      </div>
+      {place.wifi_latency_ms && (
+        <div>
+          <div style="font-size: 0.6rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.25rem;">Ping</div>
+          <div style="font-size: 2rem; font-weight: 700; line-height: 1; color: var(--fg);">
+            {place.wifi_latency_ms}<span style="font-size: 0.875rem; font-weight: 400; color: var(--text-muted);"> ms</span>
+          </div>
+        </div>
+      )}
+      <div>
+        <div style="font-size: 0.6rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.25rem;">AC</div>
+        <div style={`font-size: 2rem; font-weight: 700; line-height: 1; color: ${place.ac ? '#16a34a' : 'var(--text-muted)'};`}>
+          {place.ac ? '✓' : '—'}
+        </div>
+      </div>
+    </div>
+
+    <!-- Hotspot warning -->
+    {place.hotspot_warning && (
+      <p style="font-size: 0.8125rem; background: #FFFBEB; border: 1px solid #FDE68A; color: #92400E; border-radius: 8px; padding: 0.625rem 1rem; margin-bottom: 1.25rem; line-height: 1.5;">
+        ⚠ {place.hotspot_note || 'Bring a hotspot backup'}
+      </p>
+    )}
+
+    <!-- Local note -->
+    {note && (
+      <p style="font-size: 0.9375rem; line-height: 1.7; color: var(--fg); margin-bottom: 1.5rem;">
+        {note}
+      </p>
+    )}
+
+    <!-- Detail rows -->
+    <div style="display: grid; gap: 0.625rem; margin-bottom: 1.75rem;">
+      {place.best_spot && (
+        <div style="border-left: 2px solid #C45C26; padding-left: 0.875rem;">
+          <p style="font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin: 0 0 0.15rem;">Best spot</p>
+          <p style="font-size: 0.875rem; color: var(--fg); margin: 0;">{place.best_spot}</p>
+        </div>
+      )}
+      {place.best_time && (
+        <div style="border-left: 2px solid var(--border); padding-left: 0.875rem;">
+          <p style="font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin: 0 0 0.15rem;">Best time</p>
+          <p style="font-size: 0.875rem; color: var(--fg); margin: 0;">{place.best_time}</p>
+        </div>
+      )}
+      {place.hours && (
+        <div style="border-left: 2px solid var(--border); padding-left: 0.875rem;">
+          <p style="font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin: 0 0 0.15rem;">Hours</p>
+          <p style="font-size: 0.875rem; color: var(--fg); margin: 0;">{place.hours}</p>
+        </div>
+      )}
+      {place.outlets && (
+        <div style="border-left: 2px solid var(--border); padding-left: 0.875rem;">
+          <p style="font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin: 0 0 0.15rem;">Outlets</p>
+          <p style="font-size: 0.875rem; color: var(--fg); margin: 0;">{place.outlets}</p>
+        </div>
+      )}
+      {place.price_to_stay && (
+        <div style="border-left: 2px solid var(--border); padding-left: 0.875rem;">
+          <p style="font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin: 0 0 0.15rem;">Price</p>
+          <p style="font-size: 0.875rem; color: var(--fg); margin: 0;">{place.price_to_stay}</p>
+        </div>
+      )}
+      {place.noise_level && (
+        <div style="border-left: 2px solid var(--border); padding-left: 0.875rem;">
+          <p style="font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin: 0 0 0.15rem;">Noise</p>
+          <p style="font-size: 0.875rem; color: var(--fg); margin: 0;">{place.noise_level}</p>
+        </div>
+      )}
+    </div>
+
+    <!-- Action buttons -->
+    <div style="display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 2rem;">
+      {place.maps_link && (
+        <a href={place.maps_link} target="_blank" rel="noopener"
+          style="display: inline-flex; align-items: center; gap: 0.375rem; background: #C45C26; color: white; text-decoration: none; padding: 0.625rem 1.125rem; border-radius: 8px; font-size: 0.875rem; font-weight: 600;">
+          📍 Open in Google Maps
+        </a>
+      )}
+      <a href={`https://wa.me/573163946401?text=${encodeURIComponent(place.whatsapp_update_text || `Update for ${place.name} on Cartagena Up`)}`}
+        target="_blank" rel="noopener"
+        style="display: inline-flex; align-items: center; border: 0.5px solid var(--card-border); color: var(--text-muted); text-decoration: none; padding: 0.625rem 1.125rem; border-radius: 8px; font-size: 0.875rem; background: var(--card-bg);">
+        Something changed?
+      </a>
+    </div>
+
+    <WhatsAppCTA lang="en" />
+  </div>
+
+</Base>

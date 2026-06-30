@@ -1,0 +1,37 @@
+---
+import Base from '../../layouts/Base.astro';
+import PlaceCard from '../../components/PlaceCard.astro';
+import WhatsAppCTA from '../../components/WhatsAppCTA.astro';
+import { getCollection } from 'astro:content';
+
+const lang = 'en';
+const places = (await getCollection('workPlaces', ({ data }) => data.active === true))
+  .sort((a, b) => b.data.last_tested.localeCompare(a.data.last_tested));
+---
+
+<Base
+  title="Work in Cartagena"
+  description="WiFi-tested cafés and coworking spaces in Cartagena, Colombia — verified in person. Updated June 2026."
+  lang="en"
+  canonicalUrl="https://cartagenaup.com/work/">
+
+  <div style="padding-top: 2rem;">
+    <h1 style="font-family: Georgia, serif; font-size: 1.875rem; font-weight: 400; margin: 0 0 1.25rem; color: var(--fg);">
+      Work in Cartagena
+    </h1>
+    <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 2rem; padding-bottom: 1.75rem; border-bottom: 1px solid var(--border);">
+      I've been living in Cartagena since 2021 and work remotely from here. The question "where do I work today?" comes up constantly — and finding a good answer in this city is harder than it should be. WiFi quality varies wildly, AC is non-negotiable in the heat, and most guides are years out of date.
+      <br /><br />
+      I test every spot myself with a speed test and go back regularly. My priorities: fast and reliable internet, good coffee, and somewhere nearby to take a real break — a beach, a fort, a park. Cartagena has all of these if you know where to look.
+      <br /><br />
+      Here's what I've found so far.
+    </p>
+
+    {places.map(place => (
+      <PlaceCard place={place.data} lang={lang} />
+    ))}
+
+    <WhatsAppCTA lang="en" />
+  </div>
+
+</Base>

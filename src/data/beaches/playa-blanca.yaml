@@ -1,0 +1,18 @@
+name: "Playa Blanca"
+slug: playa-blanca
+island: "baru"
+last_visited: "2026-05"
+visited_by: "Yatan"
+crowd_level: "high"
+best_for:
+  - day-trip
+  - couples
+  - groups
+how_to_get_there: "Shared boat from Muelle de los Pegasos, 40 min, ~30,000 COP return. Book the morning boat to arrive before the day-tripper rush."
+cost_range: "Transport ~30,000 COP return + food on beach"
+current_conditions: "Seaweed present on the east end as of May 2026. West end is cleaner. Arrive before 10am."
+overnight: true
+overnight_note: "Camping available — much quieter after 5pm when day boats leave."
+casa_gaviota_note: ""
+maps_link: ""
+active: true

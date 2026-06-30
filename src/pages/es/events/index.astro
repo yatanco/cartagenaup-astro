@@ -1,0 +1,29 @@
+---
+import Base from '../../../layouts/Base.astro';
+import EventList from '../../../components/EventList.jsx';
+import { es } from '../../../i18n/es';
+import { getCollection } from 'astro:content';
+
+const lang = 'es';
+const t    = es;
+const events = await getCollection('events');
+---
+
+<Base
+  title="Esta Semana en Cartagena"
+  description="Qué hay esta semana en Cartagena — eventos culturales, música en vivo, talleres y vida nocturna. Actualizado cada lunes."
+  lang="es"
+  canonicalUrl="https://cartagenaup.com/es/events/">
+
+  <div style="padding-top: 2rem;">
+    <h1 style="font-family: Georgia, serif; font-size: 1.875rem; font-weight: 400; margin: 0 0 0.5rem; color: var(--fg);">
+      {t.events.title}
+    </h1>
+    <p style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: 2rem; padding-bottom: 1.25rem; border-bottom: 1px solid var(--border);">
+      {t.events.description}
+    </p>
+
+    <EventList client:load events={events} lang={lang} t={t.events} />
+  </div>
+
+</Base>

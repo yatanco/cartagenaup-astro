@@ -1,0 +1,58 @@
+export const en = {
+  nav: {
+    work: 'Work in Cartagena',
+    thisWeek: 'This Week',
+    about: 'About',
+  },
+  home: {
+    h1: 'Cartagena, actually current.',
+    subhead: 'WiFi-tested work spots, current events, and honest beach logistics — by someone who lives here.',
+    lastUpdated: 'Last updated',
+    workSpots: 'Work spots: last verified',
+    eventsUpdated: 'Events: updated',
+    seeAllSpots: 'See all spots →',
+    seeAllEvents: 'See all events →',
+  },
+  work: {
+    title: 'Work in Cartagena',
+    description: 'WiFi-tested cafés and coworking spaces, verified by a local.',
+    verified: 'VERIFIED',
+    outlets: 'Outlets',
+    noise: 'Noise',
+    hours: 'Hours',
+    network: 'Network',
+    bestSpot: 'Best spot',
+    openMaps: 'Open in Maps',
+    somethingChanged: 'Something changed?',
+    alsoHere: 'Also here',
+    hotspotWarning: 'Bring a hotspot backup',
+    down: 'Down',
+    up: 'Up',
+  },
+  events: {
+    title: 'This Week in Cartagena',
+    description: 'Current events, nightlife, and live music — updated every Monday.',
+    searchPlaceholder: 'Search events or venues...',
+    filterAll: 'All',
+    filterCulture: 'Culture',
+    filterMusic: 'Music',
+    filterFree: 'Free',
+    filterPride: 'LGTBIQ+',
+    confirmed: '✓ confirmed',
+    onUntil: 'On until',
+    noResults: 'No results',
+    openInMaps: 'Open in Maps',
+  },
+  cta: {
+    text: 'Need a local tip, work spot, or beach day?',
+    link: 'Message us on WhatsApp.',
+  },
+  footer: {
+    tagline: 'By someone who lives here',
+    lastUpdated: 'Last updated',
+  },
+  lang: {
+    switchTo: 'Español',
+    switchUrl: '/es/',
+  }
+};

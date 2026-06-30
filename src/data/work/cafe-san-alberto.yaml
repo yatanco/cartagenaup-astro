@@ -1,0 +1,32 @@
+name: "Café San Alberto"
+slug: cafe-san-alberto
+neighborhood: "Centro Histórico"
+type: "cafe"
+last_tested: "2026-06-28"
+tested_by: "Yatan"
+wifi_network: ""
+wifi_down_mbps: 3
+wifi_up_mbps: 1
+wifi_latency_ms: null
+wifi_packet_loss_pct: null
+wifi_isp: ""
+wifi_note: "Consistently weak — this has been reported before and matches our test. Don't rely on it for work."
+video_calls: "false"
+outlets: "limited"
+ac: true
+noise_level: "moderate"
+best_time: "Weekday mornings before the plaza fills up"
+best_spot: "Inside booths along the left wall — more shade and slightly quieter"
+price_to_stay: "Coffee from ~12,000 COP — one of the pricier options in the historic center"
+hours: ""
+maps_link: "https://share.google/mRU9euNdqtM2OIHuv"
+address: "Plaza de Santo Domingo, Centro Histórico, Cartagena"
+local_note: "One of Cartagena's most iconic café locations — Plaza Santo Domingo, next to Botero's famous reclining figure, across from the church and the Spanish Cultural Centre. The coffee is genuinely excellent, among the best in the city. The WiFi is not — 3 down / 1 up when tested, and this isn't a one-off. Come here for the atmosphere and a great espresso. Bring your own hotspot if you need to work."
+hotspot_warning: true
+hotspot_note: "WiFi is too slow for reliable work. Bring a hotspot — the location makes it worth it anyway."
+images:
+  - file: cafe-san-alberto.jpg
+    caption: "Café San Alberto — Plaza Santo Domingo, Centro Histórico"
+    credit: "Cartagena Up"
+whatsapp_update_text: "Update for Café San Alberto listing on Cartagena Up"
+active: true

@@ -1,0 +1,127 @@
+---
+import Base from '../layouts/Base.astro';
+import WhatsAppCTA from '../components/WhatsAppCTA.astro';
+import { en } from '../i18n/en';
+import { getCollection } from 'astro:content';
+
+const t    = en;
+const lang = 'en';
+const today = new Date().toISOString().split('T')[0];
+
+const allWork = await getCollection('workPlaces', ({ data }) => data.active === true);
+const activeWork = allWork
+  .sort((a, b) => b.data.last_tested.localeCompare(a.data.last_tested))
+  .slice(0, 3);
+
+const allEvents = await getCollection('events');
+const upcomingEvents = allEvents
+  .filter(e =>
+    e.data.active !== false && (
+      e.data.date >= today ||
+      (e.data.end_date && e.data.end_date >= today)
+    )
+  )
+  .sort((a, b) => a.data.date.localeCompare(b.data.date))
+  .slice(0, 5);
+
+function fmtDate(s) {
+  const d = new Date(s + 'T12:00:00');
+  return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }).toUpperCase();
+}
+---
+
+<Base
+  title="Cartagena Up"
+  description="Cartagena, actually current. WiFi-tested work spots, current events, and honest beach logistics — by someone who lives here."
+  lang="en"
+  canonicalUrl="https://cartagenaup.com/">
+
+  <!-- Dark hero — breaks out of main padding -->
+  <section style="background: #1C1A17; margin: 0 -1.25rem; padding: 2.5rem 1.25rem 2rem;">
+    <p style="font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #C45C26; margin: 0 0 0.875rem;">
+      Cartagena de Indias · Verified Jun 2026
+    </p>
+    <h1 style="font-family: Georgia, serif; font-weight: 400; font-size: clamp(2.2rem, 6vw, 3.2rem); line-height: 1.1; color: #FAF7F2; margin: 0 0 0.875rem;">
+      Cartagena, <em style="font-style: italic; color: #C8943A;">actually current.</em>
+    </h1>
+    <p style="font-size: 0.875rem; color: rgba(250,247,242,0.5); margin: 0 0 1.5rem; line-height: 1.55; max-width: 30rem;">
+      WiFi-tested work spots, current events, and honest beach logistics — by someone who lives here.
+    </p>
+    <div style="border-top: 1px solid rgba(255,255,255,0.08); padding-top: 1.25rem; display: flex; gap: 2.5rem; flex-wrap: wrap;">
+      <div>
+        <span style="font-size: 1.5rem; font-weight: 700; color: #C8943A; font-variant-numeric: tabular-nums;">{allWork.length}</span>
+        <span style="font-size: 0.75rem; color: rgba(250,247,242,0.45); margin-left: 0.4rem;">verified spots</span>
+      </div>
+      <div>
+        <span style="font-size: 1.5rem; font-weight: 700; color: #C8943A; font-variant-numeric: tabular-nums;">{upcomingEvents.length}</span>
+        <span style="font-size: 0.75rem; color: rgba(250,247,242,0.45); margin-left: 0.4rem;">upcoming events</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Work spots -->
+  <section style="padding-top: 2.5rem;">
+    <div class="section-label">Work in Cartagena</div>
+    <div>
+      {activeWork.map(place => (
+        <div style="padding: 0.625rem 0; border-bottom: 1px solid var(--border);">
+          <div style="display: flex; align-items: baseline; gap: 0.5rem; flex-wrap: wrap;">
+            <a href={`/work/${place.data.slug}/`}
+              style="font-family: Georgia, serif; font-size: 0.9375rem; color: var(--fg); text-decoration: none; font-weight: 400;">
+              {place.data.name}
+            </a>
+            <span style="font-size: 0.75rem; color: var(--text-muted); flex: 1;">
+              {place.data.neighborhood}
+            </span>
+            <div style="display: flex; gap: 1rem; white-space: nowrap;">
+              <div style="display: flex; align-items: baseline; gap: 0.25rem;">
+                <span style="font-size: 0.625rem; color: var(--text-muted);">↓</span>
+                <span style="font-size: 1.125rem; font-weight: 600; color: var(--fg); font-variant-numeric: tabular-nums;">{place.data.wifi_down_mbps}</span>
+                <span style="font-size: 0.75rem; color: var(--text-muted);">Mbps</span>
+              </div>
+              <div style="display: flex; align-items: baseline; gap: 0.25rem;">
+                <span style="font-size: 0.625rem; color: var(--text-muted);">↑</span>
+                <span style="font-size: 1.125rem; font-weight: 600; color: var(--fg); font-variant-numeric: tabular-nums;">{place.data.wifi_up_mbps}</span>
+                <span style="font-size: 0.75rem; color: var(--text-muted);">Mbps</span>
+              </div>
+            </div>
+          </div>
+          {place.data.local_note && (
+            <p style="font-size: 0.75rem; color: var(--text-muted); font-style: italic; line-height: 1.5; margin: 0.25rem 0 0; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+              {place.data.local_note}
+            </p>
+          )}
+        </div>
+      ))}
+    </div>
+    <a href="/work/" style="font-size: 0.75rem; font-weight: 600; color: #C45C26; text-decoration: none; display: inline-block; margin-top: 0.875rem;">
+      {t.home.seeAllSpots}
+    </a>
+  </section>
+
+  <!-- Events -->
+  <section style="padding-top: 2.5rem;">
+    <div class="section-label">This Week</div>
+    <div>
+      {upcomingEvents.map(e => (
+        <div style="display: flex; align-items: baseline; gap: 0.75rem; padding: 0.625rem 0; border-bottom: 1px solid var(--border); flex-wrap: wrap;">
+          <span style="font-size: 0.65rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; white-space: nowrap; min-width: 4.5rem;">
+            {fmtDate(e.data.date)}
+          </span>
+          <span style="font-size: 0.875rem; color: var(--fg); flex: 1; line-height: 1.3;">
+            {e.data.title}
+          </span>
+          <span style="font-size: 0.75rem; color: var(--text-muted); white-space: nowrap;">
+            {e.data.venue.split(' · ')[0]}
+          </span>
+        </div>
+      ))}
+    </div>
+    <a href="/events/" style="font-size: 0.75rem; font-weight: 600; color: #C45C26; text-decoration: none; display: inline-block; margin-top: 0.875rem;">
+      {t.home.seeAllEvents}
+    </a>
+  </section>
+
+  <WhatsAppCTA lang="en" />
+
+</Base>

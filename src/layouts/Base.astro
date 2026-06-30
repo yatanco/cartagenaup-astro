@@ -1,0 +1,124 @@
+---
+import '../styles/global.css';
+const { title, description, lang = 'en', canonicalUrl, jsonLdExtra } = Astro.props;
+import { en } from '../i18n/en';
+import { es } from '../i18n/es';
+const t = lang === 'es' ? es : en;
+
+const workHref  = lang === 'es' ? '/es/work/'   : '/work/';
+const eventsHref = lang === 'es' ? '/es/events/' : '/events/';
+const aboutHref = lang === 'es' ? '/es/about/'  : '/about/';
+const homeHref  = lang === 'es' ? '/es/'         : '/';
+const altHref   = lang === 'es'
+  ? `https://cartagenaup.com${Astro.url.pathname.replace(/^\/es/, '') || '/'}`
+  : `https://cartagenaup.com/es${Astro.url.pathname}`;
+
+const jsonLd = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "Cartagena Up",
+  "url": "https://cartagenaup.com",
+  "description": description,
+  "inLanguage": lang === 'es' ? "es" : "en",
+  ...(jsonLdExtra || {})
+});
+
+const currentPath = Astro.url.pathname;
+const isWork   = currentPath.includes('/work');
+const isEvents = currentPath.includes('/events');
+const isAbout  = currentPath.includes('/about');
+---
+<!DOCTYPE html>
+<html lang={lang}>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{title} · Cartagena Up</title>
+  <meta name="description" content={description} />
+  {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
+  <meta property="og:title"       content={`${title} · Cartagena Up`} />
+  <meta property="og:description" content={description} />
+  <meta property="og:site_name"   content="Cartagena Up" />
+  {canonicalUrl && <meta property="og:url" content={canonicalUrl} />}
+  <link rel="alternate" hreflang={lang === 'en' ? 'es' : 'en'} href={altHref} />
+  <link rel="alternate" hreflang="x-default" href="https://cartagenaup.com/" />
+  <script type="application/ld+json" set:html={jsonLd} />
+  <!-- Dark mode: prevent FOUC -->
+  <script is:inline>
+    (function() {
+      var t = localStorage.getItem('cu-theme');
+      if (!t) t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      if (t === 'dark') document.documentElement.classList.add('dark');
+    })();
+  </script>
+</head>
+<body>
+
+  <!-- Header — always dark regardless of theme -->
+  <header style="background: #1C1A17; position: sticky; top: 0; z-index: 40;">
+    <!-- Top row: wordmark | controls -->
+    <div style="max-width: 42rem; margin: 0 auto; padding: 0 1.25rem; height: 3rem; display: flex; align-items: center; justify-content: space-between;">
+      <a href={homeHref}
+        style="font-family: Georgia, serif; font-style: italic; font-weight: 400; font-size: 1.1rem; color: #FAF7F2; text-decoration: none; letter-spacing: -0.01em;">
+        Cartagena Up
+      </a>
+      <div style="display: flex; align-items: center; gap: 1rem;">
+        <!-- Theme toggle -->
+        <button id="theme-toggle" aria-label="Toggle dark mode"
+          style="background: none; border: none; cursor: pointer; color: rgba(250,247,242,0.45); font-size: 0.95rem; padding: 0.25rem; line-height: 1; display: flex; align-items: center;">
+          <span id="theme-icon">☾</span>
+        </button>
+        <!-- Language switcher -->
+        <span style="font-size: 0.75rem; letter-spacing: 0.04em; display: flex; align-items: center; gap: 0.35rem;">
+          {lang === 'en'
+            ? <><span style="color: #C45C26; font-weight: 700;">EN</span><span style="color: rgba(250,247,242,0.2);">·</span><a href="/es/" style="color: rgba(250,247,242,0.45); text-decoration: none; font-weight: 500;">ES</a></>
+            : <><a href="/" style="color: rgba(250,247,242,0.45); text-decoration: none; font-weight: 500;">EN</a><span style="color: rgba(250,247,242,0.2);">·</span><span style="color: #C45C26; font-weight: 700;">ES</span></>
+          }
+        </span>
+      </div>
+    </div>
+    <!-- Separator -->
+    <div style="border-top: 1px solid rgba(255,255,255,0.07);"></div>
+    <!-- Nav row -->
+    <nav style="max-width: 42rem; margin: 0 auto; padding: 0 1.25rem; height: 2.25rem; display: flex; align-items: center; gap: 1.5rem;">
+      <a href={workHref}
+        style={`font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; text-decoration: none; font-weight: 600; color: ${isWork ? '#C45C26' : 'rgba(250,247,242,0.45)'};`}>
+        {t.nav.work}
+      </a>
+      <a href={eventsHref}
+        style={`font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; text-decoration: none; font-weight: 600; color: ${isEvents ? '#C45C26' : 'rgba(250,247,242,0.45)'};`}>
+        {t.nav.thisWeek}
+      </a>
+      <a href={aboutHref}
+        style={`font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; text-decoration: none; font-weight: 600; color: ${isAbout ? '#C45C26' : 'rgba(250,247,242,0.45)'};`}>
+        {t.nav.about}
+      </a>
+    </nav>
+  </header>
+
+  <main style="max-width: 42rem; margin: 0 auto; padding: 0 1.25rem 4rem;">
+    <slot />
+  </main>
+
+  <footer style="border-top: 1px solid var(--border); margin-top: 0;">
+    <div style="max-width: 42rem; margin: 0 auto; padding: 1.5rem 1.25rem; font-size: 0.7rem; color: var(--text-muted);">
+      Cartagena Up · {t.footer.tagline} · {t.footer.lastUpdated}: 2026-06
+    </div>
+  </footer>
+
+  <script is:inline>
+    (function() {
+      var icon = document.getElementById('theme-icon');
+      var btn  = document.getElementById('theme-toggle');
+      var isDark = document.documentElement.classList.contains('dark');
+      icon.textContent = isDark ? '☀' : '☾';
+      btn.addEventListener('click', function() {
+        isDark = document.documentElement.classList.toggle('dark');
+        icon.textContent = isDark ? '☀' : '☾';
+        localStorage.setItem('cu-theme', isDark ? 'dark' : 'light');
+      });
+    })();
+  </script>
+
+</body>
+</html>

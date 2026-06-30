@@ -1,0 +1,58 @@
+export const es = {
+  nav: {
+    work: 'Trabajar en Cartagena',
+    thisWeek: 'Esta Semana',
+    about: 'Acerca de',
+  },
+  home: {
+    h1: 'Cartagena, realmente actualizada.',
+    subhead: 'Lugares de trabajo con WiFi probado, eventos actuales y logística honesta de playas — por alguien que vive aquí.',
+    lastUpdated: 'Última actualización',
+    workSpots: 'Lugares verificados',
+    eventsUpdated: 'Eventos actualizados',
+    seeAllSpots: 'Ver todos →',
+    seeAllEvents: 'Ver eventos →',
+  },
+  work: {
+    title: 'Trabajar en Cartagena',
+    description: 'Cafés con WiFi probado y espacios de coworking, verificados por un local.',
+    verified: 'VERIFICADO',
+    outlets: 'Enchufes',
+    noise: 'Ruido',
+    hours: 'Horario',
+    network: 'Red',
+    bestSpot: 'Mejor lugar',
+    openMaps: 'Ver en Google Maps',
+    somethingChanged: '¿Algo cambió?',
+    alsoHere: 'También aquí',
+    hotspotWarning: 'Ten un hotspot de respaldo',
+    down: 'Bajada',
+    up: 'Subida',
+  },
+  events: {
+    title: 'Esta Semana en Cartagena',
+    description: 'Eventos actuales, vida nocturna y música en vivo — actualizado cada lunes.',
+    searchPlaceholder: 'Buscar evento o lugar...',
+    filterAll: 'Todos',
+    filterCulture: 'Cultura',
+    filterMusic: 'Música',
+    filterFree: 'Gratis',
+    filterPride: 'LGTBIQ+',
+    confirmed: '✓ confirmado',
+    onUntil: 'Hasta el',
+    noResults: 'Sin resultados',
+    openInMaps: 'Ver en mapa',
+  },
+  cta: {
+    text: '¿Necesitas un tip local, un lugar para trabajar o un día de playa?',
+    link: 'Escríbenos por WhatsApp.',
+  },
+  footer: {
+    tagline: 'Por alguien que vive aquí',
+    lastUpdated: 'Última actualización',
+  },
+  lang: {
+    switchTo: 'English',
+    switchUrl: '/',
+  }
+};

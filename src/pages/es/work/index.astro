@@ -1,0 +1,35 @@
+---
+import Base from '../../../layouts/Base.astro';
+import PlaceCard from '../../../components/PlaceCard.astro';
+import WhatsAppCTA from '../../../components/WhatsAppCTA.astro';
+import { getCollection } from 'astro:content';
+
+const lang = 'es';
+const places = (await getCollection('workPlaces', ({ data }) => data.active === true))
+  .sort((a, b) => b.data.last_tested.localeCompare(a.data.last_tested));
+---
+
+<Base
+  title="Trabajar en Cartagena"
+  description="Cafés con WiFi probado y espacios de coworking en Cartagena, Colombia — verificados en persona. Actualizado junio 2026."
+  lang="es"
+  canonicalUrl="https://cartagenaup.com/es/work/">
+
+  <div style="padding-top: 2rem;">
+    <h1 style="font-family: Georgia, serif; font-size: 1.875rem; font-weight: 400; margin: 0 0 1.25rem; color: var(--fg);">
+      Trabajar en Cartagena
+    </h1>
+    <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 2rem; padding-bottom: 1.75rem; border-bottom: 1px solid var(--border);">
+      Vivo en Cartagena desde 2021 y trabajo de forma remota desde aquí. La pregunta "¿dónde trabajo hoy?" surge constantemente — y encontrar una buena respuesta en esta ciudad es más difícil de lo que debería. La calidad del WiFi varía enormemente, el aire acondicionado es imprescindible con este calor, y la mayoría de las guías tienen años de desactualización.
+      <br /><br />
+      Pruebo cada lugar personalmente con un test de velocidad y regreso regularmente. Esto es lo que he encontrado.
+    </p>
+
+    {places.map(place => (
+      <PlaceCard place={place.data} lang={lang} />
+    ))}
+
+    <WhatsAppCTA lang="es" />
+  </div>
+
+</Base>
