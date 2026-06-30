@@ -5,7 +5,7 @@ export const es = {
     about: 'Acerca de',
   },
   home: {
-    h1: 'Cartagena, realmente actualizada.',
+    h1: 'Cartagena. Recién actualizada.',
     subhead: 'Lugares de trabajo con WiFi probado, eventos actuales y logística honesta de playas — por alguien que vive aquí.',
     lastUpdated: 'Última actualización',
     workSpots: 'Lugares verificados',

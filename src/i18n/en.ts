@@ -5,7 +5,7 @@ export const en = {
     about: 'About',
   },
   home: {
-    h1: 'Cartagena, actually current.',
+    h1: 'Cartagena. Just updated.',
     subhead: 'WiFi-tested work spots, current events, and honest beach logistics — by someone who lives here.',
     lastUpdated: 'Last updated',
     workSpots: 'Work spots: last verified',
