@@ -16,6 +16,25 @@ const { place } = Astro.props;
 const lang = 'es';
 const note = place.local_note;
 
+const placeJsonLd = {
+  "@context": "https://schema.org",
+  "@type": place.type === 'cafe' ? "CafeOrCoffeeShop" : "LocalBusiness",
+  "name": place.name,
+  "url": `https://cartagenaup.com/es/work/${place.slug}/`,
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Cartagena",
+    "addressRegion": "Bolívar",
+    "addressCountry": "CO"
+  },
+  ...(place.maps_link ? { "hasMap": place.maps_link } : {}),
+  "amenityFeature": [
+    { "@type": "LocationFeatureSpecification", "name": "WiFi", "value": true },
+    { "@type": "LocationFeatureSpecification", "name": "Aire Acondicionado", "value": place.ac },
+  ],
+  "description": note || undefined,
+};
+
 function shortDate(s) {
   const [y, m] = s.split('-');
   const months = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
@@ -27,7 +46,8 @@ function shortDate(s) {
   title={place.name}
   description={`${place.name} — Lugar de trabajo con WiFi probado en ${place.neighborhood}, Cartagena. ${place.wifi_down_mbps}↓/${place.wifi_up_mbps}↑ Mbps, verificado ${shortDate(place.last_tested)}.`}
   lang="es"
-  canonicalUrl={`https://cartagenaup.com/es/work/${place.slug}/`}>
+  canonicalUrl={`https://cartagenaup.com/es/work/${place.slug}/`}
+  additionalJsonLd={placeJsonLd}>
 
   <div style="padding-top: 1.5rem;">
     <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 1.25rem;">

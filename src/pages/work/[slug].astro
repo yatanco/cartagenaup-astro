@@ -16,6 +16,25 @@ const { place } = Astro.props;
 const lang = 'en';
 const note = place.local_note_en || place.local_note;
 
+const placeJsonLd = {
+  "@context": "https://schema.org",
+  "@type": place.type === 'cafe' ? "CafeOrCoffeeShop" : "LocalBusiness",
+  "name": place.name,
+  "url": `https://cartagenaup.com/work/${place.slug}/`,
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Cartagena",
+    "addressRegion": "Bolívar",
+    "addressCountry": "CO"
+  },
+  ...(place.maps_link ? { "hasMap": place.maps_link } : {}),
+  "amenityFeature": [
+    { "@type": "LocationFeatureSpecification", "name": "WiFi", "value": true },
+    { "@type": "LocationFeatureSpecification", "name": "Air Conditioning", "value": place.ac },
+  ],
+  "description": note || undefined,
+};
+
 function shortDate(s) {
   const [y, m] = s.split('-');
   const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
@@ -27,7 +46,8 @@ function shortDate(s) {
   title={place.name}
   description={`${place.name} — WiFi-tested work spot in ${place.neighborhood}, Cartagena. ${place.wifi_down_mbps}↓/${place.wifi_up_mbps}↑ Mbps, verified ${shortDate(place.last_tested)}.`}
   lang="en"
-  canonicalUrl={`https://cartagenaup.com/work/${place.slug}/`}>
+  canonicalUrl={`https://cartagenaup.com/work/${place.slug}/`}
+  additionalJsonLd={placeJsonLd}>
 
   <div style="padding-top: 1.5rem;">
     <!-- Breadcrumb -->

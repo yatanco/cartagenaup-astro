@@ -11,10 +11,11 @@ const hoursLabel = lang === 'es' ? 'Horario' : 'Hours';
 const bestLabel  = lang === 'es' ? 'Mejor lugar' : 'Best spot';
 const slugHref = lang === 'es' ? `/es/work/${place.slug}/` : `/work/${place.slug}/`;
 
-// Last tested: "2026-06-28" → "Jun 2026"
 function shortDate(s) {
   const [y, m] = s.split('-');
-  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const enMonths = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const esMonths = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+  const months = lang === 'es' ? esMonths : enMonths;
   return `${months[parseInt(m,10)-1]} ${y}`;
 }
 ---
@@ -55,13 +56,13 @@ function shortDate(s) {
     <!-- WiFi stats block -->
     <div style="border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 0.75rem 0; margin-bottom: 0.875rem; display: flex; gap: 1.75rem;">
       <div>
-        <div style="font-size: 0.6rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.15rem;">↓ Down</div>
+        <div style="font-size: 0.6rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.15rem;">↓ {lang === 'es' ? 'Bajada' : 'Down'}</div>
         <div style="font-size: 1.3rem; font-weight: 600; line-height: 1; color: var(--fg);">
           {place.wifi_down_mbps}<span style="font-size: 0.7rem; font-weight: 400; color: var(--text-muted);"> Mbps</span>
         </div>
       </div>
       <div>
-        <div style="font-size: 0.6rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.15rem;">↑ Up</div>
+        <div style="font-size: 0.6rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.15rem;">↑ {lang === 'es' ? 'Subida' : 'Up'}</div>
         <div style="font-size: 1.3rem; font-weight: 600; line-height: 1; color: var(--fg);">
           {place.wifi_up_mbps}<span style="font-size: 0.7rem; font-weight: 400; color: var(--text-muted);"> Mbps</span>
         </div>

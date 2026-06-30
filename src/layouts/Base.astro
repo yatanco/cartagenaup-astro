@@ -1,6 +1,6 @@
 ---
 import '../styles/global.css';
-const { title, description, lang = 'en', canonicalUrl, jsonLdExtra } = Astro.props;
+const { title, description, lang = 'en', canonicalUrl, jsonLdExtra, additionalJsonLd } = Astro.props;
 import { en } from '../i18n/en';
 import { es } from '../i18n/es';
 const t = lang === 'es' ? es : en;
@@ -27,6 +27,11 @@ const currentPath = Astro.url.pathname;
 const isWork   = currentPath.includes('/work');
 const isEvents = currentPath.includes('/events');
 const isAbout  = currentPath.includes('/about');
+
+// Equivalent page in other language, used for language switcher
+const altPath = lang === 'es'
+  ? (currentPath.replace(/^\/es/, '') || '/')
+  : `/es${currentPath}`;
 ---
 <!DOCTYPE html>
 <html lang={lang}>
@@ -49,6 +54,7 @@ const isAbout  = currentPath.includes('/about');
   <link rel="alternate" hreflang={lang === 'en' ? 'es' : 'en'} href={altHref} />
   <link rel="alternate" hreflang="x-default" href="https://cartagenaup.com/" />
   <script type="application/ld+json" set:html={jsonLd} />
+  {additionalJsonLd && <script type="application/ld+json" set:html={JSON.stringify(additionalJsonLd)} />}
   <!-- Dark mode: prevent FOUC -->
   <script is:inline>
     (function() {
@@ -77,8 +83,8 @@ const isAbout  = currentPath.includes('/about');
         <!-- Language switcher -->
         <span style="font-size: 0.75rem; letter-spacing: 0.04em; display: flex; align-items: center; gap: 0.35rem;">
           {lang === 'en'
-            ? <><span style="color: #C45C26; font-weight: 700;">EN</span><span style="color: rgba(250,247,242,0.2);">·</span><a href="/es/" style="color: rgba(250,247,242,0.45); text-decoration: none; font-weight: 500;">ES</a></>
-            : <><a href="/" style="color: rgba(250,247,242,0.45); text-decoration: none; font-weight: 500;">EN</a><span style="color: rgba(250,247,242,0.2);">·</span><span style="color: #C45C26; font-weight: 700;">ES</span></>
+            ? <><span style="color: #C45C26; font-weight: 700;">EN</span><span style="color: rgba(250,247,242,0.2);">·</span><a href={altPath} style="color: rgba(250,247,242,0.45); text-decoration: none; font-weight: 500;">ES</a></>
+            : <><a href={altPath} style="color: rgba(250,247,242,0.45); text-decoration: none; font-weight: 500;">EN</a><span style="color: rgba(250,247,242,0.2);">·</span><span style="color: #C45C26; font-weight: 700;">ES</span></>
           }
         </span>
       </div>
