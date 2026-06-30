@@ -1,0 +1,28 @@
+name: "Café 472"
+slug: cafe-472
+neighborhood: "Manga"
+type: "cafe"
+last_tested: "2026-06"
+tested_by: "Yatan"
+wifi_network: ""
+wifi_down_mbps: 149
+wifi_up_mbps: 30.8
+wifi_latency_ms: 25
+wifi_isp: ""
+video_calls: "good"
+outlets: "plentiful"
+ac: true
+noise_level: "quiet"
+best_time: "Mornings and afternoons — quietish then"
+best_spot: "The two couches inside, or the street-side terrace for fresh air"
+price_to_stay: "Specialty Colombian coffee and frappés, including a Milo frappé"
+hours: ""
+maps_link: "https://maps.app.goo.gl/YKBNdwoEAuQTnrMJ7"
+address: "Manga, Cartagena"
+local_note: "A neighborhood favorite I come back to often. Two comfy couches and a few less comfortable tables — it's primarily a coffee spot, not built for laptop marathons, but the couches work well for a few hours. There's also a small terrace right on the street if you want fresh air. Coffee is excellent, frappés are great (the Milo frappé is a hit if you bring kids). Internet is solid, AC is good, service is genuinely great. Quietish in the mornings and afternoons."
+images:
+  - file: cafe-472.jpg
+    caption: "Café 472 — outdoor terrace"
+    credit: "Cartagena Up"
+whatsapp_update_text: "Update for Café 472 listing on Cartagena Up"
+active: true
