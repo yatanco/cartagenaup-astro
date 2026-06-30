@@ -18,21 +18,25 @@ const note = place.local_note_es || place.local_note;
 
 const placeJsonLd = {
   "@context": "https://schema.org",
-  "@type": place.type === 'cafe' ? "CafeOrCoffeeShop" : "LocalBusiness",
+  "@type": place.type === 'coworking' ? "LocalBusiness" : "CafeOrCoffeeShop",
   "name": place.name,
   "url": `https://cartagenaup.com/es/work/${place.slug}/`,
   "address": {
     "@type": "PostalAddress",
+    "streetAddress": place.address || place.neighborhood,
     "addressLocality": "Cartagena",
     "addressRegion": "Bolívar",
     "addressCountry": "CO"
   },
   ...(place.maps_link ? { "hasMap": place.maps_link } : {}),
+  ...(place.hours ? { "openingHours": place.hours } : {}),
   "amenityFeature": [
-    { "@type": "LocationFeatureSpecification", "name": "WiFi", "value": true },
-    { "@type": "LocationFeatureSpecification", "name": "Aire Acondicionado", "value": place.ac },
+    { "@type": "LocationFeatureSpecification", "name": "WiFi Bajada", "value": `${place.wifi_down_mbps} Mbps` },
+    { "@type": "LocationFeatureSpecification", "name": "WiFi Subida", "value": `${place.wifi_up_mbps} Mbps` },
+    { "@type": "LocationFeatureSpecification", "name": "Aire Acondicionado", "value": place.ac === true },
+    { "@type": "LocationFeatureSpecification", "name": "Enchufes", "value": place.outlets || "desconocido" },
   ],
-  "description": note || undefined,
+  "description": note || place.name,
 };
 
 function shortDate(s) {

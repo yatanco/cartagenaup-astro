@@ -57,3 +57,13 @@ The project is on Astro **7.0.3** (released 2026). No deprecated patterns found 
 - `client:load` directive on React components (unchanged)
 
 No major version upgrade is needed or recommended at this time.
+
+---
+
+## Future: Local Search Surfaces
+
+**Google Business Profile** — Cartagena Up could benefit from a Google Business Profile listing as a "local guide/publisher" if that category exists in Google's taxonomy. This is a manual setup task in Google Business Profile Manager, not something to build in the codebase.
+
+**Casa Gaviota** (casagaviota.com) separately warrants its own Google Business Profile as an accommodation listing — it should appear in local hotel/lodging searches for Barú/Playa Blanca. This is also a manual task to be done directly in Google Business Profile Manager, independent of the Cartagena Up codebase.
+
+Neither of these can be automated or built; they require human verification via Google's postcard or phone process.
