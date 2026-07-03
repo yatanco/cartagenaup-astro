@@ -1,0 +1,18 @@
+# src/data/events/conversemos-salsa-cultura-jul8.yaml
+title: "Conversemos: Salsa & Cultura"
+slug: conversemos-salsa-cultura-jul8
+date: "2026-07-08"
+t0: "18:00"
+t1: ""
+end_date: ""
+venue: "Quiebra Canto"
+neighborhood: "Getsemaní"
+type: "cultural"
+recurring: "one-time"
+price: "gratis"
+confirmed: true
+source: "Instagram, Agenda Cultural Cartagena (CAC), verificado junio 2026"
+maps_link: ""
+notes: "Conversatorio sobre salsa y cultura con el periodista Gustavo Tatis (Editor Cultural de El Universal, escritor, poeta y artista). Modera Jaime Cortissoz, Director de Cartagena Agenda Cultural. 6:00pm en Quiebra Canto, con descuento en bebidas. ¡Y bailemos!"
+notes_en: "A conversation on salsa and culture with journalist Gustavo Tatis (Cultural Editor at El Universal, writer, poet and artist). Moderated by Jaime Cortissoz, Director of Cartagena Agenda Cultural. 6pm at Quiebra Canto, with drink discounts. Dancing included."
+active: true

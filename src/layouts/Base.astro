@@ -9,8 +9,11 @@ const workHref  = lang === 'es' ? '/es/work/'   : '/work/';
 const eventsHref = lang === 'es' ? '/es/events/' : '/events/';
 const aboutHref = lang === 'es' ? '/es/about/'  : '/about/';
 const homeHref  = lang === 'es' ? '/es/'         : '/';
-const altHref   = lang === 'es'
+const enHref = lang === 'es'
   ? `https://cartagenaup.com${Astro.url.pathname.replace(/^\/es/, '') || '/'}`
+  : `https://cartagenaup.com${Astro.url.pathname}`;
+const esHref = lang === 'es'
+  ? `https://cartagenaup.com${Astro.url.pathname}`
   : `https://cartagenaup.com/es${Astro.url.pathname}`;
 
 const jsonLd = JSON.stringify({
@@ -51,8 +54,9 @@ const altPath = lang === 'es'
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   {canonicalUrl && <meta property="og:url" content={canonicalUrl} />}
-  <link rel="alternate" hreflang={lang === 'en' ? 'es' : 'en'} href={altHref} />
-  <link rel="alternate" hreflang="x-default" href="https://cartagenaup.com/" />
+  <link rel="alternate" hreflang="en" href={enHref} />
+  <link rel="alternate" hreflang="es" href={esHref} />
+  <link rel="alternate" hreflang="x-default" href={enHref} />
   <script type="application/ld+json" set:html={jsonLd} />
   {additionalJsonLd && <script type="application/ld+json" set:html={JSON.stringify(additionalJsonLd)} />}
   {import.meta.env.PROD && (
