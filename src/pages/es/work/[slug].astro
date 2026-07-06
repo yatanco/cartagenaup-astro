@@ -3,6 +3,8 @@ import Base from '../../../layouts/Base.astro';
 import WhatsAppCTA from '../../../components/WhatsAppCTA.astro';
 import PlaceCarousel from '../../../components/PlaceCarousel.jsx';
 import { getCollection } from 'astro:content';
+import { getImage } from 'astro:assets';
+import { getWorkImage } from '../../../utils/images';
 
 export async function getStaticPaths() {
   const places = await getCollection('workPlaces', ({ data }) => data.active === true);
@@ -15,6 +17,18 @@ export async function getStaticPaths() {
 const { place } = Astro.props;
 const lang = 'es';
 const note = place.local_note_es || place.local_note;
+
+const resolvedImages = await Promise.all(
+  (place.images || []).map(async (img) => {
+    const src = getWorkImage(img.file);
+    if (!src) return { ...img, url: null, webpUrl: null };
+    const [webp, fallback] = await Promise.all([
+      getImage({ src, width: 1200, format: 'webp' }),
+      getImage({ src, width: 1200, format: 'jpeg' }),
+    ]);
+    return { ...img, url: fallback.src, webpUrl: webp.src };
+  })
+);
 
 const placeJsonLd = {
   "@context": "https://schema.org",
@@ -57,9 +71,9 @@ function shortDate(s) {
       <a href="/es/work/" style="color: #C45C26; text-decoration: none;">← Trabajar en Cartagena</a>
     </p>
 
-    {place.images && place.images.length > 0 && (
+    {resolvedImages.length > 0 && (
       <div style="margin-bottom: 1.5rem;">
-        <PlaceCarousel client:load images={place.images} placeName={place.name} />
+        <PlaceCarousel client:visible images={resolvedImages} placeName={place.name} />
       </div>
     )}
 

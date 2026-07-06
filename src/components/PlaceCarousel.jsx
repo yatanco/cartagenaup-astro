@@ -63,12 +63,19 @@ export default function PlaceCarousel({ images, placeName }) {
                 style={{ flex: '0 0 100%', minWidth: 0, cursor: 'zoom-in', position: 'relative' }}
                 onClick={() => setLightbox(i)}
               >
-                <img
-                  src={`/images/places/work/${img.file}`}
-                  alt={img.caption || placeName}
-                  loading={i === 0 ? 'eager' : 'lazy'}
-                  style={{ width: '100%', height: '220px', objectFit: 'cover', display: 'block' }}
-                />
+                <picture>
+                  {img.webpUrl && (
+                    <source srcSet={img.webpUrl} type="image/webp" />
+                  )}
+                  <img
+                    src={img.url || ''}
+                    alt={img.caption || placeName}
+                    loading={i === 0 ? 'eager' : 'lazy'}
+                    width={1200}
+                    height={675}
+                    style={{ width: '100%', height: '220px', objectFit: 'cover', display: 'block' }}
+                  />
+                </picture>
                 {img.caption && (
                   <div style={{
                     position: 'absolute', bottom: 0, left: 0, right: 0,
@@ -185,7 +192,7 @@ export default function PlaceCarousel({ images, placeName }) {
 
           <div onClick={e => e.stopPropagation()} style={{ maxWidth: '90vw', maxHeight: '90vh' }}>
             <img
-              src={`/images/places/work/${images[lightbox].file}`}
+              src={images[lightbox].url || ''}
               alt={images[lightbox].caption || ''}
               style={{
                 maxWidth: '90vw', maxHeight: '85vh',

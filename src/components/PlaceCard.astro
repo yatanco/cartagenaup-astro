@@ -1,7 +1,21 @@
 ---
+import { getImage } from 'astro:assets';
+import { getWorkImage } from '../utils/images';
 import PlaceCarousel from './PlaceCarousel.jsx';
 const { place, lang = 'en' } = Astro.props;
 const waNumber = '573163946401';
+
+const resolvedImages = await Promise.all(
+  (place.images || []).map(async (img) => {
+    const src = getWorkImage(img.file);
+    if (!src) return { ...img, url: null, webpUrl: null };
+    const [webp, fallback] = await Promise.all([
+      getImage({ src, width: 1200, format: 'webp' }),
+      getImage({ src, width: 1200, format: 'jpeg' }),
+    ]);
+    return { ...img, url: fallback.src, webpUrl: webp.src };
+  })
+);
 
 const note    = lang === 'en' ? (place.local_note_en || place.local_note) : (place.local_note_es || place.local_note);
 const verified = lang === 'es' ? 'VERIFICADO' : 'VERIFIED';
@@ -20,10 +34,10 @@ function shortDate(s) {
 <article class="place-card">
 
   <!-- Image carousel -->
-  {place.images && place.images.length > 0 && (
+  {resolvedImages.length > 0 && (
     <PlaceCarousel
-      client:load
-      images={place.images}
+      client:visible
+      images={resolvedImages}
       placeName={place.name}
     />
   )}

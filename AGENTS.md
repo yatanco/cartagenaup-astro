@@ -1,3 +1,22 @@
+## Images (CRITICAL)
+
+All images go in `src/assets/images/` NOT `public/`.
+- Work spots: `src/assets/images/places/work/`
+- Beaches: `src/assets/images/places/beaches/`
+- Venues: `src/assets/images/venues/`
+
+Use helpers from `src/utils/images.ts`:
+  `getWorkImage(filename)`
+  `getBeachImage(filename)`
+  `getVenueImage(filename)`
+
+Pre-resolve in Astro components using `getImage()` from `astro:assets`.
+Pass resolved `{ url, webpUrl }` to React islands (they can't call `astro:assets` directly).
+Never put place images in `public/`.
+Never manually convert to WebP — Astro handles it via `getImage()`.
+Never use `client:load` unless essential.
+Use `client:visible` for all islands below the fold.
+
 ## Development
 
 When starting the dev server, use background mode:
