@@ -1,0 +1,33 @@
+name: "Libertario Coffee Roasters"
+slug: libertario-getsemani
+neighborhood: "Getsemaní"
+type: "cafe"
+last_tested: "2026-07-06"
+tested_by: "Yatan"
+wifi_network: "Libertario - Clientes"
+wifi_down_mbps: 47
+wifi_up_mbps: 48
+wifi_latency_ms: 7
+wifi_isp: "Fibra Óptica (posiblemente throttled)"
+wifi_note: "Fiber connection but appears throttled — 47/48 Mbps with only 2 people in the café. Solid for most work tasks but may not scale as the place fills up."
+video_calls: "marginal"
+outlets: "limited"
+ac: true
+noise_level: "loud"
+best_time: "Morning — before the music volume picks up"
+best_spot: "Tables near outlets — check every few tables, not all have them"
+price_to_stay: "Specialty coffee menu, Golden Milk available — one of few places in Cartagena"
+hours: ""
+maps_link: "https://share.google/SBZHklkpZXOWCUaTJ"
+address: "Getsemaní, Cartagena"
+local_note: "A Getsemaní classic. The coffee program is outstanding — one of the strongest menus in the city. Golden Milk is available here, which is rare in Cartagena. The WiFi is fiber but appears throttled, giving around 47/48 Mbps. Tables are small — not ideal for a dual-monitor setup. Outlets available but not at every table. The main trade-off: the music gets loud, which makes calls difficult. Come for the coffee and focused morning work, not for back-to-back video meetings."
+local_note_es: "Un clásico de Getsemaní. La oferta de café es sobresaliente — uno de los mejores menús de la ciudad. El Golden Milk está disponible, lo cual es poco común en Cartagena. El WiFi es fibra óptica pero parece throttleado, dando alrededor de 47/48 Mbps. Las mesas son pequeñas — no es ideal para un setup de monitor dual. Hay enchufes disponibles pero no en cada mesa. El principal trade-off: la música sube de volumen, lo que dificulta las llamadas. Ven por el café y trabajo enfocado en la mañana, no para reuniones de video consecutivas."
+images:
+  - file: libertario-getsemani-interior.jpg
+    caption: "Libertario Coffee Roasters — interior, Getsemaní"
+    credit: "Cartagena Up"
+  - file: libertario-getsemani-bar.jpg
+    caption: "Libertario — bar and exposed stone wall"
+    credit: "Cartagena Up"
+whatsapp_update_text: "Update for Libertario Coffee Roasters listing on Cartagena Up"
+active: true
