@@ -1,0 +1,30 @@
+name: "Ábaco Libros y Café"
+slug: abaco-libros-cafe
+neighborhood: "Centro Histórico"
+type: "cafe"
+last_tested: "2026-07-06"
+tested_by: "Adri"
+wifi_network: "Movistar"
+wifi_down_mbps: 45.44
+wifi_up_mbps: 41.18
+wifi_latency_ms: 6
+wifi_isp: "Movistar"
+video_calls: "good"
+outlets: "none"
+ac: true
+noise_level: "quiet"
+best_time: "Any time — consistently calm atmosphere"
+best_spot: "Inside away from the entrance — deeper into the bookshop for more quiet"
+price_to_stay: "Coffee, light drinks, light breakfast and snack options"
+hours: ""
+maps_link: "https://share.google/P94A1LMlTcm0PdiE3"
+address: "Centro Histórico, Cartagena"
+local_note: "One of Cartagena's most iconic cultural spaces — a proper bookshop café with floor-to-ceiling shelves, exposed brick arches, cobalt blue walls, and jazz playing at just the right volume. The atmosphere is genuinely different from anywhere else in the walled city. WiFi is solid at 45/41 Mbps. The honest caveat: outlets are essentially non-existent, so bring a fully charged laptop and a power bank. Not a place for marathon work sessions, but perfect for two to three focused hours surrounded by books. Verified by Adri."
+local_note_es: "Uno de los espacios culturales más emblemáticos de Cartagena — una librería-cafetería con estantes del suelo al techo, arcos de ladrillo expuesto, paredes azul cobalto y jazz al volumen justo. El ambiente es genuinamente distinto a cualquier otro lugar en la ciudad amurallada. El WiFi es sólido: 45/41 Mbps. La advertencia honesta: los enchufes son prácticamente inexistentes, así que trae el portátil cargado y un power bank. No es un lugar para sesiones maratónicas, pero es perfecto para dos o tres horas de trabajo enfocado rodeado de libros. Verificado por Adri."
+hotspot_warning: false
+images:
+  - file: abaco-libros-cafe.jpg
+    caption: "Ábaco Libros y Café — brick arches and floor-to-ceiling books, Centro Histórico"
+    credit: "Cartagena Up / Adri"
+whatsapp_update_text: "Update for Ábaco Libros y Café listing on Cartagena Up"
+active: true
