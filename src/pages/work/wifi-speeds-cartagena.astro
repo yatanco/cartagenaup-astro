@@ -1,0 +1,101 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+
+const places = await getCollection('workPlaces',
+  ({ data }) => data.active === true && data.status !== 'closed'
+);
+const sorted = places.sort((a, b) => b.data.wifi_down_mbps - a.data.wifi_down_mbps);
+
+const avg = Math.round(
+  sorted.reduce((sum, p) => sum + p.data.wifi_down_mbps, 0) / sorted.length
+);
+
+const canonicalUrl = 'https://cartagenaup.com/work/wifi-speeds-cartagena/';
+---
+
+<Base
+  title="WiFi Speeds at Cartagena Cafés — Measured July 2026"
+  description={`Real WiFi speed test results at ${sorted.length} cafés and coworking spaces in Cartagena, Colombia. Measured using Speedtest.net to local servers. Updated July 2026.`}
+  lang="en"
+  canonicalUrl={canonicalUrl}>
+
+  <div style="padding-top: 2rem;">
+    <h1 style="font-family: Georgia, serif; font-size: 1.875rem; font-weight: 400; margin: 0 0 1rem; color: var(--fg);">
+      WiFi Speeds at Cartagena Cafés
+    </h1>
+
+    <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 0.5rem;">
+      Every speed on this page was measured in person using Speedtest.net to a local Cartagena server. Last verified: July 2026 by Yatan and Adri, Cartagena residents.
+    </p>
+
+    <p style="font-size: 0.875rem; color: var(--fg); margin: 0 0 1.5rem; padding-bottom: 1.25rem; border-bottom: 1px solid var(--border);">
+      <strong>Fastest:</strong> 531 Mbps at Mientras (Getsemaní) · <strong>Average:</strong> {avg} Mbps · <strong>Slowest:</strong> 3 Mbps at Café San Alberto (bring a hotspot)
+    </p>
+
+    <div style="overflow-x: auto;">
+      <table style="width: 100%; font-size: 0.8125rem; border-collapse: collapse;">
+        <thead>
+          <tr style="border-bottom: 1px solid var(--border); text-align: left; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted);">
+            <th style="padding: 0.5rem 0.75rem 0.5rem 0; font-weight: 600;">Café</th>
+            <th style="padding: 0.5rem 0.75rem 0.5rem 0; font-weight: 600;">Area</th>
+            <th style="padding: 0.5rem 0.75rem 0.5rem 0; font-weight: 600;">↓ Mbps</th>
+            <th style="padding: 0.5rem 0.75rem 0.5rem 0; font-weight: 600;">↑ Mbps</th>
+            <th style="padding: 0.5rem 0.75rem 0.5rem 0; font-weight: 600;">Ping</th>
+            <th style="padding: 0.5rem 0.75rem 0.5rem 0; font-weight: 600;">AC</th>
+            <th style="padding: 0.5rem 0 0.5rem 0; font-weight: 600;">Verified</th>
+          </tr>
+        </thead>
+        <tbody>
+          {sorted.map(p => (
+            <tr style="border-bottom: 1px solid var(--border);">
+              <td style="padding: 0.75rem 0.75rem 0.75rem 0;">
+                <a href={`/work/${p.data.slug}/`} style="color: #C45C26; text-decoration: none; font-weight: 500;">
+                  {p.data.name}
+                </a>
+              </td>
+              <td style="padding: 0.75rem 0.75rem 0.75rem 0; color: var(--text-muted);">
+                {p.data.neighborhood}
+              </td>
+              <td style="padding: 0.75rem 0.75rem 0.75rem 0; font-weight: 600; color: var(--fg);">
+                {p.data.wifi_down_mbps}
+              </td>
+              <td style="padding: 0.75rem 0.75rem 0.75rem 0; font-weight: 600; color: var(--fg);">
+                {p.data.wifi_up_mbps}
+              </td>
+              <td style="padding: 0.75rem 0.75rem 0.75rem 0; color: var(--text-muted);">
+                {p.data.wifi_latency_ms ? `${p.data.wifi_latency_ms}ms` : '—'}
+              </td>
+              <td style="padding: 0.75rem 0.75rem 0.75rem 0;">
+                {p.data.ac ? '✓' : '—'}
+              </td>
+              <td style="padding: 0.75rem 0 0.75rem 0; color: var(--text-muted); font-size: 0.75rem;">
+                {p.data.last_tested}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+    <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 1.5rem;">
+      Speeds vary by time of day and number of users. All measurements taken to a local Cartagena Fibrazo or Movistar server. Closed listings excluded.
+      <a href="/work/" style="color: #C45C26; text-decoration: none; margin-left: 0.25rem;">See full verified listings →</a>
+    </p>
+  </div>
+
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "Dataset",
+    "name": "WiFi Speeds in Cartagena Cafés",
+    "description": `Real-world WiFi speed measurements at ${sorted.length} cafés and coworking spaces in Cartagena, Colombia. Measured using Speedtest.net to local servers.`,
+    "dateModified": new Date().toISOString().split('T')[0],
+    "creator": [
+      { "@type": "Person", "name": "Yatan", "description": "Cartagena resident since 2021" },
+      { "@type": "Person", "name": "Adri", "description": "Cartagena resident since 2010" }
+    ],
+    "spatialCoverage": { "@type": "Place", "name": "Cartagena de Indias, Colombia" },
+    "license": "https://creativecommons.org/licenses/by/4.0/"
+  })} />
+
+</Base>

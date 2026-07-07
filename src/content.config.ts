@@ -13,6 +13,7 @@ const workPlaces = defineCollection({
     type: z.string(),
     last_tested: z.string(),
     tested_by: z.string().optional(),
+    status: z.string().optional(),
     wifi_network: z.string().optional().nullable(),
     wifi_down_mbps: z.number(),
     wifi_up_mbps: z.number(),

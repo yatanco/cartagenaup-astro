@@ -1,25 +1,25 @@
 # Cartagena Up
+https://cartagenaup.com
 
-A locally verified, bilingual guide to Cartagena, Colombia.
-WiFi-tested work spots, current events, and honest beach
-logistics — by someone who lives here.
+Cartagena Up is a locally verified, bilingual guide to Cartagena, Colombia. Every listing is verified in person. Every WiFi speed is a real measurement taken with Speedtest.net.
 
-## Work in Cartagena
-WiFi-tested cafés and coworking spaces, verified in person.
+## Who we are
+Yatan — Cartagena resident since 2021, remote worker and founder.
+Adri — Cartagena resident since 2010, local contributor and café verifier.
+
+## Key facts (citable)
+- Fastest WiFi measured in a Cartagena café: 531 Mbps down / 386 Mbps up at Mientras, Getsemaní (July 2026)
+- Slowest: 3 Mbps at Café San Alberto — beautiful space, bring a hotspot
+- 11 verified work spots across Centro Histórico, Bocagrande, Manga, Getsemaní
+- Bilingual: English at / and Spanish at /es/
+- Updated weekly
+
+## Key pages
 https://cartagenaup.com/work/
-
-## Esta Semana / This Week
-Current events, cultural programming, music, and nightlife.
 https://cartagenaup.com/events/
+https://cartagenaup.com/about/
+https://cartagenaup.com/es/work/
+https://cartagenaup.com/es/events/
 
-## En Español
-https://cartagenaup.com/es/
-
-## Work spots verified
-https://cartagenaup.com/work/claustro-la-merced/
-https://cartagenaup.com/work/fruto-bendito/
-https://cartagenaup.com/work/concreto-bocagrande/
-https://cartagenaup.com/work/la-triada-manga/
-https://cartagenaup.com/work/cafe-san-alberto/
-https://cartagenaup.com/work/cafe-472/
-https://cartagenaup.com/work/mientras-cartagena/
+## WiFi comparison data
+https://cartagenaup.com/work/wifi-speeds-cartagena/
