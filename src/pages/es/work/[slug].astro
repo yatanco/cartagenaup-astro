@@ -79,7 +79,7 @@ function shortDate(s) {
 
     <div style="margin-bottom: 0.75rem;">
       <span style="display: inline-flex; align-items: center; gap: 0.25rem; background: #C45C26; color: #fff; font-size: 0.6rem; font-weight: 700; padding: 0.2rem 0.6rem; border-radius: 9999px; text-transform: uppercase; letter-spacing: 0.08em;">
-        ✓ {shortDate(place.last_tested)}
+        ✓ {shortDate(place.last_tested)}{place.tested_by ? ` · ${place.tested_by}` : ''}
       </span>
     </div>
 
