@@ -1,0 +1,30 @@
+name: "Época Café Bar"
+slug: epoca-cafe-bar
+neighborhood: "Centro Histórico"
+type: "cafe"
+last_tested: "2026-07-06"
+tested_by: "Adri"
+wifi_network: "C&W Networks via Fibrazo"
+wifi_down_mbps: 64.68
+wifi_up_mbps: 85.20
+wifi_latency_ms: 6
+wifi_isp: "C&W Networks / Fibrazo"
+wifi_note: "Upload faster than download — asymmetric but both solid. Great for video calls."
+video_calls: "good"
+outlets: "limited"
+ac: true
+noise_level: "moderate"
+best_time: "Morning — calmer before the brunch crowd arrives"
+best_spot: ""
+price_to_stay: "Specialty Colombian coffee, avocado toast, eggs benedict, bowls, sandwiches, desserts"
+hours: ""
+maps_link: "https://share.google/RmbjZPM0Dk4YtF7vy"
+address: "Centro Histórico, Cartagena"
+local_note: "One of the most beautiful spaces to work from in the historic center. Cathedral ceilings, checkered floors, natural light through arched windows, and a backlit bar wall that makes the whole room feel warm even in the morning. Specialty 100% Colombian coffee is the draw — serious coffee program. Music stays at a level that lets you concentrate, though it gets more lively as the day goes on. Full brunch menu means you can settle in for a long session. Verified by Adri."
+local_note_es: "Uno de los espacios más hermosos para trabajar en el centro histórico. Techos catedrales, pisos de damero, luz natural por ventanas en arco y una barra iluminada que le da calidez al ambiente desde la mañana. Café de especialidad 100% colombiano como protagonista. La música tiene el volumen justo para concentrarse, aunque el ambiente se anima más avanzado el día. El menú de desayunos y brunch permite quedarse varias horas. Verificado por Adri."
+images:
+  - file: epoca-cafe-bar.webp
+    caption: "Época Café Bar — Centro Histórico, Cartagena"
+    credit: "Cartagena Up / Adri"
+whatsapp_update_text: "Update for Época Café Bar listing on Cartagena Up"
+active: true
