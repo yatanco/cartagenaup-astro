@@ -1,6 +1,6 @@
 export const es = {
   nav: {
-    work: 'Trabajar en Cartagena',
+    work: 'Dónde trabajar',
     thisWeek: 'Esta Semana',
     about: 'Acerca de',
   },

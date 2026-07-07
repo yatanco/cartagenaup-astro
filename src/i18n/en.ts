@@ -1,6 +1,6 @@
 export const en = {
   nav: {
-    work: 'Work in Cartagena',
+    work: 'Work Spots',
     thisWeek: 'This Week',
     about: 'About',
   },
