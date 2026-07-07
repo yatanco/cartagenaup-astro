@@ -1,0 +1,19 @@
+# data/events/casa-bolivar-presencia-escenica-jul7.yaml
+title: "Taller de Presencia Escénica"
+slug: casa-bolivar-presencia-escenica-jul7
+date: "2026-07-07"
+t0: "10:00"
+t1: "12:00"
+end_date: ""
+venue: "Casa Bolívar"
+neighborhood: "Centro Histórico"
+type: "taller"
+recurring: "one-time"
+price: "gratis"
+confirmed: true
+source: "Instagram @casabolivarctg, verificado julio 2026"
+maps_link: "https://share.google/MwmXiSMgO2laI1iBD"
+venue_slug: "casa-bolivar"
+notes: "Taller de artes escénicas: fortalece tu comunicación, expresión corporal y seguridad frente al público mediante ejercicios prácticos. Entrada libre con inscripción previa, cupo limitado."
+notes_en: "Performing arts workshop: strengthen your communication, body expression, and stage presence through practical exercises. Free entry with prior registration, limited spots."
+active: true

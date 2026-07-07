@@ -1,0 +1,19 @@
+# data/events/casa-bolivar-aretes-jul8.yaml
+title: "Taller de Aretes Artesanales"
+slug: casa-bolivar-aretes-jul8
+date: "2026-07-08"
+t0: "14:00"
+t1: "16:00"
+end_date: ""
+venue: "Casa Bolívar"
+neighborhood: "Centro Histórico"
+type: "taller"
+recurring: "one-time"
+price: "gratis"
+confirmed: true
+source: "Instagram @casabolivarctg, verificado julio 2026"
+maps_link: "https://share.google/MwmXiSMgO2laI1iBD"
+venue_slug: "casa-bolivar"
+notes: "Taller de artesanías: diseña y crea tus propios aretes aprendiendo técnicas básicas de bisutería artesanal. Entrada libre con inscripción previa, cupo limitado."
+notes_en: "Crafts workshop: design and make your own earrings learning basic handmade jewelry techniques. Free entry with prior registration, limited spots."
+active: true

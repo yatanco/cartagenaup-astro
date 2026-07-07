@@ -1,0 +1,19 @@
+# data/events/casa-bolivar-abanico-jul8.yaml
+title: "Taller Vivencial: Cada Trazo Mantiene Viva la Tradición"
+slug: casa-bolivar-abanico-jul8
+date: "2026-07-08"
+t0: "16:00"
+t1: "18:00"
+end_date: ""
+venue: "Casa Bolívar"
+neighborhood: "Centro Histórico"
+type: "taller"
+recurring: "one-time"
+price: "gratis"
+confirmed: true
+source: "Instagram @casabolivarctg, verificado julio 2026"
+maps_link: "https://share.google/MwmXiSMgO2laI1iBD"
+venue_slug: "casa-bolivar"
+notes: "Taller vivencial de artes plásticas: intervención pictórica sobre abanico artesanal. Vive una experiencia artística donde el color, la memoria y la creatividad cobran vida. Entrada libre con inscripción previa, cupo limitado."
+notes_en: "Visual arts workshop: painting on traditional hand fans. An artistic experience where color, memory, and creativity come alive. Free entry with prior registration, limited spots."
+active: true
