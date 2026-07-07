@@ -1,0 +1,32 @@
+name: "Fit Choices"
+slug: fit-choices-bocagrande
+neighborhood: "Bocagrande"
+type: "cafe"
+last_tested: "2026-07-06"
+tested_by: "Yatan"
+wifi_network: "movistar"
+wifi_down_mbps: 192.80
+wifi_up_mbps: 36.18
+wifi_latency_ms: 7
+wifi_isp: "Movistar"
+video_calls: "good"
+outlets: "plentiful"
+ac: true
+noise_level: "quiet"
+best_time: "Any time outside peak hours — upstairs is consistently empty"
+best_spot: "Upstairs — plenty of outlets, WiFi reaches well, almost always empty except peak times. Ground floor has outlets via extension cord on request."
+price_to_stay: "Shakes, health food, smoothies — healthy menu"
+hours: ""
+maps_link: "https://share.google/VsTjKGpTCwprD00Ol"
+address: "Bocagrande, Cartagena"
+local_note: "Health food café next to a medical centre in Bocagrande — bamboo-lined interior, live-edge wood tables, relaxed vibe. The shakes are excellent, food is decent. Ground floor has outlets via an extension cord they'll give you on request. The real discovery: an upstairs space that's generally empty, has plenty of outlets, and gets solid WiFi. 192 Mbps down / 36 Mbps up. A quiet Bocagrande option that most people walk past."
+local_note_es: "Café de comida saludable junto a un centro médico en Bocagrande — interior con bambú, mesas de madera maciza, ambiente relajado. Los batidos son excelentes, la comida está bien. La planta baja tiene enchufes mediante una extensión que dan al pedirla. El descubrimiento real: un espacio en el piso de arriba que generalmente está vacío, tiene muchos enchufes y buena señal WiFi. 192 Mbps de bajada / 36 Mbps de subida. Una opción tranquila en Bocagrande que la mayoría pasa de largo."
+images:
+  - file: fit-choices-bocagrande-1.jpg
+    caption: "Fit Choices — bamboo-lined seating area, Bocagrande"
+    credit: "Cartagena Up"
+  - file: fit-choices-bocagrande-2.jpg
+    caption: "Fit Choices — interior looking toward the street"
+    credit: "Cartagena Up"
+whatsapp_update_text: "Update for Fit Choices Bocagrande listing on Cartagena Up"
+active: true
