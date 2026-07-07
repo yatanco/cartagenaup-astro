@@ -19,11 +19,19 @@ const places = (await getCollection('workPlaces', ({ data }) => data.active === 
     <h1 style="font-family: Georgia, serif; font-size: 1.875rem; font-weight: 400; margin: 0 0 1.25rem; color: var(--fg);">
       Trabajar en Cartagena
     </h1>
-    <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 2rem; padding-bottom: 1.75rem; border-bottom: 1px solid var(--border);">
-      Vivo en Cartagena desde 2021 y trabajo de forma remota desde aquí. La pregunta "¿dónde trabajo hoy?" surge constantemente — y encontrar una buena respuesta en esta ciudad es más difícil de lo que debería. La calidad del WiFi varía enormemente, el aire acondicionado es imprescindible con este calor, y la mayoría de las guías tienen años de desactualización.
-      <br /><br />
-      Pruebo cada lugar personalmente con un test de velocidad y regreso regularmente. Esto es lo que he encontrado.
+    <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 1rem;">
+      {places.length} lugares de trabajo con WiFi probado en Cartagena, Colombia — velocidades medidas en persona con Speedtest.net, verificado julio 2026 por Yatan y Adri.
     </p>
+
+    <div style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.7; display: grid; gap: 1rem; margin-bottom: 2rem; padding-bottom: 1.75rem; border-bottom: 1px solid var(--border);">
+      <p style="margin: 0;">
+        Vivimos en Cartagena — Yatan desde 2021, Adri desde 2010 — entre los dos tenemos más de 20 años de vida cotidiana en esta ciudad. La pregunta "¿dónde trabajo hoy?" surge constantemente, y encontrar una buena respuesta es más difícil de lo que debería ser. La calidad del WiFi varía muchísimo, el aire acondicionado es indispensable con el calor, y la mayoría de las guías tienen años de desactualización.
+      </p>
+      <p style="margin: 0;">
+        Probamos cada lugar en persona con un test de velocidad y volvemos regularmente. Nuestras prioridades: internet rápido y confiable, buen café, y un lugar cercano para tomar un descanso real — una playa, un fuerte, un parque. Cartagena tiene todo eso si sabes dónde buscar. Ya sea que necesites un espacio de coworking con buenas velocidades de subida para videollamadas, o un café tranquilo para unas horas de trabajo enfocado, esta es la única lista en Cartagena con datos reales de velocidad y notas honestas sobre cómo es realmente cada lugar.
+      </p>
+      <p style="margin: 0;">Esto es lo que hemos encontrado hasta ahora.</p>
+    </div>
 
     {places.map(place => (
       <PlaceCard place={place.data} lang={lang} />

@@ -21,18 +21,18 @@ const places = (await getCollection('workPlaces', ({ data }) => data.active === 
     </h1>
 
     <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 1rem;">
-      {places.length} WiFi-tested work spots in Cartagena, Colombia — speeds measured in person using Speedtest.net, verified July 2026 by local residents.
+      {places.length} WiFi-tested work spots in Cartagena, Colombia — speeds measured in person using Speedtest.net, verified July 2026 by Yatan and Adri.
     </p>
 
-    <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 2rem; padding-bottom: 1.75rem; border-bottom: 1px solid var(--border);">
-      I've been living in Cartagena since 2021 and work remotely from here. The question "where do I work today?" comes up constantly — and finding a good answer in this city is harder than it should be. WiFi quality varies wildly, AC is non-negotiable in the heat, and most guides are years out of date.
-      <br /><br />
-      I test every spot myself with a speed test and go back regularly. My priorities: fast and reliable internet, good coffee, and somewhere nearby to take a real break — a beach, a fort, a park. Cartagena has all of these if you know where to look.
-      <br /><br />
-      Whether you're looking for a coworking space with reliable upload speeds for video calls, or a quiet café to work from for a few hours, this is the only list in Cartagena with real speed test data and honest notes about what each place is actually like.
-      <br /><br />
-      Here's what I've found so far.
-    </p>
+    <div style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.7; display: grid; gap: 1rem; margin-bottom: 2rem; padding-bottom: 1.75rem; border-bottom: 1px solid var(--border);">
+      <p style="margin: 0;">
+        We've been living in Cartagena — Yatan since 2021, Adri since 2010 — between us we have over 20 years of daily life in this city. The question "where do I work today?" comes up constantly, and finding a good answer is harder than it should be. WiFi quality varies wildly, AC is non-negotiable in the heat, and most guides are years out of date.
+      </p>
+      <p style="margin: 0;">
+        We test every spot in person with a speed test and go back regularly. Our priorities: fast and reliable internet, good coffee, and somewhere nearby to take a real break — a beach, a fort, a park. Cartagena has all of these if you know where to look. Whether you need a coworking space with solid upload speeds for video calls, or a quiet café for a few focused hours, this is the only list in Cartagena with real speed test data and honest notes about what each place is actually like.
+      </p>
+      <p style="margin: 0;">Here's what we've found so far.</p>
+    </div>
 
     {places.map(place => (
       <PlaceCard place={place.data} lang={lang} />
