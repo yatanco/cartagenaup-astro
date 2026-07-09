@@ -43,3 +43,35 @@ Consult these guides before working on related tasks:
 - [Adding or managing content](https://docs.astro.build/en/guides/content-collections/)
 - [Adding styles or using Tailwind](https://docs.astro.build/en/guides/styling/)
 - [Supporting multiple languages](https://docs.astro.build/en/guides/internationalization/)
+
+## Future: Content Management (when needed)
+
+Current workflow: YAML files edited manually or 
+generated via Claude. Works fine for 2 contributors.
+
+### When to build this
+Build a submission form/CMS when:
+- A third contributor who isn't technical joins
+- Time spent on YAML per listing exceeds 30 minutes
+- You need contributors who can't use GitHub
+
+### Recommended solution: Tina CMS
+- Open source, Git-backed, free for small teams
+- Connects directly to the Astro repo
+- Visual form UI that writes YAML and commits 
+  to GitHub automatically
+- Works with Cloudflare Pages deployment
+- One afternoon to set up, no ongoing maintenance
+- Docs: tina.io
+
+### Alternative: Airtable + GitHub API
+- Contributors fill Airtable form
+- Zapier/Make converts rows to YAML via GitHub API
+- More fragile but zero code required
+- Good for non-technical contributors who 
+  already use Airtable
+
+### Do NOT build a custom form yet
+The bottleneck is field verification time 
+(visiting spots, running speed tests, taking photos) 
+not YAML submission time. A form doesn't fix that.
