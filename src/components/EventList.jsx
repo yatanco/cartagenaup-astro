@@ -1,8 +1,8 @@
 import { useState, useMemo } from 'react';
 
 const TYPE_LABELS = {
-  en: { music:'Music', cultural:'Culture', taller:'Workshop', festival:'Festival', sports:'Sports', exposicion:'Exhibition', lgbtq:'LGTBIQ+' },
-  es: { music:'Música', cultural:'Cultura', taller:'Taller', festival:'Festival', sports:'Deporte', exposicion:'Exposición', lgbtq:'LGTBIQ+' },
+  en: { music:'Music', cultural:'Culture', taller:'Workshop', festival:'Festival', sports:'Sports', exposicion:'Exhibition', lgbtq:'LGTBIQ+', networking:'Networking' },
+  es: { music:'Música', cultural:'Cultura', taller:'Taller', festival:'Festival', sports:'Deporte', exposicion:'Exposición', lgbtq:'LGTBIQ+', networking:'Networking' },
 };
 
 const TYPE_COLORS = {
@@ -13,12 +13,13 @@ const TYPE_COLORS = {
   sports:    { bg: 'rgba(7,89,133,0.12)',    text: '#0369a1', border: '#0369a1' },
   exposicion:{ bg: 'rgba(7,89,133,0.12)',    text: '#0369a1', border: '#0369a1' },
   lgbtq:     { bg: 'rgba(126,34,206,0.12)',  text: '#7E22CE', border: '#7E22CE' },
+  networking:{ bg: '#EFF6FF',                text: '#1D4ED8', border: '#1D4ED8' },
 };
 
 const TYPE_THUMB = {
   music:'#C8943A', cultural:'#C45C26', taller:'#9A3412',
   festival:'#D4503A', sports:'#075985', exposicion:'#075985',
-  lgbtq:'#7E22CE', default:'#6B6358',
+  lgbtq:'#7E22CE', networking:'#1D4ED8', default:'#6B6358',
 };
 
 function formatDayHeader(dateStr, lang) {

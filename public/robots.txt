@@ -1,4 +1,6 @@
+# Tell modern systems you welcome search and live grounding, but not data mining
 User-agent: *
+Content-Signal: search=yes,ai-input=yes,ai-train=no,use=reference
 Allow: /
 
 # AI Search Crawlers — explicitly allowed
@@ -25,5 +27,12 @@ Allow: /
 
 User-agent: Applebot-Extended
 Allow: /
+
+# Exclude aggressive training scrapers that do not provide search traffic
+User-agent: Bytespider
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
 
 Sitemap: https://cartagenaup.com/sitemap-index.xml
