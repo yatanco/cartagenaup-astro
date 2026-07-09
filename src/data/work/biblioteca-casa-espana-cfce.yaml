@@ -1,0 +1,33 @@
+name: "Biblioteca Casa España — CFCE"
+slug: biblioteca-casa-espana-cfce
+neighborhood: "Centro Histórico"
+type: "library"
+last_tested: "2026-07-09"
+tested_by: "Adri"
+wifi_network: "C&W Networks"
+wifi_down_mbps: 41.32
+wifi_up_mbps: 45.76
+wifi_latency_ms: 24
+wifi_isp: "C&W Networks / Redviva"
+wifi_note: "Symmetrical connection — upload slightly faster than download. Speed test resolved to Barrancabermeja server but connection is local C&W."
+video_calls: "good"
+outlets: "limited"
+ac: false
+noise_level: "quiet"
+best_time: "Weekday mornings — quietest and most focused atmosphere"
+best_spot: "Main reading room — large tables, good light from skylights, high wooden ceiling"
+price_to_stay: "Free to use — public cultural space. Café on site for coffee."
+hours: ""
+maps_link: "https://share.google/8pfpmw6G634lCou1U"
+address: "Carrera 36 No. 2-74, Plaza Santo Domingo, Centro Histórico, Cartagena"
+local_note: "The library inside the Centro de Formación de la Cooperación Española — a colonial cloister on Plaza Santo Domingo that most visitors walk past without realizing it's open to the public. High wooden ceilings, floor-to-ceiling bookshelves, large study tables, and an atmosphere of genuine quiet. WiFi is solid at 41/45 Mbps. Free to use as a workspace. There's a café inside for coffee. One of the most beautiful places to work in the historic center, and almost nobody knows you can just walk in and sit down. Verified by Adri."
+local_note_es: "La biblioteca dentro del Centro de Formación de la Cooperación Española — un claustro colonial en la Plaza Santo Domingo que la mayoría de visitantes pasa de largo sin saber que está abierto al público. Techos de madera altos, estanterías del piso al techo, mesas de estudio amplias y un ambiente de silencio real. WiFi sólido: 41/45 Mbps. De uso gratuito como espacio de trabajo. Hay una cafetería adentro. Uno de los lugares más hermosos para trabajar en el centro histórico, y casi nadie sabe que puedes entrar y sentarte. Verificado por Adri."
+images:
+  - file: biblioteca-casa-espana-cfce-1.jpg
+    caption: "Biblioteca Casa España — reading room, CFCE Centro Histórico"
+    credit: "Cartagena Up / Adri"
+  - file: biblioteca-casa-espana-cfce-2.jpg
+    caption: "Biblioteca Casa España — main hall with bookshelves"
+    credit: "Cartagena Up / Adri"
+whatsapp_update_text: "Update for Biblioteca Casa España CFCE listing on Cartagena Up"
+active: true
