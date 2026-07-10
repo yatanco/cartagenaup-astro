@@ -1,0 +1,118 @@
+---
+import Base from '../../../layouts/Base.astro';
+const lang = 'es';
+
+const sources = [
+  {
+    name: 'Banco de la República',
+    body: 'El principal centro cultural del centro histórico de Cartagena ofrece uno de los calendarios de programación gratuita más activos de la ciudad — conciertos, talleres, cine y exposiciones.',
+    website: { label: 'banrepcultural.org/actividades', url: 'https://www.banrepcultural.org/actividades' },
+    instagram: '@banrepcultural',
+  },
+  {
+    name: 'Espacio Cultural Claustro de la Merced',
+    body: 'El programa cultural administrado por el OPC de la Universidad de Cartagena dentro del claustro histórico. Fotografiamos el tablón de programación cada mes.',
+    instagram: '@opc.unicartagena',
+  },
+  {
+    name: 'Alianza Francesa / Colombo Francesa',
+    body: 'Centro cultural franco-colombiano en la Plaza Fernández de Madrid. Organiza conciertos, cine, eventos de idiomas y grandes festivales.',
+    instagram: '@afcartagenaco',
+  },
+  {
+    name: 'Casa Bolívar',
+    body: 'Casa cultural del Ministerio de Cultura (Mincultura) en el centro histórico. Talleres gratuitos semanales en artes, artesanías, danza, música y literatura.',
+    instagram: '@casabolivarctg',
+  },
+  {
+    name: 'Centro de Formación de la Cooperación Española',
+    body: 'Centro de cooperación española en la Plaza Santo Domingo. Programación cultural abierta al público.',
+    instagram: '@cfce_cartagena',
+  },
+  {
+    name: 'IPCC / Alcaldía de Cartagena',
+    body: 'La institución cultural oficial de la ciudad publica un calendario anual de más de 200 eventos.',
+    website: { label: 'cartagena.gov.co/noticias', url: 'https://www.cartagena.gov.co/noticias' },
+    instagram: '@ipcc_cartagena',
+  },
+  {
+    name: 'Teatro Adolfo Mejía',
+    body: 'El teatro principal de Cartagena, administrado por el IPCC.',
+    instagram: '@tam.ctg',
+    tickets: { label: 'eticket.co', url: 'https://www.eticket.co' },
+  },
+  {
+    name: 'Eventos LGTBIQ+',
+    body: 'Monitoreamos organizaciones locales para eventos queer, programación de Pride y noches comunitarias.',
+    instagram: '@lasafica.ctg · @caribeafirmativo · @blueapplebeach',
+  },
+  {
+    name: 'Cartagena Onchain',
+    body: 'Meetups mensuales de Ethereum/Web3 en la ciudad.',
+    instagram: '@cartagenaonchain',
+  },
+];
+
+function instagramLinks(handles) {
+  return handles.split('·').map(h => h.trim());
+}
+---
+
+<Base
+  title="Cómo Encontramos Eventos en Cartagena"
+  description="Las fuentes locales verificadas detrás del calendario de eventos de Cartagena Up — actualizado cada semana."
+  lang="es"
+  canonicalUrl="https://cartagenaup.com/es/events/sources/">
+
+  <div style="padding-top: 1.5rem;">
+    <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 1.25rem;">
+      <a href="/es/events/" style="color: #C45C26; text-decoration: none;">← Esta Semana</a>
+    </p>
+
+    <h1 style="font-family: Georgia, serif; font-size: 1.875rem; font-weight: 400; margin: 0 0 1.25rem; color: var(--fg);">
+      Cómo Encontramos Eventos en Cartagena
+    </h1>
+
+    <p style="font-size: 0.9375rem; color: var(--fg); line-height: 1.75; margin-bottom: 2rem;">
+      Cada evento en esta página proviene de una fuente local verificada, revisada por Yatan o Adri — residentes de Cartagena desde 2021 y 2010 respectivamente. No usamos agregadores ni republicamos listados generados por IA. Actualizamos cada lunes.
+    </p>
+
+    <div style="display: grid; gap: 1.75rem;">
+      {sources.map(s => (
+        <div style="border-bottom: 1px solid var(--border); padding-bottom: 1.5rem;">
+          <h2 style="font-family: Georgia, serif; font-size: 1.0625rem; font-weight: 400; margin: 0 0 0.375rem; color: var(--fg);">
+            {s.name}
+          </h2>
+          <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.6; margin: 0 0 0.5rem;">
+            {s.body}
+          </p>
+          <div style="display: flex; gap: 1rem; flex-wrap: wrap; font-size: 0.8125rem;">
+            {s.website && (
+              <a href={s.website.url} target="_blank" rel="noopener" style="color: #C45C26; text-decoration: none;">
+                {s.website.label}
+              </a>
+            )}
+            {s.instagram && instagramLinks(s.instagram).map(handle => (
+              <a href={`https://instagram.com/${handle.replace('@', '')}`} target="_blank" rel="noopener" style="color: #C45C26; text-decoration: none;">
+                {handle}
+              </a>
+            ))}
+            {s.tickets && (
+              <a href={s.tickets.url} target="_blank" rel="noopener" style="color: #C45C26; text-decoration: none;">
+                Boletos: {s.tickets.label}
+              </a>
+            )}
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <p style="font-size: 0.875rem; color: var(--fg); margin-top: 2rem;">
+      ¿Falta algo?{' '}
+      <a href="https://wa.me/573163946401?text=Hola! Tengo una sugerencia de fuente de eventos en Cartagena." target="_blank" rel="noopener" style="color: #C45C26; text-decoration: none;">
+        Escríbenos por WhatsApp.
+      </a>
+    </p>
+  </div>
+
+</Base>

@@ -6,17 +6,24 @@ const places = await getCollection('workPlaces',
   ({ data }) => data.active === true && data.status !== 'closed'
 );
 const sorted = places.sort((a, b) => b.data.wifi_down_mbps - a.data.wifi_down_mbps);
+const fastest = sorted[0]?.data;
+const slowest = sorted[sorted.length - 1]?.data;
 
 const avg = Math.round(
   sorted.reduce((sum, p) => sum + p.data.wifi_down_mbps, 0) / sorted.length
 );
 
+const mostRecent = [...sorted].sort((a, b) => b.data.last_tested.localeCompare(a.data.last_tested))[0]?.data.last_tested;
+const verifiedMonth = mostRecent
+  ? new Date(mostRecent + 'T12:00:00').toLocaleDateString('es-CO', { month: 'long', year: 'numeric' })
+  : 'julio 2026';
+
 const canonicalUrl = 'https://cartagenaup.com/es/work/wifi-speeds-cartagena/';
 ---
 
 <Base
-  title="Velocidades WiFi en Cafés de Cartagena — Medido en julio 2026"
-  description={`Resultados reales de pruebas de velocidad WiFi en ${sorted.length} cafés y espacios de coworking en Cartagena, Colombia. Medido con Speedtest.net a servidores locales. Actualizado en julio 2026.`}
+  title={`Velocidades WiFi en Cafés de Cartagena — Medido en ${verifiedMonth}`}
+  description={`Resultados reales de pruebas de velocidad WiFi en cafés y espacios de coworking en Cartagena, Colombia. Medido con Speedtest.net a servidores locales. Actualizado en ${verifiedMonth}.`}
   lang="es"
   canonicalUrl={canonicalUrl}>
 
@@ -26,11 +33,11 @@ const canonicalUrl = 'https://cartagenaup.com/es/work/wifi-speeds-cartagena/';
     </h1>
 
     <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 0.5rem;">
-      Cada velocidad fue medida en persona usando Speedtest.net a un servidor local en Cartagena. Última verificación: julio 2026 por Yatan y Adri, residentes de Cartagena.
+      Cada velocidad fue medida en persona usando Speedtest.net a un servidor local en Cartagena. Última verificación: {verifiedMonth} por Yatan y Adri, residentes de Cartagena.
     </p>
 
     <p style="font-size: 0.875rem; color: var(--fg); margin: 0 0 1.5rem; padding-bottom: 1.25rem; border-bottom: 1px solid var(--border);">
-      <strong>Más rápido:</strong> 531 Mbps en Mientras (Getsemaní) · <strong>Promedio:</strong> {avg} Mbps · <strong>Más lento:</strong> 3 Mbps en Café San Alberto (trae un hotspot)
+      <strong>Más rápido:</strong> {fastest?.wifi_down_mbps} Mbps en {fastest?.name} ({fastest?.neighborhood}) · <strong>Promedio:</strong> {avg} Mbps · <strong>Más lento:</strong> {slowest?.wifi_down_mbps} Mbps en {slowest?.name} (trae un hotspot)
     </p>
 
     <div style="overflow-x: auto;">

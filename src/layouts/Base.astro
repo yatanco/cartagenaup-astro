@@ -1,7 +1,7 @@
 ---
 import '../styles/global.css';
 import { ClientRouter } from 'astro:transitions';
-const { title, description, lang = 'en', canonicalUrl, jsonLdExtra, additionalJsonLd } = Astro.props;
+const { title, description, lang = 'en', canonicalUrl, ogImage = '/og-image.png', jsonLdExtra, additionalJsonLd } = Astro.props;
 import { en } from '../i18n/en';
 import { es } from '../i18n/es';
 const t = lang === 'es' ? es : en;
@@ -10,6 +10,14 @@ const workHref  = lang === 'es' ? '/es/work/'   : '/work/';
 const eventsHref = lang === 'es' ? '/es/events/' : '/events/';
 const aboutHref = lang === 'es' ? '/es/about/'  : '/about/';
 const homeHref  = lang === 'es' ? '/es/'         : '/';
+const venuesHref = lang === 'es' ? '/es/venues/' : '/venues/';
+const archiveHref = lang === 'es' ? '/es/events/archive/' : '/events/archive/';
+const sourcesHref = lang === 'es' ? '/es/events/sources/' : '/events/sources/';
+const fastestWifiHref = lang === 'es' ? '/es/work/fastest-wifi-cartagena/' : '/work/fastest-wifi-cartagena/';
+const wifiSpeedsHref = lang === 'es' ? '/es/work/wifi-speeds-cartagena/' : '/work/wifi-speeds-cartagena/';
+const absoluteOgImage = ogImage.startsWith('http')
+  ? ogImage
+  : `https://cartagenaup.com${ogImage.startsWith('/') ? ogImage : `/${ogImage}`}`;
 const enHref = lang === 'es'
   ? `https://cartagenaup.com${Astro.url.pathname.replace(/^\/es/, '') || '/'}`
   : `https://cartagenaup.com${Astro.url.pathname}`;
@@ -54,7 +62,7 @@ const altPath = lang === 'es'
   <meta property="og:title"       content={title.startsWith('Cartagena Up') ? title : `${title} · Cartagena Up`} />
   <meta property="og:description" content={description} />
   <meta property="og:site_name"   content="Cartagena Up" />
-  <meta property="og:image"       content="https://cartagenaup.com/og-image.png" />
+  <meta property="og:image"       content={absoluteOgImage} />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   {canonicalUrl && <meta property="og:url" content={canonicalUrl} />}
@@ -91,7 +99,7 @@ const altPath = lang === 'es'
     })();
   </script>
 </head>
-<body>
+<body id="top">
 
   <!-- Header — always dark regardless of theme -->
   <header style="background: #1C1A17; position: sticky; top: 0; z-index: 40;">
@@ -139,9 +147,79 @@ const altPath = lang === 'es'
     <slot />
   </main>
 
-  <footer style="border-top: 1px solid var(--border); margin-top: 0;">
-    <div style="max-width: 42rem; margin: 0 auto; padding: 1.5rem 1.25rem; font-size: 0.7rem; color: var(--text-muted);">
-      Cartagena Up · {t.footer.tagline} · {t.footer.lastUpdated}: {new Date().toLocaleDateString(lang === 'es' ? 'es-CO' : 'en-GB', { month: 'short', year: 'numeric' })}
+  <footer class="border-t border-border-warm mt-16">
+    <div class="max-w-2xl mx-auto px-5 py-8">
+
+      <div class="grid grid-cols-2 gap-8 mb-8 text-sm md:grid-cols-3">
+
+        <div>
+          <p class="font-semibold text-ink dark:text-white mb-3 text-xs uppercase tracking-wider">
+            {lang === 'es' ? 'Lugares de trabajo' : 'Work Spots'}
+          </p>
+          <div class="space-y-2">
+            <a href={workHref} class="block text-muted hover:text-terracotta no-underline text-xs">
+              {lang === 'es' ? 'Todos los lugares verificados' : 'All verified spots'}
+            </a>
+            <a href={fastestWifiHref} class="block text-muted hover:text-terracotta no-underline text-xs">
+              {lang === 'es' ? 'WiFi más rápido' : 'Fastest WiFi ranked'}
+            </a>
+            <a href={wifiSpeedsHref} class="block text-muted hover:text-terracotta no-underline text-xs">
+              {lang === 'es' ? 'Comparación WiFi' : 'WiFi speed comparison'}
+            </a>
+          </div>
+        </div>
+
+        <div>
+          <p class="font-semibold text-ink dark:text-white mb-3 text-xs uppercase tracking-wider">
+            {lang === 'es' ? 'Eventos' : 'Events'}
+          </p>
+          <div class="space-y-2">
+            <a href={eventsHref} class="block text-muted hover:text-terracotta no-underline text-xs">
+              {lang === 'es' ? 'Esta semana' : 'This week'}
+            </a>
+            <a href={archiveHref} class="block text-muted hover:text-terracotta no-underline text-xs">
+              {lang === 'es' ? 'Eventos pasados' : 'Past events'}
+            </a>
+            <a href={sourcesHref} class="block text-muted hover:text-terracotta no-underline text-xs">
+              {lang === 'es' ? 'Fuentes de eventos' : 'How we source events'}
+            </a>
+          </div>
+        </div>
+
+        <div>
+          <p class="font-semibold text-ink dark:text-white mb-3 text-xs uppercase tracking-wider">
+            Cartagena Up
+          </p>
+          <div class="space-y-2">
+            <a href={aboutHref} class="block text-muted hover:text-terracotta no-underline text-xs">
+              {lang === 'es' ? 'Acerca de' : 'About'}
+            </a>
+            <a href={venuesHref} class="block text-muted hover:text-terracotta no-underline text-xs">
+              {lang === 'es' ? 'Espacios culturales' : 'Cultural venues'}
+            </a>
+            <a href="https://wa.me/573163946401?text=Hi! I found Cartagena Up." target="_blank" rel="noopener" class="block text-muted hover:text-terracotta no-underline text-xs">
+              {lang === 'es' ? 'Contactar por WhatsApp' : 'Contact on WhatsApp'}
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="border-t border-border-warm pt-6 flex flex-wrap items-center justify-between gap-4">
+        <p class="text-xs text-muted">
+          Cartagena Up · {lang === 'es' ? 'Por Yatan y Adri, residentes locales' : 'By Yatan and Adri, local residents'} · {t.footer.lastUpdated}{' '}
+          {new Date().toLocaleDateString(lang === 'es' ? 'es-CO' : 'en-GB', { month: 'long', year: 'numeric' })}
+        </p>
+        <div class="flex gap-4">
+          <a href={altPath} class="text-xs text-muted hover:text-terracotta no-underline">
+            {lang === 'es' ? 'English' : 'Español'}
+          </a>
+          <a href="/rss.xml" class="text-xs text-muted hover:text-terracotta no-underline">
+            RSS
+          </a>
+        </div>
+      </div>
+
     </div>
   </footer>
 

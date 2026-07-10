@@ -7,12 +7,29 @@ import { getCollection } from 'astro:content';
 const lang = 'en';
 const places = (await getCollection('workPlaces', ({ data }) => data.active === true))
   .sort((a, b) => b.data.last_tested.localeCompare(a.data.last_tested));
-const rankedCount = places.filter(p => p.data.status !== 'closed').length;
+const rankable = places.filter(p => p.data.status !== 'closed');
+const rankedCount = rankable.length;
+
+const sorted = [...rankable].sort((a, b) =>
+  (b.data.wifi_down_mbps ?? 0) - (a.data.wifi_down_mbps ?? 0)
+);
+const fastest = sorted[0]?.data;
+const slowest = sorted[sorted.length - 1]?.data;
+const sanAlberto = rankable.find(p => p.data.slug === 'cafe-san-alberto')?.data;
+const goodForCalls = rankable
+  .filter(p => p.data.video_calls === 'good')
+  .sort((a, b) => (b.data.wifi_down_mbps ?? 0) - (a.data.wifi_down_mbps ?? 0))
+  .slice(0, 3);
+
+const mostRecent = [...rankable].sort((a, b) => b.data.last_tested.localeCompare(a.data.last_tested))[0]?.data.last_tested;
+const verifiedMonth = mostRecent
+  ? new Date(mostRecent + 'T12:00:00').toLocaleDateString('en-GB', { month: 'long', year: 'numeric' })
+  : 'July 2026';
 ---
 
 <Base
   title="WiFi-Tested Cafés & Coworking in Cartagena"
-  description="The only guide to cafés and coworking in Cartagena with real WiFi speed tests — download, upload, and ping measured in person. Verified July 2026 by local residents Yatan and Adri."
+  description={`The only guide to cafés and coworking in Cartagena with real WiFi speed tests — download, upload, and ping measured in person. Verified ${verifiedMonth} by local residents Yatan and Adri.`}
   lang="en"
   canonicalUrl="https://cartagenaup.com/work/">
 
@@ -22,7 +39,11 @@ const rankedCount = places.filter(p => p.data.status !== 'closed').length;
     </h1>
 
     <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 1rem;">
-      {places.length} WiFi-tested work spots in Cartagena, Colombia — speeds measured in person using Speedtest.net, verified July 2026 by Yatan and Adri.
+      {places.length} WiFi-tested work spots in Cartagena, Colombia — speeds measured in person using Speedtest.net, verified {verifiedMonth} by Yatan and Adri.
+    </p>
+
+    <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.5rem;">
+      Sorted by most recently verified first.
     </p>
 
     <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 1.5rem;">
@@ -47,6 +68,10 @@ const rankedCount = places.filter(p => p.data.status !== 'closed').length;
 
     <WhatsAppCTA lang="en" />
 
+    <a href="#top" style="font-size: 0.75rem; color: var(--text-muted); text-decoration: none; display: block; text-align: center; margin: 1rem 0 2rem;">
+      ↑ Back to top
+    </a>
+
     <!-- FAQ -->
     <section style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border);">
       <h2 style="font-family: Georgia, serif; font-size: 1.5rem; font-weight: 400; margin: 0 0 1.5rem; color: var(--fg);">
@@ -59,16 +84,16 @@ const rankedCount = places.filter(p => p.data.status !== 'closed').length;
             What café has the fastest WiFi in Cartagena?
           </h3>
           <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.65; margin: 0;">
-            Mientras in Getsemaní — 531 Mbps down / 386 Mbps up, verified July 2026 using Speedtest.net to a local Cartagena server.
+            {fastest?.name} in {fastest?.neighborhood} — {fastest?.wifi_down_mbps} Mbps down / {fastest?.wifi_up_mbps} Mbps up, verified {fastest?.last_tested} using Speedtest.net to a local Cartagena server.
           </p>
         </div>
 
         <div>
           <h3 style="font-family: Georgia, serif; font-size: 1.0625rem; font-weight: 400; margin: 0 0 0.375rem; color: var(--fg);">
-            Which cafés in Cartagena have AC and good WiFi?
+            Which cafés in Cartagena have good WiFi for video calls?
           </h3>
           <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.65; margin: 0;">
-            The best combination of fast WiFi and AC: Concreto Work and Coffee in Bocagrande (85/88 Mbps, 12ms ping), Época Café Bar in Centro Histórico (64/85 Mbps), and Libertario in Getsemaní (47/48 Mbps). All verified July 2026.
+            The best current options marked good for video calls are {goodForCalls.map(p => `${p.data.name} in ${p.data.neighborhood} (${p.data.wifi_down_mbps}/${p.data.wifi_up_mbps} Mbps${p.data.wifi_latency_ms ? `, ${p.data.wifi_latency_ms}ms ping` : ''})`).join(', ')}. The slowest active listing is {slowest?.name} at {slowest?.wifi_down_mbps} Mbps down.
           </p>
         </div>
 
@@ -95,7 +120,7 @@ const rankedCount = places.filter(p => p.data.status !== 'closed').length;
             Does Café San Alberto have good WiFi?
           </h3>
           <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.65; margin: 0;">
-            No. Measured at 3 Mbps down / 1 Mbps up in July 2026 — bring a hotspot. The coffee and location on Plaza Santo Domingo are exceptional.
+            No. Measured at {sanAlberto?.wifi_down_mbps} Mbps down / {sanAlberto?.wifi_up_mbps} Mbps up, verified {sanAlberto?.last_tested} — bring a hotspot. The coffee and location on Plaza Santo Domingo are exceptional.
           </p>
         </div>
       </div>
@@ -111,15 +136,15 @@ const rankedCount = places.filter(p => p.data.status !== 'closed').length;
         "name": "What café has the fastest WiFi in Cartagena?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Mientras in Getsemaní — 531 Mbps down / 386 Mbps up, verified July 2026 using Speedtest.net to a local Cartagena server."
+          "text": `${fastest?.name} in ${fastest?.neighborhood} — ${fastest?.wifi_down_mbps} Mbps down / ${fastest?.wifi_up_mbps} Mbps up, verified ${fastest?.last_tested} using Speedtest.net to a local Cartagena server.`
         }
       },
       {
         "@type": "Question",
-        "name": "Which cafés in Cartagena have AC and good WiFi?",
+        "name": "Which cafés in Cartagena have good WiFi for video calls?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "The best combination of fast WiFi and AC: Concreto Work and Coffee in Bocagrande (85/88 Mbps), Época Café Bar in Centro Histórico (64/85 Mbps), and Libertario in Getsemaní (47/48 Mbps). All verified July 2026."
+          "text": `The best current options marked good for video calls are ${goodForCalls.map(p => `${p.data.name} in ${p.data.neighborhood} (${p.data.wifi_down_mbps}/${p.data.wifi_up_mbps} Mbps)`).join(', ')}. The slowest active listing is ${slowest?.name} at ${slowest?.wifi_down_mbps} Mbps down.`
         }
       },
       {
@@ -143,7 +168,7 @@ const rankedCount = places.filter(p => p.data.status !== 'closed').length;
         "name": "Does Café San Alberto have good WiFi?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "No. Measured at 3 Mbps down / 1 Mbps up in July 2026 — bring a hotspot. The coffee and Plaza Santo Domingo location are exceptional."
+          "text": `No. Measured at ${sanAlberto?.wifi_down_mbps} Mbps down / ${sanAlberto?.wifi_up_mbps} Mbps up, verified ${sanAlberto?.last_tested} — bring a hotspot. The coffee and Plaza Santo Domingo location are exceptional.`
         }
       }
     ]

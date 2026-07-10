@@ -176,6 +176,20 @@ const eventJsonLd = {
       </a>
     </div>
 
+    <!-- Share this event -->
+    <div style="display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 1.5rem;">
+      <a href={`https://wa.me/?text=${encodeURIComponent(`${e.title} — ${formatDate(e.date)}${e.t0 ? ' ' + e.t0 : ''} at ${e.venue} in Cartagena. Full details: https://cartagenaup.com/events/${e.slug}/`)}`}
+        target="_blank" rel="noopener"
+        style="display: inline-flex; align-items: center; gap: 0.5rem; background: #25D366; color: white; font-size: 0.75rem; font-weight: 600; padding: 0.5rem 1rem; border-radius: 9999px; text-decoration: none;">
+        Share on WhatsApp
+      </a>
+      <button
+        onclick={`navigator.clipboard.writeText('https://cartagenaup.com/events/${e.slug}/').then(() => alert('Link copied!'))`}
+        style="display: inline-flex; align-items: center; gap: 0.5rem; border: 1px solid var(--card-border); color: var(--text-muted); background: transparent; font-size: 0.75rem; font-weight: 600; padding: 0.5rem 1rem; border-radius: 9999px; cursor: pointer;">
+        Copy link
+      </button>
+    </div>
+
     <!-- Source -->
     {e.source && (
       <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--border);">

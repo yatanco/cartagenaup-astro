@@ -37,7 +37,7 @@ function fmtDate(s) {
 
 <Base
   title="Cartagena Up — WiFi-Tested Cafés, Events & Local Guide"
-  description="The only guide to Cartagena with real WiFi speed tests — 16 verified cafés and coworking spaces, current events updated weekly, by local residents Yatan and Adri."
+  description="The only guide to Cartagena with real WiFi speed tests for verified cafés and coworking spaces, current events updated weekly, by local residents Yatan and Adri."
   lang="en"
   canonicalUrl="https://cartagenaup.com/">
 
@@ -81,12 +81,12 @@ function fmtDate(s) {
             <div style="display: flex; gap: 1rem; white-space: nowrap;">
               <div style="display: flex; align-items: baseline; gap: 0.25rem;">
                 <span style="font-size: 0.625rem; color: var(--text-muted);">↓</span>
-                <span style="font-size: 1.125rem; font-weight: 600; color: var(--fg); font-variant-numeric: tabular-nums;">{place.data.wifi_down_mbps}</span>
+                <span style="font-size: 1.125rem; font-weight: 600; color: var(--fg); font-variant-numeric: tabular-nums;">{Math.round(place.data.wifi_down_mbps)}</span>
                 <span style="font-size: 0.75rem; color: var(--text-muted);">Mbps</span>
               </div>
               <div style="display: flex; align-items: baseline; gap: 0.25rem;">
                 <span style="font-size: 0.625rem; color: var(--text-muted);">↑</span>
-                <span style="font-size: 1.125rem; font-weight: 600; color: var(--fg); font-variant-numeric: tabular-nums;">{place.data.wifi_up_mbps}</span>
+                <span style="font-size: 1.125rem; font-weight: 600; color: var(--fg); font-variant-numeric: tabular-nums;">{Math.round(place.data.wifi_up_mbps)}</span>
                 <span style="font-size: 0.75rem; color: var(--text-muted);">Mbps</span>
               </div>
             </div>

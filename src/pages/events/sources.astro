@@ -1,0 +1,118 @@
+---
+import Base from '../../layouts/Base.astro';
+const lang = 'en';
+
+const sources = [
+  {
+    name: 'Banco de la República',
+    body: "The main cultural center in Cartagena's historic center runs one of the city's most active free programming calendars — concerts, workshops, film, and exhibitions.",
+    website: { label: 'banrepcultural.org/actividades', url: 'https://www.banrepcultural.org/actividades' },
+    instagram: '@banrepcultural',
+  },
+  {
+    name: 'Espacio Cultural Claustro de la Merced',
+    body: "The cultural program run by the Universidad de Cartagena's OPC inside the historic cloister. We photograph the programming board monthly.",
+    instagram: '@opc.unicartagena',
+  },
+  {
+    name: 'Alianza Francesa / Colombo Francesa',
+    body: 'French-Colombian cultural center on Plaza Fernández de Madrid. Runs concerts, film, language events, and major festivals.',
+    instagram: '@afcartagenaco',
+  },
+  {
+    name: 'Casa Bolívar',
+    body: 'Ministry of Culture (Mincultura) cultural house in the historic center. Weekly free workshops in arts, crafts, dance, music, and literature.',
+    instagram: '@casabolivarctg',
+  },
+  {
+    name: 'Centro de Formación de la Cooperación Española',
+    body: 'Spanish cooperation center on Plaza Santo Domingo. Cultural programming open to the public.',
+    instagram: '@cfce_cartagena',
+  },
+  {
+    name: 'IPCC / Alcaldía de Cartagena',
+    body: "The city's official cultural institution publishes an annual calendar of 200+ events.",
+    website: { label: 'cartagena.gov.co/noticias', url: 'https://www.cartagena.gov.co/noticias' },
+    instagram: '@ipcc_cartagena',
+  },
+  {
+    name: 'Teatro Adolfo Mejía',
+    body: "Cartagena's main theatre, managed by the IPCC.",
+    instagram: '@tam.ctg',
+    tickets: { label: 'eticket.co', url: 'https://www.eticket.co' },
+  },
+  {
+    name: 'LGTBIQ+ Events',
+    body: 'We monitor local organizations for queer events, Pride programming, and community nights.',
+    instagram: '@lasafica.ctg · @caribeafirmativo · @blueapplebeach',
+  },
+  {
+    name: 'Cartagena Onchain',
+    body: 'Monthly Ethereum/Web3 meetups in the city.',
+    instagram: '@cartagenaonchain',
+  },
+];
+
+function instagramLinks(handles) {
+  return handles.split('·').map(h => h.trim());
+}
+---
+
+<Base
+  title="How We Find Events in Cartagena"
+  description="The verified local sources behind Cartagena Up's events calendar — updated weekly."
+  lang="en"
+  canonicalUrl="https://cartagenaup.com/events/sources/">
+
+  <div style="padding-top: 1.5rem;">
+    <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 1.25rem;">
+      <a href="/events/" style="color: #C45C26; text-decoration: none;">← This Week</a>
+    </p>
+
+    <h1 style="font-family: Georgia, serif; font-size: 1.875rem; font-weight: 400; margin: 0 0 1.25rem; color: var(--fg);">
+      How We Find Events in Cartagena
+    </h1>
+
+    <p style="font-size: 0.9375rem; color: var(--fg); line-height: 1.75; margin-bottom: 2rem;">
+      Every event on this page comes from a verified local source, checked by Yatan or Adri — Cartagena residents since 2021 and 2010 respectively. We don't scrape aggregators or republish AI-generated listings. We update every Monday.
+    </p>
+
+    <div style="display: grid; gap: 1.75rem;">
+      {sources.map(s => (
+        <div style="border-bottom: 1px solid var(--border); padding-bottom: 1.5rem;">
+          <h2 style="font-family: Georgia, serif; font-size: 1.0625rem; font-weight: 400; margin: 0 0 0.375rem; color: var(--fg);">
+            {s.name}
+          </h2>
+          <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.6; margin: 0 0 0.5rem;">
+            {s.body}
+          </p>
+          <div style="display: flex; gap: 1rem; flex-wrap: wrap; font-size: 0.8125rem;">
+            {s.website && (
+              <a href={s.website.url} target="_blank" rel="noopener" style="color: #C45C26; text-decoration: none;">
+                {s.website.label}
+              </a>
+            )}
+            {s.instagram && instagramLinks(s.instagram).map(handle => (
+              <a href={`https://instagram.com/${handle.replace('@', '')}`} target="_blank" rel="noopener" style="color: #C45C26; text-decoration: none;">
+                {handle}
+              </a>
+            ))}
+            {s.tickets && (
+              <a href={s.tickets.url} target="_blank" rel="noopener" style="color: #C45C26; text-decoration: none;">
+                Tickets: {s.tickets.label}
+              </a>
+            )}
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <p style="font-size: 0.875rem; color: var(--fg); margin-top: 2rem;">
+      Something missing?{' '}
+      <a href="https://wa.me/573163946401?text=Hi! I have a suggestion for a Cartagena event source." target="_blank" rel="noopener" style="color: #C45C26; text-decoration: none;">
+        Tell us on WhatsApp.
+      </a>
+    </p>
+  </div>
+
+</Base>

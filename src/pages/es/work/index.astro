@@ -7,11 +7,18 @@ import { getCollection } from 'astro:content';
 const lang = 'es';
 const places = (await getCollection('workPlaces', ({ data }) => data.active === true))
   .sort((a, b) => b.data.last_tested.localeCompare(a.data.last_tested));
+const rankable = places.filter(p => p.data.status !== 'closed');
+const rankedCount = rankable.length;
+
+const mostRecent = [...rankable].sort((a, b) => b.data.last_tested.localeCompare(a.data.last_tested))[0]?.data.last_tested;
+const verifiedMonth = mostRecent
+  ? new Date(mostRecent + 'T12:00:00').toLocaleDateString('es-CO', { month: 'long', year: 'numeric' })
+  : 'julio 2026';
 ---
 
 <Base
   title="Cafés y Coworking en Cartagena con WiFi Probado"
-  description="La única guía de cafés y coworking en Cartagena con datos reales de velocidad WiFi — bajada, subida y ping medidos en persona. Verificado julio 2026 por los residentes locales Yatan y Adri."
+  description={`La única guía de cafés y coworking en Cartagena con datos reales de velocidad WiFi — bajada, subida y ping medidos en persona. Verificado ${verifiedMonth} por los residentes locales Yatan y Adri.`}
   lang="es"
   canonicalUrl="https://cartagenaup.com/es/work/">
 
@@ -20,7 +27,17 @@ const places = (await getCollection('workPlaces', ({ data }) => data.active === 
       Cafés y Coworking con WiFi Probado en Cartagena
     </h1>
     <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 1rem;">
-      {places.length} lugares de trabajo con WiFi probado en Cartagena, Colombia — velocidades medidas en persona con Speedtest.net, verificado julio 2026 por Yatan y Adri.
+      {places.length} lugares de trabajo con WiFi probado en Cartagena, Colombia — velocidades medidas en persona con Speedtest.net, verificado {verifiedMonth} por Yatan y Adri.
+    </p>
+
+    <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.5rem;">
+      Ordenados por verificación más reciente.
+    </p>
+
+    <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 1.5rem;">
+      <a href="/es/work/fastest-wifi-cartagena/" style="color: #C45C26; text-decoration: none;">
+        Ver los {rankedCount} lugares clasificados por velocidad WiFi →
+      </a>
     </p>
 
     <div style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.7; display: grid; gap: 1rem; margin-bottom: 2rem; padding-bottom: 1.75rem; border-bottom: 1px solid var(--border);">
@@ -38,6 +55,10 @@ const places = (await getCollection('workPlaces', ({ data }) => data.active === 
     ))}
 
     <WhatsAppCTA lang="es" />
+
+    <a href="#top" style="font-size: 0.75rem; color: var(--text-muted); text-decoration: none; display: block; text-align: center; margin: 1rem 0 2rem;">
+      ↑ Volver arriba
+    </a>
   </div>
 
 </Base>
