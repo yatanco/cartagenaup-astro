@@ -87,6 +87,7 @@ const venues = defineCollection({
     type: z.string(),
     address: z.string().optional(),
     maps_link: z.string().optional(),
+    instagram: z.string().optional(),
     description: z.string(),
     description_es: z.string(),
     also_workplace: z.boolean().optional(),
