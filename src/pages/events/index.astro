@@ -20,9 +20,15 @@ const events = await getCollection('events');
     <h1 style="font-family: Georgia, serif; font-size: 1.875rem; font-weight: 400; margin: 0 0 0.5rem; color: var(--fg);">
       {t.events.title}
     </h1>
-    <p style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: 2rem; padding-bottom: 1.25rem; border-bottom: 1px solid var(--border);">
-      {t.events.description}
-    </p>
+    <div style="margin-bottom: 2rem; padding-bottom: 1.25rem; border-bottom: 1px solid var(--border);">
+      <p style="font-size: 0.875rem; color: var(--text-muted); margin: 0 0 0.5rem;">
+        {t.events.description}
+      </p>
+      <a href="/events/archive/"
+        style="font-size: 0.75rem; color: var(--text-muted); text-decoration: underline;">
+        View past events →
+      </a>
+    </div>
 
     <EventList client:visible events={events} lang={lang} t={t.events} />
   </div>

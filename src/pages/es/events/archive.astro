@@ -1,0 +1,96 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../../layouts/Base.astro';
+
+const lang = 'es';
+const today = new Date().toISOString().split('T')[0];
+
+const allEvents = await getCollection('events', ({ data }) => data.active !== false);
+
+// Past events: date < today AND (no end_date OR end_date < today)
+const pastEvents = allEvents
+  .filter(e => e.data.date < today && (!e.data.end_date || e.data.end_date < today))
+  .sort((a, b) => b.data.date.localeCompare(a.data.date)); // newest first
+
+// Group by month
+const grouped = pastEvents.reduce((acc, e) => {
+  const month = e.data.date.substring(0, 7); // "2026-07"
+  if (!acc[month]) acc[month] = [];
+  acc[month].push(e);
+  return acc;
+}, {});
+
+const months = Object.keys(grouped).sort().reverse();
+
+function formatMonth(monthStr) {
+  const [year, month] = monthStr.split('-');
+  return new Date(year, month - 1).toLocaleDateString('es-CO', { month: 'long', year: 'numeric' });
+}
+
+function formatDate(dateStr) {
+  return new Date(dateStr + 'T12:00:00').toLocaleDateString('es-CO', { day: 'numeric', month: 'short' });
+}
+
+function isFree(price) {
+  return price === 'gratis' || price === 'Free — open access' || price === 'Entrada libre';
+}
+---
+
+<Base
+  title="Archivo de Eventos Pasados en Cartagena"
+  description="Archivo de eventos culturales en Cartagena cubiertos por Cartagena Up."
+  lang="es"
+  canonicalUrl="https://cartagenaup.com/es/events/archive/">
+
+  <div style="padding-top: 2rem;">
+    <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 1.25rem;">
+      <a href="/es/events/" style="color: #C45C26; text-decoration: none;">← Esta Semana</a>
+    </p>
+
+    <h1 style="font-family: Georgia, serif; font-size: 1.875rem; font-weight: 400; margin: 0 0 0.5rem; color: var(--fg);">
+      Eventos Pasados
+    </h1>
+    <p style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: 2rem; padding-bottom: 1.25rem; border-bottom: 1px solid var(--border);">
+      Eventos que hemos cubierto en Cartagena. {pastEvents.length} eventos archivados.
+    </p>
+
+    {months.map(month => (
+      <div style="margin-bottom: 2.5rem;">
+        <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+          <span style="font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); white-space: nowrap;">
+            {formatMonth(month)}
+          </span>
+          <div style="flex: 1; height: 1px; background: var(--border);"></div>
+        </div>
+
+        <div>
+          {grouped[month].map((e, idx) => (
+            <div style={`display: flex; align-items: baseline; gap: 0.75rem; flex-wrap: wrap; padding: 0.625rem 0; font-size: 0.875rem; ${idx < grouped[month].length - 1 ? 'border-bottom: 1px solid var(--border);' : ''}`}>
+              <span style="font-size: 0.75rem; color: var(--text-muted); white-space: nowrap; min-width: 3.75rem;">
+                {formatDate(e.data.date)}
+              </span>
+              <span style="color: var(--fg); flex: 1;">
+                {e.data.title}
+              </span>
+              <span style="font-size: 0.75rem; color: var(--text-muted); white-space: nowrap;">
+                {e.data.venue}
+              </span>
+              {isFree(e.data.price) && (
+                <span style="font-size: 0.65rem; background: rgba(22,163,74,0.12); color: #15803d; padding: 0.15rem 0.5rem; border-radius: 9999px; white-space: nowrap; font-weight: 600;">
+                  Gratis
+                </span>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+    ))}
+
+    {pastEvents.length === 0 && (
+      <p style="font-size: 0.875rem; color: var(--text-muted);">
+        Aún no hay eventos pasados — vuelve pronto.
+      </p>
+    )}
+  </div>
+
+</Base>

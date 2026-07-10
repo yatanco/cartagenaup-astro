@@ -30,6 +30,14 @@ const allEvents = await getCollection('events',
 );
 const upcomingEvents = allEvents.sort((a, b) => a.data.date.localeCompare(b.data.date));
 
+const pastVenueEvents = (await getCollection('events',
+  ({ data }) =>
+    data.active !== false &&
+    data.venue_slug === venue.slug &&
+    data.date < today &&
+    (!data.end_date || data.end_date < today)
+));
+
 const resolvedImages = await Promise.all(
   (venue.images || []).map(async (img) => {
     const src = getVenueImage(img.file);
@@ -145,6 +153,15 @@ const resolvedImages = await Promise.all(
     {upcomingEvents.length === 0 && (
       <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 1.5rem;">
         No upcoming events listed here yet.
+      </p>
+    )}
+
+    <!-- Past events archive link -->
+    {pastVenueEvents.length > 0 && (
+      <p style="font-size: 0.75rem; color: var(--text-muted); margin: 0 0 1.5rem;">
+        <a href="/events/archive/" style="color: var(--text-muted); text-decoration: underline;">
+          {pastVenueEvents.length} past event{pastVenueEvents.length !== 1 ? 's' : ''} archived from this venue →
+        </a>
       </p>
     )}
 
