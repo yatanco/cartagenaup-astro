@@ -1,0 +1,167 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../../layouts/Base.astro';
+
+const lang = 'es';
+
+const allPlaces = await getCollection('workPlaces',
+  ({ data }) =>
+    data.active !== false &&
+    data.status !== 'closed' &&
+    data.wifi_down_mbps !== undefined
+);
+
+const ranked = allPlaces.sort((a, b) =>
+  (b.data.wifi_down_mbps ?? 0) - (a.data.wifi_down_mbps ?? 0)
+);
+
+const fastest = ranked[0]?.data;
+const slowest = ranked[ranked.length - 1]?.data;
+const avg = Math.round(
+  ranked.reduce((sum, p) => sum + (p.data.wifi_down_mbps ?? 0), 0) / ranked.length
+);
+
+function shortDate(s) {
+  const d = new Date(s + 'T12:00:00');
+  return d.toLocaleDateString('es-CO', { day: 'numeric', month: 'short' });
+}
+
+const canonicalUrl = 'https://cartagenaup.com/es/work/fastest-wifi-cartagena/';
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "¿Qué café tiene el WiFi más rápido en Cartagena?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": `${fastest?.name} en ${fastest?.neighborhood} — ${fastest?.wifi_down_mbps} Mbps de bajada / ${fastest?.wifi_up_mbps} Mbps de subida, verificado ${shortDate(fastest?.last_tested)}.`,
+      },
+    },
+    {
+      "@type": "Question",
+      "name": "¿Es confiable el WiFi en Cartagena para trabajo remoto?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Varía significativamente. Los mejores lugares superan los 100 Mbps y son confiables para videollamadas. Verificado por residentes locales usando Speedtest.net.",
+      },
+    },
+  ],
+};
+---
+
+<Base
+  title="WiFi más rápido en Cartagena — Clasificado y Verificado"
+  description={`El WiFi más rápido en un café de Cartagena es de ${fastest?.wifi_down_mbps} Mbps en ${fastest?.name}, ${fastest?.neighborhood}. Los ${ranked.length} lugares clasificados por resultados reales de pruebas de velocidad. Actualizado ${shortDate(fastest?.last_tested)}.`}
+  lang="es"
+  canonicalUrl={canonicalUrl}>
+
+  <div style="padding-top: 1.5rem;">
+    <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 1.25rem;">
+      <a href="/es/work/" style="color: #C45C26; text-decoration: none;">← Todos los lugares</a>
+    </p>
+
+    <h1 style="font-family: Georgia, serif; font-size: 1.875rem; font-weight: 400; margin: 0 0 0.75rem; line-height: 1.2; color: var(--fg);">
+      WiFi más rápido en Cartagena — Clasificado
+    </h1>
+
+    <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 1.25rem;">
+      Cada velocidad medida en persona con Speedtest.net a un servidor local de Cartagena. Ordenado de más rápido a más lento. Última actualización {shortDate(fastest?.last_tested)}.
+    </p>
+
+    <div style="border: 0.5px solid var(--card-border); border-radius: 10px; padding: 1.25rem; margin-bottom: 2rem; background: var(--card-bg);">
+      <p style="font-size: 0.875rem; line-height: 1.7; color: var(--fg); margin: 0;">
+        <strong>Más rápido medido:</strong>{' '}
+        <a href={`/es/work/${fastest?.slug}/`} style="color: #C45C26; text-decoration: none; font-weight: 600;">
+          {fastest?.name}
+        </a>
+        {' '}en {fastest?.neighborhood} — {fastest?.wifi_down_mbps} Mbps de bajada / {fastest?.wifi_up_mbps} Mbps de subida.
+        Promedio entre los {ranked.length} lugares verificados: {avg} Mbps.
+      </p>
+    </div>
+
+    <div>
+      {ranked.map((place, i) => (
+        <div style={`display: flex; align-items: baseline; gap: 1rem; padding: 0.875rem 0; flex-wrap: wrap; ${i < ranked.length - 1 ? 'border-bottom: 1px solid var(--border);' : ''}`}>
+          <span style="font-size: 1.375rem; font-weight: 700; color: var(--text-muted); width: 2rem; flex-shrink: 0; text-align: right; font-variant-numeric: tabular-nums;">
+            {i + 1}
+          </span>
+
+          <div style="flex: 1; min-width: 0;">
+            <a href={`/es/work/${place.data.slug}/`}
+              style="font-family: Georgia, serif; font-size: 1rem; color: var(--fg); text-decoration: none;">
+              {place.data.name}
+            </a>
+            <span style="font-size: 0.75rem; color: var(--text-muted); margin-left: 0.5rem;">
+              {place.data.neighborhood}
+            </span>
+          </div>
+
+          <div style="display: flex; gap: 1.25rem; flex-shrink: 0;">
+            <div style="text-align: right;">
+              <span style="font-size: 0.6rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; display: block;">↓</span>
+              <span style="font-size: 1.125rem; font-weight: 600; color: var(--fg);">{place.data.wifi_down_mbps}</span>
+              <span style="font-size: 0.7rem; color: var(--text-muted);"> Mbps</span>
+            </div>
+            <div style="text-align: right;">
+              <span style="font-size: 0.6rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; display: block;">↑</span>
+              <span style="font-size: 1.125rem; font-weight: 600; color: var(--fg);">{place.data.wifi_up_mbps}</span>
+              <span style="font-size: 0.7rem; color: var(--text-muted);"> Mbps</span>
+            </div>
+            {place.data.wifi_latency_ms && (
+              <div style="text-align: right;">
+                <span style="font-size: 0.6rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; display: block;">Ping</span>
+                <span style="font-size: 1.125rem; font-weight: 600; color: var(--fg);">{place.data.wifi_latency_ms}</span>
+                <span style="font-size: 0.7rem; color: var(--text-muted);"> ms</span>
+              </div>
+            )}
+          </div>
+
+          <span style="font-size: 0.75rem; color: var(--text-muted); flex-shrink: 0; width: 3.5rem; text-align: right;">
+            {shortDate(place.data.last_tested)}
+          </span>
+        </div>
+      ))}
+    </div>
+
+    <div style="margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border);">
+      <h2 style="font-family: Georgia, serif; font-size: 1.375rem; font-weight: 400; margin: 0 0 1rem; color: var(--fg);">
+        Preguntas frecuentes
+      </h2>
+
+      <div style="display: grid; gap: 1.5rem;">
+        <div>
+          <h3 style="font-size: 0.9375rem; font-weight: 600; color: var(--fg); margin: 0 0 0.25rem;">
+            ¿Qué café tiene el WiFi más rápido en Cartagena?
+          </h3>
+          <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.6; margin: 0;">
+            {fastest?.name} en {fastest?.neighborhood} — {fastest?.wifi_down_mbps} Mbps de bajada / {fastest?.wifi_up_mbps} Mbps de subida, verificado {shortDate(fastest?.last_tested)}. Todas las velocidades de esta página fueron medidas en persona usando Speedtest.net.
+          </p>
+        </div>
+
+        <div>
+          <h3 style="font-size: 0.9375rem; font-weight: 600; color: var(--fg); margin: 0 0 0.25rem;">
+            ¿Es confiable el WiFi en Cartagena para trabajo remoto?
+          </h3>
+          <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.6; margin: 0;">
+            Varía significativamente. Los mejores lugares de esta lista ({ranked.slice(0, 3).map(p => p.data.name).join(', ')}) superan los 100 Mbps y son confiables para videollamadas. El lugar más lento ({slowest?.name}) midió apenas {slowest?.wifi_down_mbps} Mbps — suficiente para correo, no para videollamadas.
+          </p>
+        </div>
+
+        <div>
+          <h3 style="font-size: 0.9375rem; font-weight: 600; color: var(--fg); margin: 0 0 0.25rem;">
+            ¿Cómo se midieron estas velocidades?
+          </h3>
+          <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.6; margin: 0;">
+            Cada resultado de esta página fue medido en persona por Yatan o Adri, ambos residentes de Cartagena, usando Speedtest.net al servidor local más cercano. Las velocidades reflejan condiciones reales en el momento de la prueba y pueden variar según la hora del día y el número de usuarios.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
+
+</Base>

@@ -1,0 +1,167 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+
+const lang = 'en';
+
+const allPlaces = await getCollection('workPlaces',
+  ({ data }) =>
+    data.active !== false &&
+    data.status !== 'closed' &&
+    data.wifi_down_mbps !== undefined
+);
+
+const ranked = allPlaces.sort((a, b) =>
+  (b.data.wifi_down_mbps ?? 0) - (a.data.wifi_down_mbps ?? 0)
+);
+
+const fastest = ranked[0]?.data;
+const slowest = ranked[ranked.length - 1]?.data;
+const avg = Math.round(
+  ranked.reduce((sum, p) => sum + (p.data.wifi_down_mbps ?? 0), 0) / ranked.length
+);
+
+function shortDate(s) {
+  const d = new Date(s + 'T12:00:00');
+  return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+}
+
+const canonicalUrl = 'https://cartagenaup.com/work/fastest-wifi-cartagena/';
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What café has the fastest WiFi in Cartagena?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": `${fastest?.name} in ${fastest?.neighborhood} — ${fastest?.wifi_down_mbps} Mbps download / ${fastest?.wifi_up_mbps} Mbps upload, verified ${shortDate(fastest?.last_tested)}.`,
+      },
+    },
+    {
+      "@type": "Question",
+      "name": "Is the WiFi in Cartagena reliable for remote work?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It varies significantly. The top spots exceed 100 Mbps and are reliable for video calls. Verified by local residents using Speedtest.net.",
+      },
+    },
+  ],
+};
+---
+
+<Base
+  title="Fastest WiFi in Cartagena — Ranked & Verified"
+  description={`The fastest WiFi in a Cartagena café is ${fastest?.wifi_down_mbps} Mbps at ${fastest?.name} in ${fastest?.neighborhood}. All ${ranked.length} spots ranked by real speed test results. Updated ${shortDate(fastest?.last_tested)}.`}
+  lang="en"
+  canonicalUrl={canonicalUrl}>
+
+  <div style="padding-top: 1.5rem;">
+    <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 1.25rem;">
+      <a href="/work/" style="color: #C45C26; text-decoration: none;">← All Work Spots</a>
+    </p>
+
+    <h1 style="font-family: Georgia, serif; font-size: 1.875rem; font-weight: 400; margin: 0 0 0.75rem; line-height: 1.2; color: var(--fg);">
+      Fastest WiFi in Cartagena — Ranked
+    </h1>
+
+    <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 1.25rem;">
+      Every speed measured in person with Speedtest.net to a local Cartagena server. Sorted fastest to slowest. Last updated {shortDate(fastest?.last_tested)}.
+    </p>
+
+    <div style="border: 0.5px solid var(--card-border); border-radius: 10px; padding: 1.25rem; margin-bottom: 2rem; background: var(--card-bg);">
+      <p style="font-size: 0.875rem; line-height: 1.7; color: var(--fg); margin: 0;">
+        <strong>Fastest measured:</strong>{' '}
+        <a href={`/work/${fastest?.slug}/`} style="color: #C45C26; text-decoration: none; font-weight: 600;">
+          {fastest?.name}
+        </a>
+        {' '}in {fastest?.neighborhood} — {fastest?.wifi_down_mbps} Mbps down / {fastest?.wifi_up_mbps} Mbps up.
+        Average across all {ranked.length} verified spots: {avg} Mbps.
+      </p>
+    </div>
+
+    <div>
+      {ranked.map((place, i) => (
+        <div style={`display: flex; align-items: baseline; gap: 1rem; padding: 0.875rem 0; flex-wrap: wrap; ${i < ranked.length - 1 ? 'border-bottom: 1px solid var(--border);' : ''}`}>
+          <span style="font-size: 1.375rem; font-weight: 700; color: var(--text-muted); width: 2rem; flex-shrink: 0; text-align: right; font-variant-numeric: tabular-nums;">
+            {i + 1}
+          </span>
+
+          <div style="flex: 1; min-width: 0;">
+            <a href={`/work/${place.data.slug}/`}
+              style="font-family: Georgia, serif; font-size: 1rem; color: var(--fg); text-decoration: none;">
+              {place.data.name}
+            </a>
+            <span style="font-size: 0.75rem; color: var(--text-muted); margin-left: 0.5rem;">
+              {place.data.neighborhood}
+            </span>
+          </div>
+
+          <div style="display: flex; gap: 1.25rem; flex-shrink: 0;">
+            <div style="text-align: right;">
+              <span style="font-size: 0.6rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; display: block;">↓</span>
+              <span style="font-size: 1.125rem; font-weight: 600; color: var(--fg);">{place.data.wifi_down_mbps}</span>
+              <span style="font-size: 0.7rem; color: var(--text-muted);"> Mbps</span>
+            </div>
+            <div style="text-align: right;">
+              <span style="font-size: 0.6rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; display: block;">↑</span>
+              <span style="font-size: 1.125rem; font-weight: 600; color: var(--fg);">{place.data.wifi_up_mbps}</span>
+              <span style="font-size: 0.7rem; color: var(--text-muted);"> Mbps</span>
+            </div>
+            {place.data.wifi_latency_ms && (
+              <div style="text-align: right;">
+                <span style="font-size: 0.6rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; display: block;">Ping</span>
+                <span style="font-size: 1.125rem; font-weight: 600; color: var(--fg);">{place.data.wifi_latency_ms}</span>
+                <span style="font-size: 0.7rem; color: var(--text-muted);"> ms</span>
+              </div>
+            )}
+          </div>
+
+          <span style="font-size: 0.75rem; color: var(--text-muted); flex-shrink: 0; width: 3.5rem; text-align: right;">
+            {shortDate(place.data.last_tested)}
+          </span>
+        </div>
+      ))}
+    </div>
+
+    <div style="margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border);">
+      <h2 style="font-family: Georgia, serif; font-size: 1.375rem; font-weight: 400; margin: 0 0 1rem; color: var(--fg);">
+        Frequently asked
+      </h2>
+
+      <div style="display: grid; gap: 1.5rem;">
+        <div>
+          <h3 style="font-size: 0.9375rem; font-weight: 600; color: var(--fg); margin: 0 0 0.25rem;">
+            What café has the fastest WiFi in Cartagena?
+          </h3>
+          <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.6; margin: 0;">
+            {fastest?.name} in {fastest?.neighborhood} — {fastest?.wifi_down_mbps} Mbps download / {fastest?.wifi_up_mbps} Mbps upload, verified {shortDate(fastest?.last_tested)}. All speeds on this page were measured in person using Speedtest.net.
+          </p>
+        </div>
+
+        <div>
+          <h3 style="font-size: 0.9375rem; font-weight: 600; color: var(--fg); margin: 0 0 0.25rem;">
+            Is the WiFi in Cartagena reliable for remote work?
+          </h3>
+          <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.6; margin: 0;">
+            It varies significantly. The top spots on this list ({ranked.slice(0, 3).map(p => p.data.name).join(', ')}) all exceed 100 Mbps and are reliable for video calls. The slowest spot ({slowest?.name}) measured just {slowest?.wifi_down_mbps} Mbps — fine for email, not for calls.
+          </p>
+        </div>
+
+        <div>
+          <h3 style="font-size: 0.9375rem; font-weight: 600; color: var(--fg); margin: 0 0 0.25rem;">
+            How were these speeds measured?
+          </h3>
+          <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.6; margin: 0;">
+            Every result on this page was measured in person by Yatan or Adri, both Cartagena residents, using Speedtest.net to the nearest local server. Speeds reflect real-world conditions at the time of testing and may vary by time of day and number of users.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
+
+</Base>

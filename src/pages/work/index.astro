@@ -7,6 +7,7 @@ import { getCollection } from 'astro:content';
 const lang = 'en';
 const places = (await getCollection('workPlaces', ({ data }) => data.active === true))
   .sort((a, b) => b.data.last_tested.localeCompare(a.data.last_tested));
+const rankedCount = places.filter(p => p.data.status !== 'closed').length;
 ---
 
 <Base
@@ -22,6 +23,12 @@ const places = (await getCollection('workPlaces', ({ data }) => data.active === 
 
     <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 1rem;">
       {places.length} WiFi-tested work spots in Cartagena, Colombia — speeds measured in person using Speedtest.net, verified July 2026 by Yatan and Adri.
+    </p>
+
+    <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 1.5rem;">
+      <a href="/work/fastest-wifi-cartagena/" style="color: #C45C26; text-decoration: none;">
+        See all {rankedCount} spots ranked by WiFi speed →
+      </a>
     </p>
 
     <div style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.7; display: grid; gap: 1rem; margin-bottom: 2rem; padding-bottom: 1.75rem; border-bottom: 1px solid var(--border);">
