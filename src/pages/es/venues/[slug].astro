@@ -21,6 +21,15 @@ export async function getStaticPaths() {
 const { venue } = Astro.props;
 const lang = 'es';
 
+const today = new Date().toISOString().split('T')[0];
+const allEvents = await getCollection('events',
+  ({ data }) =>
+    data.active !== false &&
+    data.venue_slug === venue.slug &&
+    (data.date >= today || (data.end_date && data.end_date >= today))
+);
+const upcomingEvents = allEvents.sort((a, b) => a.data.date.localeCompare(b.data.date));
+
 const resolvedImages = await Promise.all(
   (venue.images || []).map(async (img) => {
     const src = getVenueImage(img.file);
@@ -63,6 +72,20 @@ const resolvedImages = await Promise.all(
       {venue.address && ` · ${venue.address}`}
     </p>
 
+    <!-- Instagram -->
+    {venue.instagram && (
+      <a href={`https://instagram.com/${venue.instagram.replace('@', '')}`}
+        target="_blank" rel="noopener"
+        style="display: inline-flex; align-items: center; gap: 0.375rem; font-size: 0.75rem; color: var(--text-muted); text-decoration: none; margin: 0 0 1.5rem;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+          <circle cx="12" cy="12" r="4"></circle>
+          <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"></circle>
+        </svg>
+        {venue.instagram}
+      </a>
+    )}
+
     <!-- Description -->
     <p style="font-size: 0.9375rem; line-height: 1.7; color: var(--fg); margin-bottom: 1.5rem;">
       {venue.description_es}
@@ -82,6 +105,47 @@ const resolvedImages = await Promise.all(
           Ver listado de trabajo →
         </a>
       </div>
+    )}
+
+    <!-- Próximos eventos -->
+    {upcomingEvents.length > 0 && (
+      <div style="margin-bottom: 2rem;">
+        <h2 style="font-family: Georgia, serif; font-size: 1.25rem; font-weight: 400; margin: 0 0 1rem; color: var(--fg);">
+          Próximos eventos aquí
+        </h2>
+        <div>
+          {upcomingEvents.map((e, idx) => (
+            <div style={`display: flex; align-items: baseline; gap: 0.75rem; flex-wrap: wrap; padding: 0.75rem 0; ${idx < upcomingEvents.length - 1 ? 'border-bottom: 1px solid var(--border);' : ''}`}>
+              <span style="font-size: 0.7rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.04em; white-space: nowrap; min-width: 4.5rem;">
+                {new Date(e.data.date + 'T12:00:00').toLocaleDateString('es-CO', { day: 'numeric', month: 'short' })}
+              </span>
+              {e.data.t0 && (
+                <span style="font-size: 0.75rem; color: var(--text-muted); white-space: nowrap;">
+                  {e.data.t0}
+                </span>
+              )}
+              <span style="font-size: 0.875rem; color: var(--fg); flex: 1;">
+                {e.data.title}
+              </span>
+              {(e.data.price === 'gratis' || e.data.price === 'Free — open access' || e.data.price === 'Entrada libre') && (
+                <span style="font-size: 0.65rem; background: rgba(22,163,74,0.12); color: #15803d; padding: 0.15rem 0.5rem; border-radius: 9999px; white-space: nowrap; font-weight: 600;">
+                  Gratis
+                </span>
+              )}
+            </div>
+          ))}
+        </div>
+        <a href="/es/events/"
+          style="font-size: 0.75rem; color: #C45C26; text-decoration: none; font-weight: 600; margin-top: 1rem; display: inline-block;">
+          Ver todos los eventos →
+        </a>
+      </div>
+    )}
+
+    {upcomingEvents.length === 0 && (
+      <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 1.5rem;">
+        No hay eventos próximos registrados aquí.
+      </p>
     )}
 
     <!-- Maps link -->
