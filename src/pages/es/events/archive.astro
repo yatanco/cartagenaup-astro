@@ -69,9 +69,9 @@ function isFree(price) {
               <span style="font-size: 0.75rem; color: var(--text-muted); white-space: nowrap; min-width: 3.75rem;">
                 {formatDate(e.data.date)}
               </span>
-              <span style="color: var(--fg); flex: 1;">
+              <a href={`/es/events/${e.data.slug}/`} class="event-title-link" style="color: var(--fg); flex: 1; text-decoration: none;">
                 {e.data.title}
-              </span>
+              </a>
               <span style="font-size: 0.75rem; color: var(--text-muted); white-space: nowrap;">
                 {e.data.venue}
               </span>
