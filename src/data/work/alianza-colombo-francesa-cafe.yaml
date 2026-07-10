@@ -1,0 +1,30 @@
+name: "Alianza Colombo Francesa — Café & Patio"
+slug: alianza-colombo-francesa-cafe
+neighborhood: "Centro Histórico"
+type: "cafe"
+last_tested: "2026-07-09"
+tested_by: "Yatan"
+wifi_network: "movistar"
+wifi_down_mbps: 367.31
+wifi_up_mbps: 262.97
+wifi_latency_ms: 8
+wifi_isp: "Movistar"
+wifi_note: "Fiber connection, second fastest measured in Cartagena. Speed test resolved to Barranquilla server — connection is local Movistar fiber."
+video_calls: "good"
+outlets: "limited"
+ac: false
+noise_level: "quiet"
+best_time: "Mornings and early afternoons — before the heat builds up in the open courtyard"
+best_spot: "Tables on one side of the courtyard have easier access to outlets — check when you arrive"
+price_to_stay: "Café on site — order something and settle in"
+hours: ""
+maps_link: "https://share.google/z3xhNN0kTXYHBEm4r"
+address: "Plaza Fernández de Madrid, Centro Histórico, Cartagena"
+local_note: "The open courtyard café of the Alianza Colombo Francesa, on one of the most beautiful squares in the historic center — Plaza Fernández de Madrid. White colonial arches, string lights, vines overhead, tables in a peaceful patio. The WiFi is exceptional: 367 Mbps down / 262 Mbps up on Movistar fiber. No AC so the heat is a factor — mornings and early afternoons are the sweet spot. Outlets are available on one side of the courtyard, limited on the other. A wanderer's work spot: drop in for a few hours while exploring the center, connect fast, enjoy the setting. Also has a public library inside. One of the most photogenic places to work in Cartagena."
+local_note_es: "El café de patio abierto de la Alianza Colombo Francesa, en una de las plazas más hermosas del centro histórico — Plaza Fernández de Madrid. Arcos coloniales blancos, luces colgantes, enredaderas en el techo, mesas en un patio tranquilo. El WiFi es excepcional: 367 Mbps de bajada / 262 Mbps de subida en fibra Movistar. Sin aire acondicionado, así que el calor es un factor — las mañanas y primeras horas de la tarde son el mejor momento. Hay enchufes disponibles en un lado del patio, limitados en el otro. Ideal para trabajar unas horas mientras se recorre el centro. También tiene biblioteca pública adentro. Uno de los lugares más fotogénicos para trabajar en Cartagena."
+images:
+  - file: alianza-colombo-francesa-cafe.jpg
+    caption: "Alianza Colombo Francesa — colonial courtyard at night, Plaza Fernández de Madrid"
+    credit: "Cartagena Up"
+whatsapp_update_text: "Update for Alianza Colombo Francesa listing on Cartagena Up"
+active: true
