@@ -49,6 +49,13 @@ const venues = (await getCollection('venues', ({ data }) => data.active !== fals
           <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.6; margin: 0 0 0.75rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
             {venue.data.description}
           </p>
+          {venue.data.instagram && (
+            <a href={`https://instagram.com/${venue.data.instagram.replace('@', '')}`}
+              target="_blank" rel="noopener"
+              style="font-size: 0.75rem; color: var(--text-muted); text-decoration: none; display: block; margin-bottom: 0.5rem;">
+              {venue.data.instagram}
+            </a>
+          )}
           <a href={`/venues/${venue.data.slug}/`}
             style="font-size: 0.75rem; color: #C45C26; text-decoration: none; font-weight: 600;">
             See venue →
