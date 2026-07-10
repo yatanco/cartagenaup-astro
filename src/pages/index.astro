@@ -16,10 +16,8 @@ const activeWork = allWork
 const allEvents = await getCollection('events');
 const upcomingEvents = allEvents
   .filter(e =>
-    e.data.active !== false && (
-      e.data.date >= today ||
-      (e.data.end_date && e.data.end_date >= today)
-    )
+    e.data.active !== false &&
+    e.data.date >= today // only future start dates — ongoing exhibitions belong on /events/
   )
   .sort((a, b) => a.data.date.localeCompare(b.data.date))
   .slice(0, 5);

@@ -37,6 +37,9 @@ function groupByDate(events) {
   }, {});
 }
 
+const isGratis = (price) =>
+  price === 'gratis' || price === 'Free — open access' || price === 'Gratis';
+
 function Initials({ title, type }) {
   const words = (title || '').split(' ').filter(Boolean);
   const initials = (words[0]?.[0] || '') + (words[1]?.[0] || '');
@@ -62,6 +65,85 @@ function TypeTag({ type, lang }) {
     }}>
       {labels[type] || type}
     </span>
+  );
+}
+
+function EventCard({ e, lang, t, showUntil, isLast }) {
+  return (
+    <div
+      style={{
+        display: 'flex', gap: '0.75rem', alignItems: 'flex-start',
+        padding: '0.875rem 1.25rem',
+        borderBottom: isLast ? 'none' : '1px solid var(--border)',
+      }}>
+
+      <Initials title={e.data.title} type={e.data.type} />
+
+      {/* Time / Until date */}
+      {showUntil ? (
+        <div style={{ flexShrink: 0, textAlign: 'right', minWidth: '2.75rem', paddingTop: '0.15rem' }}>
+          <span style={{ fontSize: '0.65rem', color: 'var(--text-muted)', display: 'block' }}>
+            {lang === 'es' ? 'Hasta' : 'Until'}
+          </span>
+          <span style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--fg)', display: 'block' }}>
+            {new Date(e.data.end_date + 'T12:00:00').toLocaleDateString(lang === 'es' ? 'es-CO' : 'en-GB', { day: 'numeric', month: 'short' })}
+          </span>
+        </div>
+      ) : (
+        <div style={{ flexShrink: 0, minWidth: '3rem', paddingTop: '0.15rem' }}>
+          <span style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--fg)', fontVariantNumeric: 'tabular-nums' }}>
+            {e.data.t0 && e.data.t0 !== 'TBC' ? e.data.t0 : ''}
+          </span>
+        </div>
+      )}
+
+      {/* Divider */}
+      <div style={{ width: '1px', background: 'var(--border)', alignSelf: 'stretch', flexShrink: 0, marginTop: '0.15rem' }} />
+
+      {/* Content */}
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <p style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--fg)', marginBottom: '0.15rem', lineHeight: 1.3 }}>
+          {e.data.title}
+        </p>
+        <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginBottom: '0.4rem' }}>
+          {e.data.venue_slug
+            ? <a href={lang === 'es' ? `/es/venues/${e.data.venue_slug}/` : `/venues/${e.data.venue_slug}/`}
+                style={{ color: '#C45C26', textDecoration: 'none' }}
+                onClick={ev => ev.stopPropagation()}>
+                {e.data.venue}
+              </a>
+            : e.data.venue}
+          {e.data.neighborhood ? ` · ${e.data.neighborhood}` : ''}
+        </p>
+        <div style={{ display: 'flex', gap: '0.35rem', flexWrap: 'wrap', marginBottom: '0.4rem', alignItems: 'center' }}>
+          {e.data.type && <TypeTag type={e.data.type} lang={lang} />}
+          {isGratis(e.data.price) && (
+            <span style={{ fontSize: '0.65rem', padding: '0.15rem 0.5rem', borderRadius: '4px', background: 'rgba(22,163,74,0.12)', color: '#15803d', fontWeight: 600 }}>
+              {lang === 'es' ? 'Gratis' : 'Free'}
+            </span>
+          )}
+          {e.data.confirmed && (
+            <span style={{ fontSize: '0.65rem', color: 'var(--text-muted)' }}>✓ {lang === 'es' ? 'confirmado' : 'confirmed'}</span>
+          )}
+        </div>
+        {!showUntil && e.data.end_date && (
+          <p style={{ fontSize: '0.7rem', color: 'var(--text-muted)', marginBottom: '0.25rem' }}>
+            {t.onUntil} {e.data.end_date}
+          </p>
+        )}
+        {(lang === 'en' ? (e.data.notes_en || e.data.notes) : e.data.notes) && (
+          <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', lineHeight: 1.55 }}>
+            {lang === 'en' ? (e.data.notes_en || e.data.notes) : e.data.notes}
+          </p>
+        )}
+        {e.data.maps_link && (
+          <a href={e.data.maps_link} target="_blank" rel="noopener"
+            style={{ fontSize: '0.75rem', color: '#C45C26', textDecoration: 'none', marginTop: '0.25rem', display: 'inline-block' }}>
+            📍 {lang === 'es' ? 'Ver en mapa' : 'Open in Maps'}
+          </a>
+        )}
+      </div>
+    </div>
   );
 }
 
@@ -98,7 +180,23 @@ export default function EventList({ events, lang, t }) {
     });
   }, [upcoming, filter, search]);
 
-  const grouped = groupByDate(filtered);
+  // Events starting today or in the future
+  const starting = useMemo(() =>
+    filtered
+      .filter(e => e.data.date >= today)
+      .sort((a, b) => a.data.date.localeCompare(b.data.date)),
+    [filtered, today]
+  );
+
+  // Events that already started but are still running (e.g. ongoing exhibitions)
+  const ongoing = useMemo(() =>
+    filtered
+      .filter(e => e.data.date < today && e.data.end_date && e.data.end_date >= today)
+      .sort((a, b) => a.data.end_date.localeCompare(b.data.end_date)),
+    [filtered, today]
+  );
+
+  const grouped = groupByDate(starting);
   const sortedDates = Object.keys(grouped).sort();
 
   const pills = [
@@ -108,9 +206,6 @@ export default function EventList({ events, lang, t }) {
     { key: 'gratis',   label: t.filterFree },
     { key: 'lgbtq',    label: t.filterPride },
   ];
-
-  const isGratis = (price) =>
-    price === 'gratis' || price === 'Free — open access' || price === 'Gratis';
 
   return (
     <div>
@@ -150,7 +245,7 @@ export default function EventList({ events, lang, t }) {
         </p>
       </div>
 
-      {/* Day groups */}
+      {/* Day groups — events starting today or later */}
       {sortedDates.map(date => (
         <div key={date} style={{ marginBottom: '2rem' }}>
           {/* Day header */}
@@ -169,73 +264,37 @@ export default function EventList({ events, lang, t }) {
             borderRadius: '12px', overflow: 'hidden',
           }}>
             {grouped[date].map((e, idx) => (
-              <div key={e.id}
-                style={{
-                  display: 'flex', gap: '0.75rem', alignItems: 'flex-start',
-                  padding: '0.875rem 1.25rem',
-                  borderBottom: idx < grouped[date].length - 1 ? '1px solid var(--border)' : 'none',
-                }}>
-
-                <Initials title={e.data.title} type={e.data.type} />
-
-                {/* Time */}
-                <div style={{ flexShrink: 0, minWidth: '3rem', paddingTop: '0.15rem' }}>
-                  <span style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--fg)', fontVariantNumeric: 'tabular-nums' }}>
-                    {e.data.t0 && e.data.t0 !== 'TBC' ? e.data.t0 : ''}
-                  </span>
-                </div>
-
-                {/* Divider */}
-                <div style={{ width: '1px', background: 'var(--border)', alignSelf: 'stretch', flexShrink: 0, marginTop: '0.15rem' }} />
-
-                {/* Content */}
-                <div style={{ flex: 1, minWidth: 0 }}>
-                  <p style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--fg)', marginBottom: '0.15rem', lineHeight: 1.3 }}>
-                    {e.data.title}
-                  </p>
-                  <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginBottom: '0.4rem' }}>
-                    {e.data.venue_slug
-                      ? <a href={lang === 'es' ? `/es/venues/${e.data.venue_slug}/` : `/venues/${e.data.venue_slug}/`}
-                          style={{ color: '#C45C26', textDecoration: 'none' }}
-                          onClick={ev => ev.stopPropagation()}>
-                          {e.data.venue}
-                        </a>
-                      : e.data.venue}
-                    {e.data.neighborhood ? ` · ${e.data.neighborhood}` : ''}
-                  </p>
-                  <div style={{ display: 'flex', gap: '0.35rem', flexWrap: 'wrap', marginBottom: '0.4rem', alignItems: 'center' }}>
-                    {e.data.type && <TypeTag type={e.data.type} lang={lang} />}
-                    {isGratis(e.data.price) && (
-                      <span style={{ fontSize: '0.65rem', padding: '0.15rem 0.5rem', borderRadius: '4px', background: 'rgba(22,163,74,0.12)', color: '#15803d', fontWeight: 600 }}>
-                        {lang === 'es' ? 'Gratis' : 'Free'}
-                      </span>
-                    )}
-                    {e.data.confirmed && (
-                      <span style={{ fontSize: '0.65rem', color: 'var(--text-muted)' }}>✓ {lang === 'es' ? 'confirmado' : 'confirmed'}</span>
-                    )}
-                  </div>
-                  {e.data.end_date && (
-                    <p style={{ fontSize: '0.7rem', color: 'var(--text-muted)', marginBottom: '0.25rem' }}>
-                      {t.onUntil} {e.data.end_date}
-                    </p>
-                  )}
-                  {(lang === 'en' ? (e.data.notes_en || e.data.notes) : e.data.notes) && (
-                    <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', lineHeight: 1.55 }}>
-                      {lang === 'en' ? (e.data.notes_en || e.data.notes) : e.data.notes}
-                    </p>
-                  )}
-                  {e.data.maps_link && (
-                    <a href={e.data.maps_link} target="_blank" rel="noopener"
-                      style={{ fontSize: '0.75rem', color: '#C45C26', textDecoration: 'none', marginTop: '0.25rem', display: 'inline-block' }}>
-                      📍 {lang === 'es' ? 'Ver en mapa' : 'Open in Maps'}
-                    </a>
-                  )}
-                </div>
-              </div>
+              <EventCard key={e.id} e={e} lang={lang} t={t}
+                isLast={idx === grouped[date].length - 1} />
             ))}
           </div>
         </div>
       ))}
+
+      {/* Ongoing — started in the past, still running */}
+      {ongoing.length > 0 && (
+        <div style={{ marginBottom: '2rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.75rem' }}>
+            <span style={{
+              fontSize: '0.7rem', fontWeight: 700, color: 'var(--text-muted)',
+              textTransform: 'uppercase', letterSpacing: '0.08em', whiteSpace: 'nowrap',
+            }}>
+              {lang === 'es' ? 'En curso' : 'Ongoing'}
+            </span>
+            <div style={{ flex: 1, height: '1px', background: 'var(--border)' }} />
+          </div>
+
+          <div style={{
+            background: 'var(--card-bg)', border: '0.5px solid var(--card-border)',
+            borderRadius: '12px', overflow: 'hidden',
+          }}>
+            {ongoing.map((e, idx) => (
+              <EventCard key={e.id} e={e} lang={lang} t={t} showUntil
+                isLast={idx === ongoing.length - 1} />
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
