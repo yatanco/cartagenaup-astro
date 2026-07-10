@@ -42,13 +42,16 @@ const altPath = lang === 'es'
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>{title} · Cartagena Up</title>
+  {title.startsWith('Cartagena Up')
+    ? <title>{title}</title>
+    : <title>{title} · Cartagena Up</title>
+  }
   <meta name="description" content={description} />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
-  <meta property="og:title"       content={`${title} · Cartagena Up`} />
+  <meta property="og:title"       content={title.startsWith('Cartagena Up') ? title : `${title} · Cartagena Up`} />
   <meta property="og:description" content={description} />
   <meta property="og:site_name"   content="Cartagena Up" />
   <meta property="og:image"       content="https://cartagenaup.com/og-image.png" />
@@ -138,7 +141,7 @@ const altPath = lang === 'es'
 
   <footer style="border-top: 1px solid var(--border); margin-top: 0;">
     <div style="max-width: 42rem; margin: 0 auto; padding: 1.5rem 1.25rem; font-size: 0.7rem; color: var(--text-muted);">
-      Cartagena Up · {t.footer.tagline} · {t.footer.lastUpdated}: 2026-06
+      Cartagena Up · {t.footer.tagline} · {t.footer.lastUpdated}: {new Date().toLocaleDateString(lang === 'es' ? 'es-CO' : 'en-GB', { month: 'short', year: 'numeric' })}
     </div>
   </footer>
 

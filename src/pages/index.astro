@@ -13,6 +13,13 @@ const activeWork = allWork
   .sort((a, b) => b.data.last_tested.localeCompare(a.data.last_tested))
   .slice(0, 3);
 
+const verifiedPlaces = allWork.filter(p => p.data.status !== 'closed');
+const mostRecent = verifiedPlaces
+  .sort((a, b) => b.data.last_tested.localeCompare(a.data.last_tested))[0]?.data.last_tested;
+const verifiedLabel = mostRecent
+  ? new Date(mostRecent + 'T12:00:00').toLocaleDateString('en-GB', { month: 'short', year: 'numeric' })
+  : 'Jul 2026';
+
 const allEvents = await getCollection('events');
 const upcomingEvents = allEvents
   .filter(e =>
@@ -29,15 +36,15 @@ function fmtDate(s) {
 ---
 
 <Base
-  title="Cartagena Up"
-  description="Cartagena. Just updated. WiFi-tested work spots, current events, and honest beach logistics — by someone who lives here."
+  title="Cartagena Up — WiFi-Tested Cafés, Events & Local Guide"
+  description="The only guide to Cartagena with real WiFi speed tests — 16 verified cafés and coworking spaces, current events updated weekly, by local residents Yatan and Adri."
   lang="en"
   canonicalUrl="https://cartagenaup.com/">
 
   <!-- Dark hero — breaks out of main padding -->
   <section style="background: #1C1A17; margin: 0 -1.25rem; padding: 2.5rem 1.25rem 2rem;">
     <p style="font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #C45C26; margin: 0 0 0.875rem;">
-      Cartagena de Indias · Verified Jun 2026
+      Cartagena de Indias · Verified {verifiedLabel}
     </p>
     <h1 style="font-family: Georgia, serif; font-weight: 400; font-size: clamp(2.2rem, 6vw, 3.2rem); line-height: 1.1; color: #FAF7F2; margin: 0 0 0.875rem;">
       Cartagena. <em style="font-style: italic; color: #C8943A;">Just updated.</em>
