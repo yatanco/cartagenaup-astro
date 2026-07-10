@@ -164,4 +164,14 @@ const faqJsonLd = {
 
   <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
 
+  {import.meta.env.PROD && (
+    <script is:inline>
+      document.addEventListener('astro:page-load', function () {
+        if (typeof gtag === 'function') {
+          gtag('event', 'view_wifi_ranking', { page_location: location.href });
+        }
+      });
+    </script>
+  )}
+
 </Base>
