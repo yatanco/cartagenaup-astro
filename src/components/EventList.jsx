@@ -194,7 +194,14 @@ export default function EventList({ events, lang, t }) {
                     {e.data.title}
                   </p>
                   <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginBottom: '0.4rem' }}>
-                    {e.data.venue}{e.data.neighborhood ? ` · ${e.data.neighborhood}` : ''}
+                    {e.data.venue_slug
+                      ? <a href={lang === 'es' ? `/es/venues/${e.data.venue_slug}/` : `/venues/${e.data.venue_slug}/`}
+                          style={{ color: '#C45C26', textDecoration: 'none' }}
+                          onClick={ev => ev.stopPropagation()}>
+                          {e.data.venue}
+                        </a>
+                      : e.data.venue}
+                    {e.data.neighborhood ? ` · ${e.data.neighborhood}` : ''}
                   </p>
                   <div style={{ display: 'flex', gap: '0.35rem', flexWrap: 'wrap', marginBottom: '0.4rem', alignItems: 'center' }}>
                     {e.data.type && <TypeTag type={e.data.type} lang={lang} />}

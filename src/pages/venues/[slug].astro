@@ -1,0 +1,103 @@
+---
+import Base from '../../layouts/Base.astro';
+import PlaceCarousel from '../../components/PlaceCarousel.jsx';
+import { getCollection } from 'astro:content';
+import { getImage } from 'astro:assets';
+import { getVenueImage } from '../../utils/images';
+
+const TYPE_LABELS = {
+  'cultural-center': 'Cultural center',
+  'theatre': 'Theatre',
+};
+
+export async function getStaticPaths() {
+  const venues = await getCollection('venues', ({ data }) => data.active !== false);
+  return venues.map(venue => ({
+    params: { slug: venue.data.slug },
+    props: { venue: venue.data },
+  }));
+}
+
+const { venue } = Astro.props;
+const lang = 'en';
+
+const resolvedImages = await Promise.all(
+  (venue.images || []).map(async (img) => {
+    const src = getVenueImage(img.file);
+    if (!src) return { ...img, url: null, webpUrl: null };
+    const [webp, fallback] = await Promise.all([
+      getImage({ src, width: 1200, format: 'webp' }),
+      getImage({ src, width: 1200, format: 'jpeg' }),
+    ]);
+    return { ...img, url: fallback.src, webpUrl: webp.src };
+  })
+);
+---
+
+<Base
+  title={venue.name}
+  description={venue.description}
+  lang="en"
+  canonicalUrl={`https://cartagenaup.com/venues/${venue.slug}/`}>
+
+  <div style="padding-top: 1.5rem;">
+    <!-- Breadcrumb -->
+    <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 1.25rem;">
+      <a href="/venues/" style="color: #C45C26; text-decoration: none;">← Cultural Venues</a>
+    </p>
+
+    <!-- Photos -->
+    {resolvedImages.length > 0 && (
+      <div style="margin-bottom: 1.5rem;">
+        <PlaceCarousel client:visible images={resolvedImages} placeName={venue.name} />
+      </div>
+    )}
+
+    <!-- Name -->
+    <h1 style="font-family: Georgia, serif; font-size: 2rem; font-weight: 400; margin: 0 0 0.25rem; line-height: 1.15; color: var(--fg);">
+      {venue.name}
+    </h1>
+    <p style="font-size: 0.8125rem; color: var(--text-muted); margin: 0 0 1.5rem;">
+      {venue.neighborhood}
+      {venue.type && ` · ${TYPE_LABELS[venue.type] || venue.type}`}
+      {venue.address && ` · ${venue.address}`}
+    </p>
+
+    <!-- Description -->
+    <p style="font-size: 0.9375rem; line-height: 1.7; color: var(--fg); margin-bottom: 1.5rem;">
+      {venue.description}
+    </p>
+
+    <!-- Also a work spot callout -->
+    {venue.also_workplace && venue.workplace_slug && (
+      <div style="background: var(--color-cta-bg); border: 1px solid var(--color-cta-border); border-radius: 10px; padding: 1rem 1.25rem; margin-bottom: 1.5rem;">
+        <p style="font-size: 0.875rem; font-weight: 600; color: var(--fg); margin: 0 0 0.25rem;">
+          Also a verified work spot
+        </p>
+        <p style="font-size: 0.75rem; color: var(--text-muted); margin: 0 0 0.5rem; line-height: 1.5;">
+          WiFi tested in person. See the full listing for speeds, outlets, and honest notes.
+        </p>
+        <a href={`/work/${venue.workplace_slug}/`}
+          style="font-size: 0.75rem; color: #C45C26; text-decoration: none; font-weight: 600;">
+          See work spot listing →
+        </a>
+      </div>
+    )}
+
+    <!-- Maps link -->
+    {venue.maps_link && (
+      <a href={venue.maps_link} target="_blank" rel="noopener"
+        style="display: inline-flex; align-items: center; gap: 0.375rem; background: #C45C26; color: white; text-decoration: none; padding: 0.625rem 1.125rem; border-radius: 8px; font-size: 0.875rem; font-weight: 600; margin-bottom: 1.5rem;">
+        📍 Open in Google Maps
+      </a>
+    )}
+
+    <!-- Source -->
+    {venue.source && (
+      <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--border);">
+        Source: {venue.source}
+      </p>
+    )}
+  </div>
+
+</Base>
