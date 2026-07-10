@@ -102,9 +102,12 @@ function EventCard({ e, lang, t, showUntil, isLast }) {
 
       {/* Content */}
       <div style={{ flex: 1, minWidth: 0 }}>
-        <p style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--fg)', marginBottom: '0.15rem', lineHeight: 1.3 }}>
+        <a href={`/${lang === 'es' ? 'es/' : ''}events/${e.data.slug}/`}
+          className="event-title-link"
+          style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--fg)', marginBottom: '0.15rem', lineHeight: 1.3, textDecoration: 'none', display: 'block' }}
+          onClick={ev => ev.stopPropagation()}>
           {e.data.title}
-        </p>
+        </a>
         <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginBottom: '0.4rem' }}>
           {e.data.venue_slug
             ? <a href={lang === 'es' ? `/es/venues/${e.data.venue_slug}/` : `/venues/${e.data.venue_slug}/`}

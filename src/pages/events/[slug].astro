@@ -1,0 +1,189 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+
+const TYPE_LABELS = {
+  music: 'Music', cultural: 'Culture', taller: 'Workshop', festival: 'Festival',
+  sports: 'Sports', exposicion: 'Exhibition', lgbtq: 'LGTBIQ+', networking: 'Networking',
+};
+
+export async function getStaticPaths() {
+  const events = await getCollection('events', ({ data }) => data.active !== false);
+  return events.map(event => ({
+    params: { slug: event.data.slug },
+    props: { event },
+  }));
+}
+
+const { event } = Astro.props;
+const e = event.data;
+const lang = 'en';
+
+// Get venue data if venue_slug exists
+let venue = null;
+if (e.venue_slug) {
+  const venues = await getCollection('venues');
+  venue = venues.find(v => v.data.slug === e.venue_slug)?.data ?? null;
+}
+
+const today = new Date().toISOString().split('T')[0];
+const isPast = e.date < today && (!e.end_date || e.end_date < today);
+const isOngoing = e.date < today && e.end_date && e.end_date >= today;
+
+function formatDate(dateStr) {
+  return new Date(dateStr + 'T12:00:00').toLocaleDateString('en-GB', {
+    weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
+  });
+}
+
+const isFree = e.price === 'gratis' || e.price === 'Free — open access' || e.price === 'Entrada libre';
+
+const canonicalUrl = `https://cartagenaup.com/events/${e.slug}/`;
+
+const waText = encodeURIComponent(
+  `Hi! I found this event on Cartagena Up: ${e.title} on ${e.date}. cartagenaup.com/events/${e.slug}/`
+);
+
+const eventJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Event",
+  "name": e.title,
+  "startDate": e.t0 ? `${e.date}T${e.t0}:00` : e.date,
+  ...(e.end_date && {
+    "endDate": e.t1 ? `${e.end_date}T${e.t1}:00` : e.end_date,
+  }),
+  "location": {
+    "@type": "Place",
+    "name": e.venue,
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Cartagena",
+      "addressRegion": "Bolívar",
+      "addressCountry": "CO",
+    },
+  },
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "COP",
+    "availability": "https://schema.org/InStock",
+  },
+  "organizer": {
+    "@type": "Organization",
+    "name": e.venue,
+  },
+  "url": canonicalUrl,
+  "description": e.notes_en || e.notes || "",
+};
+---
+
+<Base
+  title={e.title}
+  description={e.notes_en || e.notes || `${e.title} at ${e.venue} in Cartagena.`}
+  lang="en"
+  canonicalUrl={canonicalUrl}>
+
+  <div style="padding-top: 1.5rem;">
+    <!-- Breadcrumb -->
+    <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 1.25rem;">
+      <a href="/events/" style="color: #C45C26; text-decoration: none;">← This Week</a>
+    </p>
+
+    <!-- Past / Ongoing badge -->
+    {isPast && (
+      <div style="display: inline-block; background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 8px; padding: 0.4rem 0.875rem; margin-bottom: 1.25rem; font-size: 0.75rem; color: var(--text-muted);">
+        This event has passed
+      </div>
+    )}
+    {isOngoing && (
+      <div style="display: inline-block; background: rgba(22,163,74,0.1); border: 1px solid rgba(22,163,74,0.25); border-radius: 8px; padding: 0.4rem 0.875rem; margin-bottom: 1.25rem; font-size: 0.75rem; color: #15803d;">
+        Ongoing — on until {formatDate(e.end_date)}
+      </div>
+    )}
+
+    <!-- Tags -->
+    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.75rem;">
+      {e.type && (
+        <span style="font-size: 0.65rem; padding: 0.25rem 0.7rem; border-radius: 9999px; background: var(--card-bg); border: 1px solid var(--card-border); color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600;">
+          {TYPE_LABELS[e.type] || e.type}
+        </span>
+      )}
+      {isFree && (
+        <span style="font-size: 0.65rem; padding: 0.25rem 0.7rem; border-radius: 9999px; background: rgba(22,163,74,0.12); color: #15803d; font-weight: 600;">
+          Free
+        </span>
+      )}
+      {e.confirmed && (
+        <span style="font-size: 0.65rem; padding: 0.25rem 0.7rem; border-radius: 9999px; background: var(--card-bg); border: 1px solid var(--card-border); color: var(--text-muted); font-weight: 600;">
+          ✓ confirmed
+        </span>
+      )}
+    </div>
+
+    <!-- Title -->
+    <h1 style="font-family: Georgia, serif; font-size: 2rem; font-weight: 400; margin: 0 0 1.25rem; line-height: 1.2; color: var(--fg);">
+      {e.title}
+    </h1>
+
+    <!-- Details -->
+    <div style="border: 0.5px solid var(--card-border); border-radius: 10px; padding: 1.25rem; margin-bottom: 1.5rem; background: var(--card-bg); display: grid; gap: 0.75rem;">
+      <div style="display: flex; gap: 0.75rem; font-size: 0.875rem;">
+        <span style="color: var(--text-muted); width: 5rem; flex-shrink: 0;">Date</span>
+        <span style="color: var(--fg); font-weight: 500;">
+          {formatDate(e.date)}
+          {e.end_date && e.end_date !== e.date && ` — ${formatDate(e.end_date)}`}
+        </span>
+      </div>
+      {e.t0 && (
+        <div style="display: flex; gap: 0.75rem; font-size: 0.875rem;">
+          <span style="color: var(--text-muted); width: 5rem; flex-shrink: 0;">Time</span>
+          <span style="color: var(--fg);">{e.t0}{e.t1 ? ` — ${e.t1}` : ''}</span>
+        </div>
+      )}
+      <div style="display: flex; gap: 0.75rem; font-size: 0.875rem;">
+        <span style="color: var(--text-muted); width: 5rem; flex-shrink: 0;">Venue</span>
+        <span style="color: var(--fg);">
+          {venue
+            ? <a href={`/venues/${e.venue_slug}/`} style="color: #C45C26; text-decoration: none;">{e.venue}</a>
+            : e.venue}
+          {e.neighborhood && ` · ${e.neighborhood}`}
+        </span>
+      </div>
+      <div style="display: flex; gap: 0.75rem; font-size: 0.875rem;">
+        <span style="color: var(--text-muted); width: 5rem; flex-shrink: 0;">Price</span>
+        <span style="color: var(--fg);">{isFree ? 'Free' : e.price}</span>
+      </div>
+    </div>
+
+    <!-- Notes -->
+    {(e.notes_en || e.notes) && (
+      <p style="font-size: 0.9375rem; line-height: 1.7; color: var(--fg); margin-bottom: 1.5rem;">
+        {e.notes_en || e.notes}
+      </p>
+    )}
+
+    <!-- Actions -->
+    <div style="display: flex; gap: 1.25rem; flex-wrap: wrap; margin-bottom: 1.5rem;">
+      {e.maps_link && (
+        <a href={e.maps_link} target="_blank" rel="noopener"
+          style="font-size: 0.875rem; color: #C45C26; text-decoration: none; font-weight: 600;">
+          📍 Open in Maps
+        </a>
+      )}
+      <a href={`https://wa.me/573163946401?text=${waText}`} target="_blank" rel="noopener"
+        style="font-size: 0.875rem; color: var(--text-muted); text-decoration: underline;">
+        Share on WhatsApp
+      </a>
+    </div>
+
+    <!-- Source -->
+    {e.source && (
+      <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--border);">
+        Source: {e.source}
+      </p>
+    )}
+  </div>
+
+  <script type="application/ld+json" set:html={JSON.stringify(eventJsonLd)} />
+
+</Base>
