@@ -2,9 +2,10 @@ name: "Alianza Francesa / Colombo Francesa de Cartagena"
 slug: alianza-francesa
 neighborhood: "Centro Histórico"
 type: "cultural-center"
-address: "Centro Histórico, Cartagena"
-maps_link: ""
-description: "A French-Colombian cultural center in Cartagena's historic center, hosting workshops, film screenings, language classes, and community meetups across a wide range of topics — from arts and culture to tech and networking events."
-description_es: "Centro cultural franco-colombiano en el centro histórico de Cartagena, con talleres, proyecciones de cine, clases de idiomas y encuentros comunitarios sobre temas variados — desde arte y cultura hasta eventos de tecnología y networking."
-also_workplace: false
+address: "Plaza Fernández de Madrid, Centro Histórico, Cartagena"
+maps_link: "https://share.google/z3xhNN0kTXYHBEm4r"
+description: "French-Colombian cultural center on Plaza Fernández de Madrid — one of the most beautiful squares in Cartagena's historic center. Houses a public library, a courtyard café, and runs cultural programming including film, language events, workshops, and tech meetups. The open colonial courtyard with white arches and string lights is also a verified work spot with exceptionally fast WiFi (367 Mbps)."
+description_es: "Centro cultural franco-colombiano en la Plaza Fernández de Madrid — una de las plazas más hermosas del centro histórico de Cartagena. Alberga una biblioteca pública, un café de patio y ofrece programación cultural incluyendo cine, eventos de idiomas, talleres y meetups de tecnología. El patio colonial abierto con arcos blancos es también un lugar de trabajo verificado con WiFi excepcionalmente rápido (367 Mbps)."
+also_workplace: true
+workplace_slug: "alianza-colombo-francesa-cafe"
 active: true
