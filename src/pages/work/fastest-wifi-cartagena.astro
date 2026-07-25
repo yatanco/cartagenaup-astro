@@ -5,20 +5,17 @@ import Base from '../../layouts/Base.astro';
 const lang = 'en';
 
 const allPlaces = await getCollection('workPlaces',
-  ({ data }) =>
-    data.active !== false &&
-    data.status !== 'closed' &&
-    data.wifi_down_mbps !== undefined
+  ({ data }) => data.status === 'active' && data.wifi.down !== null
 );
 
 const ranked = allPlaces.sort((a, b) =>
-  (b.data.wifi_down_mbps ?? 0) - (a.data.wifi_down_mbps ?? 0)
+  (b.data.wifi.down ?? 0) - (a.data.wifi.down ?? 0)
 );
 
 const fastest = ranked[0]?.data;
 const slowest = ranked[ranked.length - 1]?.data;
 const avg = Math.round(
-  ranked.reduce((sum, p) => sum + (p.data.wifi_down_mbps ?? 0), 0) / ranked.length
+  ranked.reduce((sum, p) => sum + (p.data.wifi.down ?? 0), 0) / ranked.length
 );
 
 function shortDate(s) {
@@ -37,7 +34,7 @@ const faqJsonLd = {
       "name": "What café has the fastest WiFi in Cartagena?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": `${fastest?.name} in ${fastest?.neighborhood} — ${fastest?.wifi_down_mbps} Mbps download / ${fastest?.wifi_up_mbps} Mbps upload, verified ${shortDate(fastest?.last_tested)}.`,
+        "text": `${fastest?.name} in ${fastest?.neighborhood} — ${fastest?.wifi.down} Mbps download / ${fastest?.wifi.up} Mbps upload, verified ${shortDate(fastest?.last_tested)}.`,
       },
     },
     {
@@ -54,7 +51,7 @@ const faqJsonLd = {
 
 <Base
   title="Fastest WiFi in Cartagena — Ranked & Verified"
-  description={`The fastest WiFi in a Cartagena café is ${fastest?.wifi_down_mbps} Mbps at ${fastest?.name} in ${fastest?.neighborhood}. Verified work spots ranked by real speed test results. Updated ${shortDate(fastest?.last_tested)}.`}
+  description={`The fastest WiFi in a Cartagena café is ${fastest?.wifi.down} Mbps at ${fastest?.name} in ${fastest?.neighborhood}. Verified work spots ranked by real speed test results. Updated ${shortDate(fastest?.last_tested)}.`}
   lang="en"
   canonicalUrl={canonicalUrl}>
 
@@ -77,7 +74,7 @@ const faqJsonLd = {
         <a href={`/work/${fastest?.slug}/`} style="color: #C45C26; text-decoration: none; font-weight: 600;">
           {fastest?.name}
         </a>
-        {' '}in {fastest?.neighborhood} — {fastest?.wifi_down_mbps} Mbps down / {fastest?.wifi_up_mbps} Mbps up.
+        {' '}in {fastest?.neighborhood} — {fastest?.wifi.down} Mbps down / {fastest?.wifi.up} Mbps up.
         Average across all {ranked.length} verified spots: {avg} Mbps.
       </p>
     </div>
@@ -102,18 +99,18 @@ const faqJsonLd = {
           <div style="display: flex; gap: 1.25rem; flex-shrink: 0;">
             <div style="text-align: right;">
               <span style="font-size: 0.6rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; display: block;">↓</span>
-              <span style="font-size: 1.125rem; font-weight: 600; color: var(--fg);">{place.data.wifi_down_mbps}</span>
+              <span style="font-size: 1.125rem; font-weight: 600; color: var(--fg);">{place.data.wifi.down}</span>
               <span style="font-size: 0.7rem; color: var(--text-muted);"> Mbps</span>
             </div>
             <div style="text-align: right;">
               <span style="font-size: 0.6rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; display: block;">↑</span>
-              <span style="font-size: 1.125rem; font-weight: 600; color: var(--fg);">{place.data.wifi_up_mbps}</span>
+              <span style="font-size: 1.125rem; font-weight: 600; color: var(--fg);">{place.data.wifi.up}</span>
               <span style="font-size: 0.7rem; color: var(--text-muted);"> Mbps</span>
             </div>
-            {place.data.wifi_latency_ms && (
+            {place.data.wifi.latency_ms && (
               <div style="text-align: right;">
                 <span style="font-size: 0.6rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; display: block;">Ping</span>
-                <span style="font-size: 1.125rem; font-weight: 600; color: var(--fg);">{place.data.wifi_latency_ms}</span>
+                <span style="font-size: 1.125rem; font-weight: 600; color: var(--fg);">{place.data.wifi.latency_ms}</span>
                 <span style="font-size: 0.7rem; color: var(--text-muted);"> ms</span>
               </div>
             )}
@@ -137,7 +134,7 @@ const faqJsonLd = {
             What café has the fastest WiFi in Cartagena?
           </h3>
           <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.6; margin: 0;">
-            {fastest?.name} in {fastest?.neighborhood} — {fastest?.wifi_down_mbps} Mbps download / {fastest?.wifi_up_mbps} Mbps upload, verified {shortDate(fastest?.last_tested)}. All speeds on this page were measured in person using Speedtest.net.
+            {fastest?.name} in {fastest?.neighborhood} — {fastest?.wifi.down} Mbps download / {fastest?.wifi.up} Mbps upload, verified {shortDate(fastest?.last_tested)}. All speeds on this page were measured in person using Speedtest.net.
           </p>
         </div>
 
@@ -146,7 +143,7 @@ const faqJsonLd = {
             Is the WiFi in Cartagena reliable for remote work?
           </h3>
           <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.6; margin: 0;">
-            It varies significantly. The top spots on this list ({ranked.slice(0, 3).map(p => p.data.name).join(', ')}) all exceed 100 Mbps and are reliable for video calls. The slowest spot ({slowest?.name}) measured just {slowest?.wifi_down_mbps} Mbps — fine for email, not for calls.
+            It varies significantly. The top spots on this list ({ranked.slice(0, 3).map(p => p.data.name).join(', ')}) all exceed 100 Mbps and are reliable for video calls. The slowest spot ({slowest?.name}) measured just {slowest?.wifi.down} Mbps — fine for email, not for calls.
           </p>
         </div>
 

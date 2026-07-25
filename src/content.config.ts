@@ -3,48 +3,55 @@ import { glob } from 'astro/loaders';
 
 const workPlaces = defineCollection({
   loader: glob({
-    pattern: '**/*.yaml',
-    base: './src/data/work'
+    pattern: '**/*.md',
+    base: './src/content/work'
   }),
   schema: z.object({
     name: z.string(),
     slug: z.string(),
     neighborhood: z.string(),
-    type: z.string(),
+    // Reflects actual data: cultural-space (not cultural-center), coworking added
+    // for the two closed listings, which are business/coworking spaces by nature —
+    // their closure is tracked separately via `status`, not by faking the type.
+    type: z.enum(['cafe', 'coworking', 'library', 'cultural-space']),
+    status: z.enum(['active', 'temporarily_closed', 'closed']).default('active'),
     last_tested: z.string(),
     tested_by: z.string().optional(),
-    status: z.string().optional(),
-    wifi_network: z.string().optional().nullable(),
-    wifi_down_mbps: z.number(),
-    wifi_up_mbps: z.number(),
-    wifi_latency_ms: z.number().optional().nullable(),
-    wifi_packet_loss_pct: z.number().optional().nullable(),
-    wifi_isp: z.string().optional().nullable(),
-    wifi_note: z.string().optional(),
-    video_calls: z.string().optional(),
-    outlets: z.string(),
-    ac: z.boolean(),
-    noise_level: z.string(),
-    best_time: z.string().optional(),
-    best_spot: z.string().optional(),
-    price_to_stay: z.string().optional(),
+    wifi: z.object({
+      network: z.string().optional().nullable(),
+      down: z.number().nonnegative().nullable(),
+      up: z.number().nonnegative().nullable(),
+      latency_ms: z.number().nonnegative().optional().nullable(),
+      isp: z.string().optional().nullable(),
+      video_calls: z.enum(['poor', 'fair', 'good', 'excellent']).optional(),
+    }),
+    workspace: z.object({
+      outlets: z.enum(['none', 'limited', 'some', 'many', 'n/a']),
+      ac: z.boolean(),
+      noise: z.enum(['quiet', 'moderate', 'loud', 'variable', 'n/a']),
+    }),
+    best_time: z.object({
+      en: z.string().optional(),
+      es: z.string().optional(),
+    }).optional(),
+    // Not in the original spec schema — dropped it silently would have lost real
+    // opening-hours data present on ~6 listings. Kept as a plain string.
     hours: z.string().optional(),
     maps_link: z.string().optional(),
     address: z.string().optional(),
-    local_note: z.string().optional(),
-    local_note_en: z.string().optional(),
-    local_note_es: z.string().optional(),
-    hotspot_warning: z.boolean().optional(),
-    hotspot_note: z.string().optional(),
-    whatsapp_update_text: z.string().optional(),
-    related_listing: z.string().optional(),
-    casa_gaviota_note: z.string().optional(),
     images: z.array(z.object({
       file: z.string(),
       caption: z.string().optional(),
       credit: z.string().optional(),
     })).optional(),
-    active: z.boolean(),
+    hotspot_warning: z.boolean().optional(),
+    hotspot_note: z.object({
+      en: z.string().optional(),
+      es: z.string().optional(),
+    }).optional(),
+    whatsapp_update_text: z.string().optional(),
+    related_listing: z.string().optional(),
+    casa_gaviota_note: z.string().optional(),
   }),
 });
 

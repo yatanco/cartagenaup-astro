@@ -5,20 +5,20 @@ import WhatsAppCTA from '../../components/WhatsAppCTA.astro';
 import { getCollection } from 'astro:content';
 
 const lang = 'en';
-const places = (await getCollection('workPlaces', ({ data }) => data.active === true))
+const places = (await getCollection('workPlaces'))
   .sort((a, b) => b.data.last_tested.localeCompare(a.data.last_tested));
-const rankable = places.filter(p => p.data.status !== 'closed');
+const rankable = places.filter(p => p.data.status === 'active' && p.data.wifi.down !== null);
 const rankedCount = rankable.length;
 
 const sorted = [...rankable].sort((a, b) =>
-  (b.data.wifi_down_mbps ?? 0) - (a.data.wifi_down_mbps ?? 0)
+  (b.data.wifi.down ?? 0) - (a.data.wifi.down ?? 0)
 );
 const fastest = sorted[0]?.data;
 const slowest = sorted[sorted.length - 1]?.data;
 const sanAlberto = rankable.find(p => p.data.slug === 'cafe-san-alberto')?.data;
 const goodForCalls = rankable
-  .filter(p => p.data.video_calls === 'good')
-  .sort((a, b) => (b.data.wifi_down_mbps ?? 0) - (a.data.wifi_down_mbps ?? 0))
+  .filter(p => p.data.wifi.video_calls === 'good')
+  .sort((a, b) => (b.data.wifi.down ?? 0) - (a.data.wifi.down ?? 0))
   .slice(0, 3);
 
 const mostRecent = [...rankable].sort((a, b) => b.data.last_tested.localeCompare(a.data.last_tested))[0]?.data.last_tested;
@@ -63,7 +63,7 @@ const verifiedMonth = mostRecent
     </div>
 
     {places.map(place => (
-      <PlaceCard place={place.data} lang={lang} />
+      <PlaceCard place={place.data} body={place.body} lang={lang} />
     ))}
 
     <WhatsAppCTA lang="en" />
@@ -84,7 +84,7 @@ const verifiedMonth = mostRecent
             What café has the fastest WiFi in Cartagena?
           </h3>
           <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.65; margin: 0;">
-            {fastest?.name} in {fastest?.neighborhood} — {fastest?.wifi_down_mbps} Mbps down / {fastest?.wifi_up_mbps} Mbps up, verified {fastest?.last_tested} using Speedtest.net to a local Cartagena server.
+            {fastest?.name} in {fastest?.neighborhood} — {fastest?.wifi.down} Mbps down / {fastest?.wifi.up} Mbps up, verified {fastest?.last_tested} using Speedtest.net to a local Cartagena server.
           </p>
         </div>
 
@@ -93,7 +93,7 @@ const verifiedMonth = mostRecent
             Which cafés in Cartagena have good WiFi for video calls?
           </h3>
           <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.65; margin: 0;">
-            The best current options marked good for video calls are {goodForCalls.map(p => `${p.data.name} in ${p.data.neighborhood} (${p.data.wifi_down_mbps}/${p.data.wifi_up_mbps} Mbps${p.data.wifi_latency_ms ? `, ${p.data.wifi_latency_ms}ms ping` : ''})`).join(', ')}. The slowest active listing is {slowest?.name} at {slowest?.wifi_down_mbps} Mbps down.
+            The best current options marked good for video calls are {goodForCalls.map(p => `${p.data.name} in ${p.data.neighborhood} (${p.data.wifi.down}/${p.data.wifi.up} Mbps${p.data.wifi.latency_ms ? `, ${p.data.wifi.latency_ms}ms ping` : ''})`).join(', ')}. The slowest active listing is {slowest?.name} at {slowest?.wifi.down} Mbps down.
           </p>
         </div>
 
@@ -120,7 +120,7 @@ const verifiedMonth = mostRecent
             Does Café San Alberto have good WiFi?
           </h3>
           <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.65; margin: 0;">
-            No. Measured at {sanAlberto?.wifi_down_mbps} Mbps down / {sanAlberto?.wifi_up_mbps} Mbps up, verified {sanAlberto?.last_tested} — bring a hotspot. The coffee and location on Plaza Santo Domingo are exceptional.
+            No. Measured at {sanAlberto?.wifi.down} Mbps down / {sanAlberto?.wifi.up} Mbps up, verified {sanAlberto?.last_tested} — bring a hotspot. The coffee and location on Plaza Santo Domingo are exceptional.
           </p>
         </div>
       </div>
@@ -136,7 +136,7 @@ const verifiedMonth = mostRecent
         "name": "What café has the fastest WiFi in Cartagena?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": `${fastest?.name} in ${fastest?.neighborhood} — ${fastest?.wifi_down_mbps} Mbps down / ${fastest?.wifi_up_mbps} Mbps up, verified ${fastest?.last_tested} using Speedtest.net to a local Cartagena server.`
+          "text": `${fastest?.name} in ${fastest?.neighborhood} — ${fastest?.wifi.down} Mbps down / ${fastest?.wifi.up} Mbps up, verified ${fastest?.last_tested} using Speedtest.net to a local Cartagena server.`
         }
       },
       {
@@ -144,7 +144,7 @@ const verifiedMonth = mostRecent
         "name": "Which cafés in Cartagena have good WiFi for video calls?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": `The best current options marked good for video calls are ${goodForCalls.map(p => `${p.data.name} in ${p.data.neighborhood} (${p.data.wifi_down_mbps}/${p.data.wifi_up_mbps} Mbps)`).join(', ')}. The slowest active listing is ${slowest?.name} at ${slowest?.wifi_down_mbps} Mbps down.`
+          "text": `The best current options marked good for video calls are ${goodForCalls.map(p => `${p.data.name} in ${p.data.neighborhood} (${p.data.wifi.down}/${p.data.wifi.up} Mbps)`).join(', ')}. The slowest active listing is ${slowest?.name} at ${slowest?.wifi.down} Mbps down.`
         }
       },
       {
@@ -168,7 +168,7 @@ const verifiedMonth = mostRecent
         "name": "Does Café San Alberto have good WiFi?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": `No. Measured at ${sanAlberto?.wifi_down_mbps} Mbps down / ${sanAlberto?.wifi_up_mbps} Mbps up, verified ${sanAlberto?.last_tested} — bring a hotspot. The coffee and Plaza Santo Domingo location are exceptional.`
+          "text": `No. Measured at ${sanAlberto?.wifi.down} Mbps down / ${sanAlberto?.wifi.up} Mbps up, verified ${sanAlberto?.last_tested} — bring a hotspot. The coffee and Plaza Santo Domingo location are exceptional.`
         }
       }
     ]

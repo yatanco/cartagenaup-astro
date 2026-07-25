@@ -5,18 +5,19 @@ import PlaceCarousel from '../../components/PlaceCarousel.jsx';
 import { getCollection } from 'astro:content';
 import { getImage } from 'astro:assets';
 import { getWorkImage } from '../../utils/images';
+import { renderPlaceSection } from '../../utils/renderPlaceSection';
 
 export async function getStaticPaths() {
-  const places = await getCollection('workPlaces', ({ data }) => data.active === true);
+  const places = await getCollection('workPlaces');
   return places.map(place => ({
     params: { slug: place.data.slug },
-    props: { place: place.data },
+    props: { place: place.data, body: place.body },
   }));
 }
 
-const { place } = Astro.props;
+const { place, body } = Astro.props;
 const lang = 'en';
-const note = place.local_note_en || place.local_note;
+const noteHtml = renderPlaceSection(body, 'en');
 
 const resolvedImages = await Promise.all(
   (place.images || []).map(async (img) => {
@@ -29,6 +30,15 @@ const resolvedImages = await Promise.all(
     return { ...img, url: fallback.src, webpUrl: webp.src };
   })
 );
+
+function shortDate(s) {
+  const d = new Date(s + 'T12:00:00');
+  return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+}
+
+const metaDescription = place.wifi.down !== null
+  ? `${place.name} — WiFi-tested work spot in ${place.neighborhood}, Cartagena. ${place.wifi.down}↓/${place.wifi.up}↑ Mbps, verified ${shortDate(place.last_tested)}.`
+  : `${place.name} — closed. See what to know about ${place.neighborhood}, Cartagena instead.`;
 
 const placeJsonLd = {
   "@context": "https://schema.org",
@@ -45,23 +55,20 @@ const placeJsonLd = {
   ...(place.maps_link ? { "hasMap": place.maps_link } : {}),
   ...(place.hours ? { "openingHours": place.hours } : {}),
   "amenityFeature": [
-    { "@type": "LocationFeatureSpecification", "name": "WiFi Download Speed", "value": `${place.wifi_down_mbps} Mbps` },
-    { "@type": "LocationFeatureSpecification", "name": "WiFi Upload Speed", "value": `${place.wifi_up_mbps} Mbps` },
-    { "@type": "LocationFeatureSpecification", "name": "Air Conditioning", "value": place.ac === true },
-    { "@type": "LocationFeatureSpecification", "name": "Power Outlets", "value": place.outlets || "unknown" },
+    ...(place.wifi.down !== null ? [
+      { "@type": "LocationFeatureSpecification", "name": "WiFi Download Speed", "value": `${place.wifi.down} Mbps` },
+      { "@type": "LocationFeatureSpecification", "name": "WiFi Upload Speed", "value": `${place.wifi.up} Mbps` },
+    ] : []),
+    { "@type": "LocationFeatureSpecification", "name": "Air Conditioning", "value": place.workspace.ac === true },
+    { "@type": "LocationFeatureSpecification", "name": "Power Outlets", "value": place.workspace.outlets || "unknown" },
   ],
-  "description": note || place.name,
+  "description": metaDescription,
 };
-
-function shortDate(s) {
-  const d = new Date(s + 'T12:00:00');
-  return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
-}
 ---
 
 <Base
   title={place.name}
-  description={`${place.name} — WiFi-tested work spot in ${place.neighborhood}, Cartagena. ${place.wifi_down_mbps}↓/${place.wifi_up_mbps}↑ Mbps, verified ${shortDate(place.last_tested)}.`}
+  description={metaDescription}
   lang="en"
   canonicalUrl={`https://cartagenaup.com/work/${place.slug}/`}
   additionalJsonLd={placeJsonLd}>
@@ -99,27 +106,27 @@ function shortDate(s) {
       <div>
         <div style="font-size: 0.6rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.25rem;">↓ Down</div>
         <div style="font-size: 2rem; font-weight: 700; line-height: 1; color: var(--fg);">
-          {place.wifi_down_mbps}<span style="font-size: 0.875rem; font-weight: 400; color: var(--text-muted);"> Mbps</span>
+          {place.wifi.down ?? '—'}<span style="font-size: 0.875rem; font-weight: 400; color: var(--text-muted);"> Mbps</span>
         </div>
       </div>
       <div>
         <div style="font-size: 0.6rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.25rem;">↑ Up</div>
         <div style="font-size: 2rem; font-weight: 700; line-height: 1; color: var(--fg);">
-          {place.wifi_up_mbps}<span style="font-size: 0.875rem; font-weight: 400; color: var(--text-muted);"> Mbps</span>
+          {place.wifi.up ?? '—'}<span style="font-size: 0.875rem; font-weight: 400; color: var(--text-muted);"> Mbps</span>
         </div>
       </div>
-      {place.wifi_latency_ms && (
+      {place.wifi.latency_ms && (
         <div>
           <div style="font-size: 0.6rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.25rem;">Ping</div>
           <div style="font-size: 2rem; font-weight: 700; line-height: 1; color: var(--fg);">
-            {place.wifi_latency_ms}<span style="font-size: 0.875rem; font-weight: 400; color: var(--text-muted);"> ms</span>
+            {place.wifi.latency_ms}<span style="font-size: 0.875rem; font-weight: 400; color: var(--text-muted);"> ms</span>
           </div>
         </div>
       )}
       <div>
         <div style="font-size: 0.6rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.25rem;">AC</div>
-        <div style={`font-size: 2rem; font-weight: 700; line-height: 1; color: ${place.ac ? '#16a34a' : 'var(--text-muted)'};`}>
-          {place.ac ? '✓' : '—'}
+        <div style={`font-size: 2rem; font-weight: 700; line-height: 1; color: ${place.workspace.ac ? '#16a34a' : 'var(--text-muted)'};`}>
+          {place.workspace.ac ? '✓' : '—'}
         </div>
       </div>
     </div>
@@ -127,29 +134,19 @@ function shortDate(s) {
     <!-- Hotspot warning -->
     {place.hotspot_warning && (
       <p style="font-size: 0.8125rem; background: #FFFBEB; border: 1px solid #FDE68A; color: #92400E; border-radius: 8px; padding: 0.625rem 1rem; margin-bottom: 1.25rem; line-height: 1.5;">
-        ⚠ {place.hotspot_note || 'Bring a hotspot backup'}
+        ⚠ {place.hotspot_note?.en || 'Bring a hotspot backup'}
       </p>
     )}
 
-    <!-- Local note -->
-    {note && (
-      <p style="font-size: 0.9375rem; line-height: 1.7; color: var(--fg); margin-bottom: 1.5rem;">
-        {note}
-      </p>
-    )}
+    <!-- Overview / best spot / food & drinks (rendered from the Markdown body) -->
+    <div class="place-note" set:html={noteHtml} />
 
     <!-- Detail rows -->
     <div style="display: grid; gap: 0.625rem; margin-bottom: 1.75rem;">
-      {place.best_spot && (
-        <div style="border-left: 2px solid #C45C26; padding-left: 0.875rem;">
-          <p style="font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin: 0 0 0.15rem;">Best spot</p>
-          <p style="font-size: 0.875rem; color: var(--fg); margin: 0;">{place.best_spot}</p>
-        </div>
-      )}
-      {place.best_time && (
+      {place.best_time?.en && (
         <div style="border-left: 2px solid var(--border); padding-left: 0.875rem;">
           <p style="font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin: 0 0 0.15rem;">Best time</p>
-          <p style="font-size: 0.875rem; color: var(--fg); margin: 0;">{place.best_time}</p>
+          <p style="font-size: 0.875rem; color: var(--fg); margin: 0;">{place.best_time.en}</p>
         </div>
       )}
       {place.hours && (
@@ -158,22 +155,16 @@ function shortDate(s) {
           <p style="font-size: 0.875rem; color: var(--fg); margin: 0;">{place.hours}</p>
         </div>
       )}
-      {place.outlets && (
+      {place.workspace.outlets && (
         <div style="border-left: 2px solid var(--border); padding-left: 0.875rem;">
           <p style="font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin: 0 0 0.15rem;">Outlets</p>
-          <p style="font-size: 0.875rem; color: var(--fg); margin: 0;">{place.outlets}</p>
+          <p style="font-size: 0.875rem; color: var(--fg); margin: 0;">{place.workspace.outlets}</p>
         </div>
       )}
-      {place.price_to_stay && (
-        <div style="border-left: 2px solid var(--border); padding-left: 0.875rem;">
-          <p style="font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin: 0 0 0.15rem;">Price</p>
-          <p style="font-size: 0.875rem; color: var(--fg); margin: 0;">{place.price_to_stay}</p>
-        </div>
-      )}
-      {place.noise_level && (
+      {place.workspace.noise && (
         <div style="border-left: 2px solid var(--border); padding-left: 0.875rem;">
           <p style="font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin: 0 0 0.15rem;">Noise</p>
-          <p style="font-size: 0.875rem; color: var(--fg); margin: 0;">{place.noise_level}</p>
+          <p style="font-size: 0.875rem; color: var(--fg); margin: 0;">{place.workspace.noise}</p>
         </div>
       )}
     </div>
@@ -191,7 +182,7 @@ function shortDate(s) {
         style="display: inline-flex; align-items: center; border: 0.5px solid var(--card-border); color: var(--text-muted); text-decoration: none; padding: 0.625rem 1.125rem; border-radius: 8px; font-size: 0.875rem; background: var(--card-bg);">
         Something changed?
       </a>
-      <a href={`https://wa.me/?text=${encodeURIComponent(`${place.name} in ${place.neighborhood}, Cartagena — WiFi ${place.wifi_down_mbps}/${place.wifi_up_mbps} Mbps. Verified by local residents. https://cartagenaup.com/work/${place.slug}/`)}`}
+      <a href={`https://wa.me/?text=${encodeURIComponent(`${place.name} in ${place.neighborhood}, Cartagena — WiFi ${place.wifi.down ?? '?'}/${place.wifi.up ?? '?'} Mbps. Verified by local residents. https://cartagenaup.com/work/${place.slug}/`)}`}
         target="_blank" rel="noopener"
         style="display: inline-flex; align-items: center; gap: 0.375rem; background: #25D366; color: white; text-decoration: none; padding: 0.625rem 1.125rem; border-radius: 8px; font-size: 0.875rem; font-weight: 600;">
         Share on WhatsApp
@@ -202,3 +193,21 @@ function shortDate(s) {
   </div>
 
 </Base>
+
+<style>
+  .place-note :global(p) {
+    font-size: 0.9375rem;
+    line-height: 1.7;
+    color: var(--fg);
+    margin: 0 0 1rem;
+  }
+  .place-note :global(h3) {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    border-left: 2px solid #C45C26;
+    padding-left: 0.875rem;
+    margin: 1.25rem 0 0.375rem;
+  }
+</style>

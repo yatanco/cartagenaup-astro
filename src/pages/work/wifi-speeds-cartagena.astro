@@ -3,14 +3,14 @@ import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 
 const places = await getCollection('workPlaces',
-  ({ data }) => data.active === true && data.status !== 'closed'
+  ({ data }) => data.status === 'active' && data.wifi.down !== null
 );
-const sorted = places.sort((a, b) => b.data.wifi_down_mbps - a.data.wifi_down_mbps);
+const sorted = places.sort((a, b) => b.data.wifi.down - a.data.wifi.down);
 const fastest = sorted[0]?.data;
 const slowest = sorted[sorted.length - 1]?.data;
 
 const avg = Math.round(
-  sorted.reduce((sum, p) => sum + p.data.wifi_down_mbps, 0) / sorted.length
+  sorted.reduce((sum, p) => sum + p.data.wifi.down, 0) / sorted.length
 );
 
 const mostRecent = [...sorted].sort((a, b) => b.data.last_tested.localeCompare(a.data.last_tested))[0]?.data.last_tested;
@@ -37,7 +37,7 @@ const canonicalUrl = 'https://cartagenaup.com/work/wifi-speeds-cartagena/';
     </p>
 
     <p style="font-size: 0.875rem; color: var(--fg); margin: 0 0 1.5rem; padding-bottom: 1.25rem; border-bottom: 1px solid var(--border);">
-      <strong>Fastest:</strong> {fastest?.wifi_down_mbps} Mbps at {fastest?.name} ({fastest?.neighborhood}) · <strong>Average:</strong> {avg} Mbps · <strong>Slowest:</strong> {slowest?.wifi_down_mbps} Mbps at {slowest?.name} (bring a hotspot)
+      <strong>Fastest:</strong> {fastest?.wifi.down} Mbps at {fastest?.name} ({fastest?.neighborhood}) · <strong>Average:</strong> {avg} Mbps · <strong>Slowest:</strong> {slowest?.wifi.down} Mbps at {slowest?.name} (bring a hotspot)
     </p>
 
     <div style="overflow-x: auto;">
@@ -65,16 +65,16 @@ const canonicalUrl = 'https://cartagenaup.com/work/wifi-speeds-cartagena/';
                 {p.data.neighborhood}
               </td>
               <td style="padding: 0.75rem 0.75rem 0.75rem 0; font-weight: 600; color: var(--fg);">
-                {p.data.wifi_down_mbps}
+                {p.data.wifi.down}
               </td>
               <td style="padding: 0.75rem 0.75rem 0.75rem 0; font-weight: 600; color: var(--fg);">
-                {p.data.wifi_up_mbps}
+                {p.data.wifi.up}
               </td>
               <td style="padding: 0.75rem 0.75rem 0.75rem 0; color: var(--text-muted);">
-                {p.data.wifi_latency_ms ? `${p.data.wifi_latency_ms}ms` : '—'}
+                {p.data.wifi.latency_ms ? `${p.data.wifi.latency_ms}ms` : '—'}
               </td>
               <td style="padding: 0.75rem 0.75rem 0.75rem 0;">
-                {p.data.ac ? '✓' : '—'}
+                {p.data.workspace.ac ? '✓' : '—'}
               </td>
               <td style="padding: 0.75rem 0 0.75rem 0; color: var(--text-muted); font-size: 0.75rem;">
                 {p.data.last_tested}
