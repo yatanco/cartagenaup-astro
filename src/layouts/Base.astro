@@ -90,13 +90,15 @@ const altPath = lang === 'es'
       </script>
     </>
   )}
-  <!-- Dark mode: prevent FOUC -->
+  <!-- Dark mode: prevent FOUC, and reapply after ViewTransitions navigation -->
   <script is:inline>
-    (function() {
+    function applyTheme() {
       var t = localStorage.getItem('cu-theme');
-      if (!t) t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-      if (t === 'dark') document.documentElement.classList.add('dark');
-    })();
+      var isDark = t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      document.documentElement.classList.toggle('dark', isDark);
+    }
+    applyTheme();
+    document.addEventListener('astro:page-load', applyTheme);
   </script>
 </head>
 <body id="top">
