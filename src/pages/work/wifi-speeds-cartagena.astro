@@ -5,12 +5,12 @@ import Base from '../../layouts/Base.astro';
 const places = await getCollection('workPlaces',
   ({ data }) => data.status === 'active' && data.wifi.down !== null
 );
-const sorted = places.sort((a, b) => b.data.wifi.down - a.data.wifi.down);
+const sorted = places.sort((a, b) => (b.data.wifi.down ?? 0) - (a.data.wifi.down ?? 0));
 const fastest = sorted[0]?.data;
 const slowest = sorted[sorted.length - 1]?.data;
 
 const avg = Math.round(
-  sorted.reduce((sum, p) => sum + p.data.wifi.down, 0) / sorted.length
+  sorted.reduce((sum, p) => sum + (p.data.wifi.down ?? 0), 0) / sorted.length
 );
 
 const mostRecent = [...sorted].sort((a, b) => b.data.last_tested.localeCompare(a.data.last_tested))[0]?.data.last_tested;

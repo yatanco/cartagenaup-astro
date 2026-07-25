@@ -2,7 +2,7 @@
 import { getCollection } from 'astro:content';
 import Base from '../../../layouts/Base.astro';
 
-const TYPE_LABELS = {
+const TYPE_LABELS: Record<string, string> = {
   music: 'Música', cultural: 'Cultura', taller: 'Taller', festival: 'Festival',
   sports: 'Deporte', exposicion: 'Exposición', lgbtq: 'LGTBIQ+', networking: 'Networking',
 };
@@ -30,7 +30,8 @@ const today = new Date().toISOString().split('T')[0];
 const isPast = e.date < today && (!e.end_date || e.end_date < today);
 const isOngoing = e.date < today && e.end_date && e.end_date >= today;
 
-function formatDate(dateStr) {
+function formatDate(dateStr?: string | null) {
+  if (!dateStr) return '';
   return new Date(dateStr + 'T12:00:00').toLocaleDateString('es-CO', {
     weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
   });

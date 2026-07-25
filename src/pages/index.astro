@@ -3,7 +3,7 @@ import Base from '../layouts/Base.astro';
 import WhatsAppCTA from '../components/WhatsAppCTA.astro';
 import { en } from '../i18n/en';
 import { getCollection } from 'astro:content';
-import { getPlaceOverviewExcerpt } from '../utils/renderPlaceSection';
+import { getPlaceOverviewExcerpt } from '../utils/placeContent';
 
 const t    = en;
 const lang = 'en';
@@ -30,7 +30,7 @@ const upcomingEvents = allEvents
   .sort((a, b) => a.data.date.localeCompare(b.data.date))
   .slice(0, 5);
 
-function fmtDate(s) {
+function fmtDate(s: string) {
   const d = new Date(s + 'T12:00:00');
   return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }).toUpperCase();
 }
@@ -55,7 +55,7 @@ function fmtDate(s) {
     </p>
     <div style="border-top: 1px solid rgba(255,255,255,0.08); padding-top: 1.25rem; display: flex; gap: 2.5rem; flex-wrap: wrap;">
       <div>
-        <span style="font-size: 1.5rem; font-weight: 700; color: #C8943A; font-variant-numeric: tabular-nums;">{allWork.length}</span>
+        <span style="font-size: 1.5rem; font-weight: 700; color: #C8943A; font-variant-numeric: tabular-nums;">{verifiedPlaces.length}</span>
         <span style="font-size: 0.75rem; color: rgba(250,247,242,0.45); margin-left: 0.4rem;">verified spots</span>
       </div>
       <div>
@@ -70,7 +70,7 @@ function fmtDate(s) {
     <div class="section-label">WiFi-Tested Cafés & Coworking in Cartagena</div>
     <div>
       {activeWork.map(place => {
-        const note = getPlaceOverviewExcerpt(place.body, 'en');
+        const note = getPlaceOverviewExcerpt(place.body ?? '', 'en');
         return (
           <div style="padding: 0.625rem 0; border-bottom: 1px solid var(--border);">
             <div style="display: flex; align-items: baseline; gap: 0.5rem; flex-wrap: wrap;">
@@ -84,12 +84,12 @@ function fmtDate(s) {
               <div style="display: flex; gap: 1rem; white-space: nowrap;">
                 <div style="display: flex; align-items: baseline; gap: 0.25rem;">
                   <span style="font-size: 0.625rem; color: var(--text-muted);">↓</span>
-                  <span style="font-size: 1.125rem; font-weight: 600; color: var(--fg); font-variant-numeric: tabular-nums;">{Math.round(place.data.wifi.down)}</span>
+                  <span style="font-size: 1.125rem; font-weight: 600; color: var(--fg); font-variant-numeric: tabular-nums;">{Math.round(place.data.wifi.down!)}</span>
                   <span style="font-size: 0.75rem; color: var(--text-muted);">Mbps</span>
                 </div>
                 <div style="display: flex; align-items: baseline; gap: 0.25rem;">
                   <span style="font-size: 0.625rem; color: var(--text-muted);">↑</span>
-                  <span style="font-size: 1.125rem; font-weight: 600; color: var(--fg); font-variant-numeric: tabular-nums;">{Math.round(place.data.wifi.up)}</span>
+                  <span style="font-size: 1.125rem; font-weight: 600; color: var(--fg); font-variant-numeric: tabular-nums;">{Math.round(place.data.wifi.up!)}</span>
                   <span style="font-size: 0.75rem; color: var(--text-muted);">Mbps</span>
                 </div>
               </div>

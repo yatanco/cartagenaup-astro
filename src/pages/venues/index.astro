@@ -3,7 +3,7 @@ import Base from '../../layouts/Base.astro';
 import { getCollection } from 'astro:content';
 
 const lang = 'en';
-const TYPE_LABELS = {
+const TYPE_LABELS: Record<string, string> = {
   'cultural-center': 'Cultural center',
   'theatre': 'Theatre',
 };

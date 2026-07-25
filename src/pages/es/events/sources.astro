@@ -53,8 +53,8 @@ const sources = [
   },
 ];
 
-function instagramLinks(handles) {
-  return handles.split('·').map(h => h.trim());
+function instagramLinks(handles: string) {
+  return handles.split('·').map((h: string) => h.trim());
 }
 ---
 

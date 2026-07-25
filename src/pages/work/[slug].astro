@@ -2,22 +2,24 @@
 import Base from '../../layouts/Base.astro';
 import WhatsAppCTA from '../../components/WhatsAppCTA.astro';
 import PlaceCarousel from '../../components/PlaceCarousel.jsx';
-import { getCollection } from 'astro:content';
+import { getCollection, render } from 'astro:content';
 import { getImage } from 'astro:assets';
 import { getWorkImage } from '../../utils/images';
-import { renderPlaceSection } from '../../utils/renderPlaceSection';
 
 export async function getStaticPaths() {
   const places = await getCollection('workPlaces');
   return places.map(place => ({
     params: { slug: place.data.slug },
-    props: { place: place.data, body: place.body },
+    props: { entry: place },
   }));
 }
 
-const { place, body } = Astro.props;
+const { entry } = Astro.props;
+const place = entry.data;
 const lang = 'en';
-const noteHtml = renderPlaceSection(body, 'en');
+const { Content } = await render(entry);
+const isActive = place.status === 'active';
+const hasWifi = place.wifi.down !== null && place.wifi.up !== null;
 
 const resolvedImages = await Promise.all(
   (place.images || []).map(async (img) => {
@@ -31,14 +33,18 @@ const resolvedImages = await Promise.all(
   })
 );
 
-function shortDate(s) {
+function shortDate(s: string) {
   const d = new Date(s + 'T12:00:00');
   return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
 }
 
-const metaDescription = place.wifi.down !== null
+const metaDescription = isActive && hasWifi
   ? `${place.name} — WiFi-tested work spot in ${place.neighborhood}, Cartagena. ${place.wifi.down}↓/${place.wifi.up}↑ Mbps, verified ${shortDate(place.last_tested)}.`
-  : `${place.name} — closed. See what to know about ${place.neighborhood}, Cartagena instead.`;
+  : place.status === 'temporarily_closed'
+    ? `${place.name} — temporarily closed in ${place.neighborhood}, Cartagena. Check the latest locally verified details and alternatives.`
+    : place.status === 'closed'
+      ? `${place.name} — permanently closed in ${place.neighborhood}, Cartagena. See the locally verified details and suggested alternatives.`
+      : `${place.name} — work spot in ${place.neighborhood}, Cartagena. WiFi speed test pending.`;
 
 const placeJsonLd = {
   "@context": "https://schema.org",
@@ -55,7 +61,7 @@ const placeJsonLd = {
   ...(place.maps_link ? { "hasMap": place.maps_link } : {}),
   ...(place.hours ? { "openingHours": place.hours } : {}),
   "amenityFeature": [
-    ...(place.wifi.down !== null ? [
+    ...(hasWifi ? [
       { "@type": "LocationFeatureSpecification", "name": "WiFi Download Speed", "value": `${place.wifi.down} Mbps` },
       { "@type": "LocationFeatureSpecification", "name": "WiFi Upload Speed", "value": `${place.wifi.up} Mbps` },
     ] : []),
@@ -86,10 +92,12 @@ const placeJsonLd = {
       </div>
     )}
 
-    <!-- Verified badge -->
+    <!-- Verification / status badge -->
     <div style="margin-bottom: 0.75rem;">
-      <span style="display: inline-flex; align-items: center; gap: 0.25rem; background: #C45C26; color: #fff; font-size: 0.6rem; font-weight: 700; padding: 0.2rem 0.6rem; border-radius: 9999px; text-transform: uppercase; letter-spacing: 0.08em;">
-        ✓ {shortDate(place.last_tested)}{place.tested_by ? ` · ${place.tested_by}` : ''}
+      <span style={`display: inline-flex; align-items: center; gap: 0.25rem; background: ${isActive ? '#C45C26' : '#6B7280'}; color: #fff; font-size: 0.6rem; font-weight: 700; padding: 0.2rem 0.6rem; border-radius: 9999px; text-transform: uppercase; letter-spacing: 0.08em;`}>
+        {isActive
+          ? `✓ VERIFIED ${shortDate(place.last_tested)}${place.tested_by ? ` · ${place.tested_by}` : ''}`
+          : place.status === 'temporarily_closed' ? 'TEMPORARILY CLOSED' : 'CLOSED'}
       </span>
     </div>
 
@@ -102,6 +110,7 @@ const placeJsonLd = {
     </p>
 
     <!-- WiFi stats -->
+    {isActive && hasWifi && (
     <div style="border: 0.5px solid var(--card-border); border-radius: 10px; padding: 1rem 1.25rem; display: flex; gap: 2rem; flex-wrap: wrap; margin-bottom: 1.5rem; background: var(--card-bg);">
       <div>
         <div style="font-size: 0.6rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.25rem;">↓ Down</div>
@@ -130,6 +139,7 @@ const placeJsonLd = {
         </div>
       </div>
     </div>
+    )}
 
     <!-- Hotspot warning -->
     {place.hotspot_warning && (
@@ -139,7 +149,7 @@ const placeJsonLd = {
     )}
 
     <!-- Overview / best spot / food & drinks (rendered from the Markdown body) -->
-    <div class="place-note" set:html={noteHtml} />
+    <div class="place-note place-note-en"><Content /></div>
 
     <!-- Detail rows -->
     <div style="display: grid; gap: 0.625rem; margin-bottom: 1.75rem;">
@@ -209,5 +219,8 @@ const placeJsonLd = {
     border-left: 2px solid #C45C26;
     padding-left: 0.875rem;
     margin: 1.25rem 0 0.375rem;
+  }
+  .place-note-en :global(.place-content-es) {
+    display: none;
   }
 </style>

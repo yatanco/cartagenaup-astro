@@ -5,7 +5,7 @@ import { getCollection } from 'astro:content';
 import { getImage } from 'astro:assets';
 import { getVenueImage } from '../../utils/images';
 
-const TYPE_LABELS = {
+const TYPE_LABELS: Record<string, string> = {
   'cultural-center': 'Cultural center',
   'theatre': 'Theatre',
 };

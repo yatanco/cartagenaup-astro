@@ -1,5 +1,20 @@
-import { defineCollection, z } from 'astro:content';
+import { defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
+import { z } from 'astro/zod';
+
+const slug = z.string().regex(
+  /^[a-z0-9]+(?:-[a-z0-9]+)*$/,
+  'Use a lowercase, URL-safe slug with words separated by hyphens'
+);
+
+const isoDate = z.string()
+  .regex(/^\d{4}-\d{2}-\d{2}$/, 'Use an ISO date in YYYY-MM-DD format')
+  .refine((value) => {
+    const date = new Date(`${value}T00:00:00Z`);
+    return !Number.isNaN(date.valueOf()) && date.toISOString().slice(0, 10) === value;
+  }, 'Date must be a real calendar date');
+
+const optionalUrl = z.url().optional();
 
 const workPlaces = defineCollection({
   loader: glob({
@@ -8,14 +23,14 @@ const workPlaces = defineCollection({
   }),
   schema: z.object({
     name: z.string(),
-    slug: z.string(),
+    slug,
     neighborhood: z.string(),
     // Reflects actual data: cultural-space (not cultural-center), coworking added
     // for the two closed listings, which are business/coworking spaces by nature —
     // their closure is tracked separately via `status`, not by faking the type.
     type: z.enum(['cafe', 'coworking', 'library', 'cultural-space']),
-    status: z.enum(['active', 'temporarily_closed', 'closed']).default('active'),
-    last_tested: z.string(),
+    status: z.enum(['active', 'temporarily_closed', 'closed']),
+    last_tested: isoDate,
     tested_by: z.string().optional(),
     wifi: z.object({
       network: z.string().optional().nullable(),
@@ -24,7 +39,13 @@ const workPlaces = defineCollection({
       latency_ms: z.number().nonnegative().optional().nullable(),
       isp: z.string().optional().nullable(),
       video_calls: z.enum(['poor', 'fair', 'good', 'excellent']).optional(),
-    }),
+    }).refine(
+      ({ down, up }) => (down === null) === (up === null),
+      {
+        message: 'WiFi download and upload must either both be numbers or both be null',
+        path: ['up'],
+      }
+    ),
     workspace: z.object({
       outlets: z.enum(['none', 'limited', 'some', 'many', 'n/a']),
       ac: z.boolean(),
@@ -37,10 +58,10 @@ const workPlaces = defineCollection({
     // Not in the original spec schema — dropped it silently would have lost real
     // opening-hours data present on ~6 listings. Kept as a plain string.
     hours: z.string().optional(),
-    maps_link: z.string().optional(),
+    maps_link: optionalUrl,
     address: z.string().optional(),
     images: z.array(z.object({
-      file: z.string(),
+      file: z.string().min(1),
       caption: z.string().optional(),
       credit: z.string().optional(),
     })).optional(),

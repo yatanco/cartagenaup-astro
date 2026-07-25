@@ -1,5 +1,5 @@
 ---
-import { getCollection } from 'astro:content';
+import { getCollection, type CollectionEntry } from 'astro:content';
 import Base from '../../../layouts/Base.astro';
 
 const lang = 'es';
@@ -13,7 +13,7 @@ const pastEvents = allEvents
   .sort((a, b) => b.data.date.localeCompare(a.data.date)); // newest first
 
 // Group by month
-const grouped = pastEvents.reduce((acc, e) => {
+const grouped = pastEvents.reduce<Record<string, CollectionEntry<'events'>[]>>((acc, e) => {
   const month = e.data.date.substring(0, 7); // "2026-07"
   if (!acc[month]) acc[month] = [];
   acc[month].push(e);
@@ -22,16 +22,16 @@ const grouped = pastEvents.reduce((acc, e) => {
 
 const months = Object.keys(grouped).sort().reverse();
 
-function formatMonth(monthStr) {
+function formatMonth(monthStr: string) {
   const [year, month] = monthStr.split('-');
-  return new Date(year, month - 1).toLocaleDateString('es-CO', { month: 'long', year: 'numeric' });
+  return new Date(Number(year), Number(month) - 1).toLocaleDateString('es-CO', { month: 'long', year: 'numeric' });
 }
 
-function formatDate(dateStr) {
+function formatDate(dateStr: string) {
   return new Date(dateStr + 'T12:00:00').toLocaleDateString('es-CO', { day: 'numeric', month: 'short' });
 }
 
-function isFree(price) {
+function isFree(price: string) {
   return price === 'gratis' || price === 'Free — open access' || price === 'Entrada libre';
 }
 ---

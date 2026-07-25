@@ -1,8 +1,16 @@
 ---
 import { getImage } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
 import { getWorkImage } from '../utils/images';
-import { getPlaceOverviewExcerpt } from '../utils/renderPlaceSection';
+import { getPlaceOverviewExcerpt } from '../utils/placeContent';
 import PlaceCarousel from './PlaceCarousel.jsx';
+
+interface Props {
+  place: CollectionEntry<'workPlaces'>['data'];
+  body: string;
+  lang?: 'en' | 'es';
+}
+
 const { place, body, lang = 'en' } = Astro.props;
 const waNumber = '573163946401';
 const note = getPlaceOverviewExcerpt(body, lang);
@@ -20,12 +28,19 @@ const resolvedImages = await Promise.all(
 );
 
 const verified = lang === 'es' ? 'VERIFICADO' : 'VERIFIED';
+const statusLabels = {
+  active: verified,
+  closed: lang === 'es' ? 'CERRADO' : 'CLOSED',
+  temporarily_closed: lang === 'es' ? 'CERRADO TEMPORALMENTE' : 'TEMPORARILY CLOSED',
+};
+const isActive = place.status === 'active';
+const hasWifi = place.wifi.down !== null && place.wifi.up !== null;
 const mapsLabel = lang === 'es' ? 'Ver en Google Maps' : 'Open in Maps';
 const changedLabel = lang === 'es' ? '¿Algo cambió?' : 'Something changed?';
 const hoursLabel = lang === 'es' ? 'Horario' : 'Hours';
 const slugHref = lang === 'es' ? `/es/work/${place.slug}/` : `/work/${place.slug}/`;
 
-function shortDate(s) {
+function shortDate(s: string) {
   const d = new Date(s + 'T12:00:00');
   return d.toLocaleDateString(lang === 'es' ? 'es-CO' : 'en-GB', { day: 'numeric', month: 'short' });
 }
@@ -45,10 +60,12 @@ function shortDate(s) {
   <!-- Card body -->
   <div style="padding: 1rem 1.25rem 1.25rem;">
 
-    <!-- Verified badge -->
+    <!-- Verification / status badge -->
     <div style="margin-bottom: 0.625rem;">
-      <span style="display: inline-flex; align-items: center; gap: 0.25rem; background: #C45C26; color: #fff; font-size: 0.6rem; font-weight: 700; padding: 0.2rem 0.6rem; border-radius: 9999px; text-transform: uppercase; letter-spacing: 0.08em;">
-        ✓ {shortDate(place.last_tested)}{place.tested_by ? ` · ${place.tested_by}` : ''}
+      <span style={`display: inline-flex; align-items: center; gap: 0.25rem; background: ${isActive ? '#C45C26' : '#6B7280'}; color: #fff; font-size: 0.6rem; font-weight: 700; padding: 0.2rem 0.6rem; border-radius: 9999px; text-transform: uppercase; letter-spacing: 0.08em;`}>
+        {isActive
+          ? `✓ ${verified} ${shortDate(place.last_tested)}${place.tested_by ? ` · ${place.tested_by}` : ''}`
+          : statusLabels[place.status]}
       </span>
     </div>
 
@@ -65,6 +82,7 @@ function shortDate(s) {
     </p>
 
     <!-- WiFi stats block -->
+    {isActive && hasWifi && (
     <div style="border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 0.75rem 0; margin-bottom: 0.875rem; display: flex; gap: 1.75rem;">
       <div>
         <div style="font-size: 0.6rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.15rem;">↓ {lang === 'es' ? 'Bajada' : 'Down'}</div>
@@ -93,6 +111,7 @@ function shortDate(s) {
         </div>
       </div>
     </div>
+    )}
 
     <!-- Hotspot warning -->
     {place.hotspot_warning && (
