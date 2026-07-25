@@ -101,15 +101,15 @@ const resolvedImages = await Promise.all(
 
     <!-- Also a work spot callout -->
     {venue.also_workplace && venue.workplace_slug && (
-      <div style="background: var(--color-cta-bg); border: 1px solid var(--color-cta-border); border-radius: 10px; padding: 1rem 1.25rem; margin-bottom: 1.5rem;">
-        <p style="font-size: 0.875rem; font-weight: 600; color: var(--fg); margin: 0 0 0.25rem;">
+      <div class="bg-surface border border-border-warm rounded-xl p-4 mb-6">
+        <p class="text-sm font-semibold text-ink mb-1">
           También un lugar de trabajo verificado
         </p>
-        <p style="font-size: 0.75rem; color: var(--text-muted); margin: 0 0 0.5rem; line-height: 1.5;">
+        <p class="text-xs text-muted mb-3">
           WiFi probado en persona. Consulta el listado completo para velocidades, enchufes y notas honestas.
         </p>
         <a href={`/es/work/${venue.workplace_slug}/`}
-          style="font-size: 0.75rem; color: #C45C26; text-decoration: none; font-weight: 600;">
+          class="text-xs text-terracotta font-semibold no-underline hover:underline">
           Ver listado de trabajo →
         </a>
       </div>
@@ -132,9 +132,10 @@ const resolvedImages = await Promise.all(
                   {e.data.t0}
                 </span>
               )}
-              <span style="font-size: 0.875rem; color: var(--fg); flex: 1;">
+              <a href={`/es/events/${e.data.slug}/`}
+                class="text-sm text-ink dark:text-white flex-1 no-underline hover:text-terracotta transition-colors">
                 {e.data.title}
-              </span>
+              </a>
               {(e.data.price === 'gratis' || e.data.price === 'Free — open access' || e.data.price === 'Entrada libre') && (
                 <span style="font-size: 0.65rem; background: rgba(22,163,74,0.12); color: #15803d; padding: 0.15rem 0.5rem; border-radius: 9999px; white-space: nowrap; font-weight: 600;">
                   Gratis
