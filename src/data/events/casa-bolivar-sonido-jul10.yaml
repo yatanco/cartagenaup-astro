@@ -1,4 +1,5 @@
 # data/events/casa-bolivar-sonido-jul10.yaml
+title_en: "Basic Sound Workshop"
 title: "Taller de Sonido Básico"
 slug: casa-bolivar-sonido-jul10
 date: "2026-07-10"
@@ -12,6 +13,7 @@ recurring: "one-time"
 price: "gratis"
 confirmed: true
 source: "Instagram @casabolivarctg, verificado julio 2026"
+source_en: "Instagram @casabolivarctg, verified July 2026"
 maps_link: "https://share.google/MwmXiSMgO2laI1iBD"
 venue_slug: "casa-bolivar"
 notes: "Taller de música: aprende manejo de consolas, microfonía, ecualización y sonido en vivo con actividades prácticas. Entrada libre con inscripción previa, cupo limitado."

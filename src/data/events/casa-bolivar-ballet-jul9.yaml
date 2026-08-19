@@ -1,4 +1,5 @@
 # data/events/casa-bolivar-ballet-jul9.yaml
+title_en: "Ballet Technique Workshop"
 title: "Taller de Técnicas de Ballet"
 slug: casa-bolivar-ballet-jul9
 date: "2026-07-09"
@@ -12,6 +13,7 @@ recurring: "one-time"
 price: "gratis"
 confirmed: true
 source: "Instagram @casabolivarctg, verificado julio 2026"
+source_en: "Instagram @casabolivarctg, verified July 2026"
 maps_link: "https://share.google/MwmXiSMgO2laI1iBD"
 venue_slug: "casa-bolivar"
 notes: "Taller de danza: mejora postura, equilibrio, coordinación y control corporal. Llevar ropa cómoda, calzado adecuado e hidratación. Entrada libre con inscripción previa, cupo limitado."

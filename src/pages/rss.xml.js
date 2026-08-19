@@ -1,8 +1,9 @@
 import rss from '@astrojs/rss';
 import { getCollection } from 'astro:content';
+import { getBogotaToday, getEventTitle } from '../utils/events';
 
 export async function GET(context) {
-  const today = new Date().toISOString().split('T')[0];
+  const today = getBogotaToday();
   const events = await getCollection('events',
     ({ data }) =>
       data.active !== false &&
@@ -18,7 +19,7 @@ export async function GET(context) {
     items: events
       .sort((a, b) => a.data.date.localeCompare(b.data.date))
       .map(e => ({
-        title: e.data.title,
+        title: getEventTitle(e.data, 'en'),
         pubDate: new Date(e.data.date + 'T12:00:00'),
         description: e.data.notes_en || e.data.notes || '',
         link: '/events/',

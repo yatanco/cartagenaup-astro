@@ -3,11 +3,12 @@ import Base from '../../layouts/Base.astro';
 import WhatsAppCTA from '../../components/WhatsAppCTA.astro';
 import { es } from '../../i18n/es';
 import { getCollection } from 'astro:content';
+import { getBogotaToday } from '../../utils/events';
 import { getPlaceOverviewExcerpt } from '../../utils/placeContent';
 
 const t    = es;
 const lang = 'es';
-const today = new Date().toISOString().split('T')[0];
+const today = getBogotaToday();
 
 const allWork = await getCollection('workPlaces');
 const verifiedPlaces = allWork.filter(p => p.data.status === 'active' && p.data.wifi.down !== null);

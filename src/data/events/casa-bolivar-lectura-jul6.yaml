@@ -1,4 +1,5 @@
 # data/events/casa-bolivar-lectura-jul6.yaml
+title_en: "Reading, Writing and Oral Communication Program"
 title: "Estrategia de Lectura, Escritura y Oralidad"
 slug: casa-bolivar-lectura-jul6
 date: "2026-07-06"
@@ -12,6 +13,7 @@ recurring: "one-time"
 price: "gratis"
 confirmed: true
 source: "Instagram @casabolivarctg, verificado julio 2026"
+source_en: "Instagram @casabolivarctg, verified July 2026"
 maps_link: "https://share.google/MwmXiSMgO2laI1iBD"
 venue_slug: "casa-bolivar"
 notes: "Taller de literatura: fortalece tu creatividad, comprensión lectora y escritura con actividades prácticas. Entrada libre con inscripción previa, cupo limitado."

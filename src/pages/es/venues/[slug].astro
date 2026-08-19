@@ -4,9 +4,21 @@ import PlaceCarousel from '../../../components/PlaceCarousel.jsx';
 import { getCollection } from 'astro:content';
 import { getImage } from 'astro:assets';
 import { getVenueImage } from '../../../utils/images';
+import { getBogotaToday, isFreeEventPrice } from '../../../utils/events';
 
 const TYPE_LABELS: Record<string, string> = {
   'cultural-center': 'Centro cultural',
+  'cultural-space': 'Espacio cultural',
+  'event-space': 'Espacio para eventos',
+  'cafe-venue': 'Café',
+  'hostel-venue': 'Espacio en hostal',
+  'music-venue': 'Espacio musical',
+  'university-space': 'Espacio universitario',
+  'gallery': 'Galería',
+  'library': 'Biblioteca',
+  'market': 'Mercado',
+  'museum': 'Museo',
+  'university': 'Universidad',
   'theatre': 'Teatro',
 };
 
@@ -21,7 +33,7 @@ export async function getStaticPaths() {
 const { venue } = Astro.props;
 const lang = 'es';
 
-const today = new Date().toISOString().split('T')[0];
+const today = getBogotaToday();
 const allEvents = await getCollection('events',
   ({ data }) =>
     data.active !== false &&
@@ -136,7 +148,7 @@ const resolvedImages = await Promise.all(
                 class="text-sm text-ink dark:text-white flex-1 no-underline hover:text-terracotta transition-colors">
                 {e.data.title}
               </a>
-              {(e.data.price === 'gratis' || e.data.price === 'Free — open access' || e.data.price === 'Entrada libre') && (
+              {isFreeEventPrice(e.data.price) && (
                 <span style="font-size: 0.65rem; background: rgba(22,163,74,0.12); color: #15803d; padding: 0.15rem 0.5rem; border-radius: 9999px; white-space: nowrap; font-weight: 600;">
                   Gratis
                 </span>

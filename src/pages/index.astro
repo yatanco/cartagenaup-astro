@@ -3,11 +3,12 @@ import Base from '../layouts/Base.astro';
 import WhatsAppCTA from '../components/WhatsAppCTA.astro';
 import { en } from '../i18n/en';
 import { getCollection } from 'astro:content';
+import { getBogotaToday, getEventTitle } from '../utils/events';
 import { getPlaceOverviewExcerpt } from '../utils/placeContent';
 
 const t    = en;
 const lang = 'en';
-const today = new Date().toISOString().split('T')[0];
+const today = getBogotaToday();
 
 const allWork = await getCollection('workPlaces');
 const verifiedPlaces = allWork.filter(p => p.data.status === 'active' && p.data.wifi.down !== null);
@@ -118,7 +119,7 @@ function fmtDate(s: string) {
             {fmtDate(e.data.date)}
           </span>
           <span style="font-size: 0.875rem; color: var(--fg); flex: 1; line-height: 1.3;">
-            {e.data.title}
+            {getEventTitle(e.data, 'en')}
           </span>
           <span style="font-size: 0.75rem; color: var(--text-muted); white-space: nowrap;">
             {e.data.venue.split(' · ')[0]}

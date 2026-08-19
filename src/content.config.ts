@@ -83,6 +83,7 @@ const events = defineCollection({
   }),
   schema: z.object({
     title: z.string(),
+    title_en: z.string().optional(),
     slug: z.string(),
     date: z.string(),
     end_date: z.string().optional().nullable(),
@@ -96,6 +97,7 @@ const events = defineCollection({
     price: z.string(),
     confirmed: z.boolean().optional(),
     source: z.string().optional(),
+    source_en: z.string().optional(),
     maps_link: z.string().optional(),
     notes: z.string().optional(),
     notes_en: z.string().optional(),

@@ -1,10 +1,12 @@
 ---
 import { getCollection } from 'astro:content';
 import Base from '../../../layouts/Base.astro';
+import { getBogotaToday, getEventOffer, getEventPriceLabel, isFreeEventPrice } from '../../../utils/events';
 
 const TYPE_LABELS: Record<string, string> = {
   music: 'Música', cultural: 'Cultura', taller: 'Taller', festival: 'Festival',
   sports: 'Deporte', exposicion: 'Exposición', lgbtq: 'LGTBIQ+', networking: 'Networking',
+  community: 'Comunidad',
 };
 
 export async function getStaticPaths() {
@@ -26,7 +28,7 @@ if (e.venue_slug) {
   venue = venues.find(v => v.data.slug === e.venue_slug)?.data ?? null;
 }
 
-const today = new Date().toISOString().split('T')[0];
+const today = getBogotaToday();
 const isPast = e.date < today && (!e.end_date || e.end_date < today);
 const isOngoing = e.date < today && e.end_date && e.end_date >= today;
 
@@ -37,7 +39,8 @@ function formatDate(dateStr?: string | null) {
   });
 }
 
-const isFree = e.price === 'gratis' || e.price === 'Free — open access' || e.price === 'Entrada libre';
+const isFree = isFreeEventPrice(e.price);
+const offer = getEventOffer(e.price);
 
 const canonicalUrl = `https://cartagenaup.com/es/events/${e.slug}/`;
 
@@ -63,12 +66,7 @@ const eventJsonLd = {
       "addressCountry": "CO",
     },
   },
-  "offers": {
-    "@type": "Offer",
-    "price": "0",
-    "priceCurrency": "COP",
-    "availability": "https://schema.org/InStock",
-  },
+  ...(offer && { "offers": offer }),
   "organizer": {
     "@type": "Organization",
     "name": e.venue,
@@ -152,7 +150,7 @@ const eventJsonLd = {
       </div>
       <div style="display: flex; gap: 0.75rem; font-size: 0.875rem;">
         <span style="color: var(--text-muted); width: 5rem; flex-shrink: 0;">Precio</span>
-        <span style="color: var(--fg);">{isFree ? 'Gratis' : e.price}</span>
+        <span style="color: var(--fg);">{getEventPriceLabel(e.price, 'es')}</span>
       </div>
     </div>
 

@@ -1,9 +1,10 @@
 ---
 import { getCollection, type CollectionEntry } from 'astro:content';
 import Base from '../../layouts/Base.astro';
+import { getBogotaToday, getEventTitle, isFreeEventPrice } from '../../utils/events';
 
 const lang = 'en';
-const today = new Date().toISOString().split('T')[0];
+const today = getBogotaToday();
 
 const allEvents = await getCollection('events', ({ data }) => data.active !== false);
 
@@ -31,9 +32,6 @@ function formatDate(dateStr: string) {
   return new Date(dateStr + 'T12:00:00').toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
 }
 
-function isFree(price: string) {
-  return price === 'gratis' || price === 'Free — open access' || price === 'Entrada libre';
-}
 ---
 
 <Base
@@ -70,12 +68,12 @@ function isFree(price: string) {
                 {formatDate(e.data.date)}
               </span>
               <a href={`/events/${e.data.slug}/`} class="event-title-link" style="color: var(--fg); flex: 1; text-decoration: none;">
-                {e.data.title}
+                {getEventTitle(e.data, lang)}
               </a>
               <span style="font-size: 0.75rem; color: var(--text-muted); white-space: nowrap;">
                 {e.data.venue}
               </span>
-              {isFree(e.data.price) && (
+              {isFreeEventPrice(e.data.price) && (
                 <span style="font-size: 0.65rem; background: rgba(22,163,74,0.12); color: #15803d; padding: 0.15rem 0.5rem; border-radius: 9999px; white-space: nowrap; font-weight: 600;">
                   Free
                 </span>

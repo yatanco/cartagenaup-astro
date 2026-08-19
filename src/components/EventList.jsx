@@ -1,8 +1,9 @@
 import { useState, useMemo } from 'react';
+import { getBogotaToday, getEventTitle, isFreeEventPrice } from '../utils/events';
 
 const TYPE_LABELS = {
-  en: { music:'Music', cultural:'Culture', taller:'Workshop', festival:'Festival', sports:'Sports', exposicion:'Exhibition', lgbtq:'LGTBIQ+', networking:'Networking' },
-  es: { music:'Música', cultural:'Cultura', taller:'Taller', festival:'Festival', sports:'Deporte', exposicion:'Exposición', lgbtq:'LGTBIQ+', networking:'Networking' },
+  en: { music:'Music', cultural:'Culture', taller:'Workshop', festival:'Festival', sports:'Sports', exposicion:'Exhibition', lgbtq:'LGTBIQ+', networking:'Networking', community:'Community' },
+  es: { music:'Música', cultural:'Cultura', taller:'Taller', festival:'Festival', sports:'Deporte', exposicion:'Exposición', lgbtq:'LGTBIQ+', networking:'Networking', community:'Comunidad' },
 };
 
 const TYPE_COLORS = {
@@ -14,12 +15,13 @@ const TYPE_COLORS = {
   exposicion:{ bg: 'rgba(7,89,133,0.12)',    text: '#0369a1', border: '#0369a1' },
   lgbtq:     { bg: 'rgba(126,34,206,0.12)',  text: '#7E22CE', border: '#7E22CE' },
   networking:{ bg: '#EFF6FF',                text: '#1D4ED8', border: '#1D4ED8' },
+  community: { bg: 'rgba(22,163,74,0.12)',   text: '#15803d', border: '#15803d' },
 };
 
 const TYPE_THUMB = {
   music:'#C8943A', cultural:'#C45C26', taller:'#9A3412',
   festival:'#D4503A', sports:'#075985', exposicion:'#075985',
-  lgbtq:'#7E22CE', networking:'#1D4ED8', default:'#6B6358',
+  lgbtq:'#7E22CE', networking:'#1D4ED8', community:'#15803d', default:'#6B6358',
 };
 
 function formatDayHeader(dateStr, lang) {
@@ -36,9 +38,6 @@ function groupByDate(events) {
     return acc;
   }, {});
 }
-
-const isGratis = (price) =>
-  price === 'gratis' || price === 'Free — open access' || price === 'Gratis';
 
 function Initials({ title, type }) {
   const words = (title || '').split(' ').filter(Boolean);
@@ -69,6 +68,7 @@ function TypeTag({ type, lang }) {
 }
 
 function EventCard({ e, lang, t, showUntil, isLast }) {
+  const title = getEventTitle(e.data, lang);
   return (
     <div
       style={{
@@ -77,7 +77,7 @@ function EventCard({ e, lang, t, showUntil, isLast }) {
         borderBottom: isLast ? 'none' : '1px solid var(--border)',
       }}>
 
-      <Initials title={e.data.title} type={e.data.type} />
+      <Initials title={title} type={e.data.type} />
 
       {/* Time / Until date */}
       {showUntil ? (
@@ -106,7 +106,7 @@ function EventCard({ e, lang, t, showUntil, isLast }) {
           className="event-title-link"
           style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--fg)', marginBottom: '0.15rem', lineHeight: 1.3, textDecoration: 'none', display: 'block' }}
           onClick={ev => ev.stopPropagation()}>
-          {e.data.title}
+          {title}
         </a>
         <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginBottom: '0.4rem' }}>
           {e.data.venue_slug
@@ -120,7 +120,7 @@ function EventCard({ e, lang, t, showUntil, isLast }) {
         </p>
         <div style={{ display: 'flex', gap: '0.35rem', flexWrap: 'wrap', marginBottom: '0.4rem', alignItems: 'center' }}>
           {e.data.type && <TypeTag type={e.data.type} lang={lang} />}
-          {isGratis(e.data.price) && (
+          {isFreeEventPrice(e.data.price) && (
             <span style={{ fontSize: '0.65rem', padding: '0.15rem 0.5rem', borderRadius: '4px', background: 'rgba(22,163,74,0.12)', color: '#15803d', fontWeight: 600 }}>
               {lang === 'es' ? 'Gratis' : 'Free'}
             </span>
@@ -153,7 +153,7 @@ function EventCard({ e, lang, t, showUntil, isLast }) {
 export default function EventList({ events, lang, t }) {
   const [filter, setFilter] = useState('all');
   const [search, setSearch] = useState('');
-  const today = new Date().toISOString().split('T')[0];
+  const today = getBogotaToday();
 
   // FIX: use e.data.* — events are raw Content Collection entries
   const upcoming = useMemo(() =>
@@ -173,9 +173,10 @@ export default function EventList({ events, lang, t }) {
       const matchFilter =
         filter === 'all' ||
         e.data.type === filter ||
-        (filter === 'gratis' && (e.data.price === 'gratis' || e.data.price === 'Free — open access'));
+        (filter === 'gratis' && isFreeEventPrice(e.data.price));
       const q = search.toLowerCase();
       const matchSearch = !q ||
+        getEventTitle(e.data, lang).toLowerCase().includes(q) ||
         (e.data.title || '').toLowerCase().includes(q) ||
         (e.data.venue || '').toLowerCase().includes(q) ||
         (e.data.neighborhood || '').toLowerCase().includes(q);

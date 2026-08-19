@@ -1,4 +1,5 @@
 title: "Club de poesía"
+title_en: "Poetry Club"
 slug: banrep-club-poesia-jun30
 date: "2026-06-30"
 t0: "15:00"
@@ -11,6 +12,7 @@ recurring: "one-time"
 price: "gratis"
 confirmed: true
 source: "banrepcultural.org, Centro Cultural Banco de la República Cartagena"
+source_en: "banrepcultural.org, Banco de la República Cultural Center in Cartagena"
 maps_link: ""
 notes: "Club de lectura y poesía. Gratuito con inscripción previa requerida."
 notes_en: "Poetry reading club. Free but registration required — check banrepcultural.org to reserve your spot."

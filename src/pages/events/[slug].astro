@@ -1,10 +1,12 @@
 ---
 import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
+import { getBogotaToday, getEventOffer, getEventPriceLabel, getEventTitle, isFreeEventPrice } from '../../utils/events';
 
 const TYPE_LABELS: Record<string, string> = {
   music: 'Music', cultural: 'Culture', taller: 'Workshop', festival: 'Festival',
   sports: 'Sports', exposicion: 'Exhibition', lgbtq: 'LGTBIQ+', networking: 'Networking',
+  community: 'Community',
 };
 
 export async function getStaticPaths() {
@@ -18,6 +20,7 @@ export async function getStaticPaths() {
 const { event } = Astro.props;
 const e = event.data;
 const lang = 'en';
+const title = getEventTitle(e, lang);
 
 // Get venue data if venue_slug exists
 let venue = null;
@@ -26,7 +29,7 @@ if (e.venue_slug) {
   venue = venues.find(v => v.data.slug === e.venue_slug)?.data ?? null;
 }
 
-const today = new Date().toISOString().split('T')[0];
+const today = getBogotaToday();
 const isPast = e.date < today && (!e.end_date || e.end_date < today);
 const isOngoing = e.date < today && e.end_date && e.end_date >= today;
 
@@ -37,18 +40,19 @@ function formatDate(dateStr?: string | null) {
   });
 }
 
-const isFree = e.price === 'gratis' || e.price === 'Free — open access' || e.price === 'Entrada libre';
+const isFree = isFreeEventPrice(e.price);
+const offer = getEventOffer(e.price);
 
 const canonicalUrl = `https://cartagenaup.com/events/${e.slug}/`;
 
 const waText = encodeURIComponent(
-  `Hi! I found this event on Cartagena Up: ${e.title} on ${e.date}. cartagenaup.com/events/${e.slug}/`
+  `Hi! I found this event on Cartagena Up: ${title} on ${e.date}. cartagenaup.com/events/${e.slug}/`
 );
 
 const eventJsonLd = {
   "@context": "https://schema.org",
   "@type": "Event",
-  "name": e.title,
+  "name": title,
   "startDate": e.t0 ? `${e.date}T${e.t0}:00` : e.date,
   ...(e.end_date && {
     "endDate": e.t1 ? `${e.end_date}T${e.t1}:00` : e.end_date,
@@ -63,12 +67,7 @@ const eventJsonLd = {
       "addressCountry": "CO",
     },
   },
-  "offers": {
-    "@type": "Offer",
-    "price": "0",
-    "priceCurrency": "COP",
-    "availability": "https://schema.org/InStock",
-  },
+  ...(offer && { "offers": offer }),
   "organizer": {
     "@type": "Organization",
     "name": e.venue,
@@ -79,8 +78,8 @@ const eventJsonLd = {
 ---
 
 <Base
-  title={e.title}
-  description={e.notes_en || e.notes || `${e.title} at ${e.venue} in Cartagena.`}
+  title={title}
+  description={e.notes_en || e.notes || `${title} at ${e.venue} in Cartagena.`}
   lang="en"
   canonicalUrl={canonicalUrl}>
 
@@ -123,7 +122,7 @@ const eventJsonLd = {
 
     <!-- Title -->
     <h1 style="font-family: Georgia, serif; font-size: 2rem; font-weight: 400; margin: 0 0 1.25rem; line-height: 1.2; color: var(--fg);">
-      {e.title}
+      {title}
     </h1>
 
     <!-- Details -->
@@ -152,7 +151,7 @@ const eventJsonLd = {
       </div>
       <div style="display: flex; gap: 0.75rem; font-size: 0.875rem;">
         <span style="color: var(--text-muted); width: 5rem; flex-shrink: 0;">Price</span>
-        <span style="color: var(--fg);">{isFree ? 'Free' : e.price}</span>
+        <span style="color: var(--fg);">{getEventPriceLabel(e.price, lang)}</span>
       </div>
     </div>
 
@@ -179,7 +178,7 @@ const eventJsonLd = {
 
     <!-- Share this event -->
     <div style="display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 1.5rem;">
-      <a href={`https://wa.me/?text=${encodeURIComponent(`${e.title} — ${formatDate(e.date)}${e.t0 ? ' ' + e.t0 : ''} at ${e.venue} in Cartagena. Full details: https://cartagenaup.com/events/${e.slug}/`)}`}
+      <a href={`https://wa.me/?text=${encodeURIComponent(`${title} — ${formatDate(e.date)}${e.t0 ? ' ' + e.t0 : ''} at ${e.venue} in Cartagena. Full details: https://cartagenaup.com/events/${e.slug}/`)}`}
         target="_blank" rel="noopener"
         style="display: inline-flex; align-items: center; gap: 0.5rem; background: #25D366; color: white; font-size: 0.75rem; font-weight: 600; padding: 0.5rem 1rem; border-radius: 9999px; text-decoration: none;">
         Share on WhatsApp
@@ -194,7 +193,7 @@ const eventJsonLd = {
     <!-- Source -->
     {e.source && (
       <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--border);">
-        Source: {e.source}
+        Source: {e.source_en || e.source}
       </p>
     )}
   </div>

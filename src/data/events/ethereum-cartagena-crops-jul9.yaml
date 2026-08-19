@@ -1,4 +1,5 @@
 title: "Ethereum Cartagena — CROPS Meetup"
+title_en: "Ethereum Cartagena — CROPS Meetup"
 slug: ethereum-cartagena-crops-jul9
 date: "2026-07-09"
 t0: "18:30"
@@ -11,6 +12,7 @@ recurring: "monthly"
 price: "gratis"
 confirmed: true
 source: "lu.ma/Ethereum Cartagena, @cartagenaonchain, verificado julio 2026"
+source_en: "lu.ma/Ethereum Cartagena, @cartagenaonchain, verified July 2026"
 maps_link: ""
 venue_slug: "alianza-francesa"
 notes: "Meetup mensual de la comunidad Ethereum Cartagena. Tema: Turismo Onchain — stablecoins para pagos, tokenización inmobiliaria y NFTs para experiencias turísticas. Parte de Local Meetups LATAM post-Devconnect 2025. Registro previo en lu.ma."

@@ -1,0 +1,16 @@
+name: "Mercado de Bazurto"
+slug: mercado-bazurto
+neighborhood: "Bazurto"
+type: "market"
+address: "Avenida Pedro de Heredia, Bazurto, Cartagena"
+maps_link: ""
+instagram: ""
+description: "Cartagena's main popular market — loud, chaotic, and completely authentic. Not a place to work, but one of the most genuinely local experiences in the city. Fresh seafood, fritanga, sancocho de pescado, champeta music, and the kind of energy you won't find in the walled city. Go hungry, go early, bring cash. A cultural institution that most visitors to Cartagena never see."
+description_es: "El mercado popular principal de Cartagena — ruidoso, caótico y completamente auténtico. No es un lugar para trabajar, pero sí una de las experiencias más genuinamente locales de la ciudad. Mariscos frescos, fritanga, sancocho de pescado, música champeta y una energía que no encontrarás en la ciudad amurallada. Ve con hambre, ve temprano, lleva efectivo. Una institución cultural que la mayoría de visitantes de Cartagena nunca llega a ver."
+also_workplace: false
+source: "Verificado julio 2026, Yatan"
+active: true
+images:
+  - file: bazurto-comida.jpg
+    caption: "Sancocho de pescado — Mercado de Bazurto, Cartagena"
+    credit: "Cartagena Up"

@@ -1,9 +1,10 @@
 ---
 import { getCollection, type CollectionEntry } from 'astro:content';
 import Base from '../../../layouts/Base.astro';
+import { getBogotaToday } from '../../../utils/events';
 
 const lang = 'es';
-const today = new Date().toISOString().split('T')[0];
+const today = getBogotaToday();
 
 const allEvents = await getCollection('events', ({ data }) => data.active !== false);
 
