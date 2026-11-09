@@ -4,7 +4,7 @@ import Base from '../../layouts/Base.astro';
 
 const lang = 'en';
 
-const allPlaces = await getCollection('workPlaces',
+const allPlaces = await getCollection('work',
   ({ data }) => data.status === 'active' && data.wifi.down !== null
 );
 

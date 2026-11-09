@@ -7,12 +7,17 @@ const slug = z.string().regex(
   'Use a lowercase, URL-safe slug with words separated by hyphens'
 );
 
-const isoDate = z.string()
-  .regex(/^\d{4}-\d{2}-\d{2}$/, 'Use an ISO date in YYYY-MM-DD format')
-  .refine((value) => {
-    const date = new Date(`${value}T00:00:00Z`);
-    return !Number.isNaN(date.valueOf()) && date.toISOString().slice(0, 10) === value;
-  }, 'Date must be a real calendar date');
+// Accepts both "2026-11-09" (quoted) and 2026-11-09 (unquoted, which YAML parses as a
+// Date — Astro Editor writes dates that way). Either way the value is a YYYY-MM-DD string.
+const isoDate = z.preprocess(
+  (value) => (value instanceof Date ? value.toISOString().slice(0, 10) : value),
+  z.string()
+    .regex(/^\d{4}-\d{2}-\d{2}$/, 'Use an ISO date in YYYY-MM-DD format')
+    .refine((value) => {
+      const date = new Date(`${value}T00:00:00Z`);
+      return !Number.isNaN(date.valueOf()) && date.toISOString().slice(0, 10) === value;
+    }, 'Date must be a real calendar date')
+);
 
 const optionalUrl = z.url().optional();
 
@@ -114,4 +119,5 @@ const venues = defineCollection({
   }),
 });
 
-export const collections = { workPlaces, venues };
+// Collection key matches the folder name (src/content/work) so Astro Editor finds work.schema.json.
+export const collections = { work: workPlaces, venues };

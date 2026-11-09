@@ -2,7 +2,7 @@
 import { getCollection } from 'astro:content';
 import Base from '../../../layouts/Base.astro';
 
-const places = await getCollection('workPlaces',
+const places = await getCollection('work',
   ({ data }) => data.status === 'active' && data.wifi.down !== null
 );
 const sorted = places.sort((a, b) => (b.data.wifi.down ?? 0) - (a.data.wifi.down ?? 0));

@@ -8,7 +8,7 @@ import { getImage } from 'astro:assets';
 import { getWorkImage } from '../../../utils/images';
 
 export async function getStaticPaths() {
-  const places = await getCollection('workPlaces');
+  const places = await getCollection('work');
   return places.map(place => ({
     params: { slug: place.data.slug },
     props: { entry: place },

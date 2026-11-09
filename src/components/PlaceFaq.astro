@@ -4,7 +4,7 @@
 // Never add claims here that aren't backed by a field in the spot's data.
 import type { CollectionEntry } from 'astro:content';
 
-interface Props { place: CollectionEntry<'workPlaces'>['data']; lang: 'en' | 'es' }
+interface Props { place: CollectionEntry<'work'>['data']; lang: 'en' | 'es' }
 const { place: p, lang } = Astro.props;
 const es = lang === 'es';
 

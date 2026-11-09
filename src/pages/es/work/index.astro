@@ -5,7 +5,7 @@ import WhatsAppCTA from '../../../components/WhatsAppCTA.astro';
 import { getCollection } from 'astro:content';
 
 const lang = 'es';
-const places = (await getCollection('workPlaces'))
+const places = (await getCollection('work'))
   .sort((a, b) =>
     Number(b.data.status === 'active') - Number(a.data.status === 'active') ||
     b.data.last_tested.localeCompare(a.data.last_tested)

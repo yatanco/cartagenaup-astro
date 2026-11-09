@@ -15,7 +15,7 @@ function oneLine(s: string, max = 220) {
 }
 
 export const GET: APIRoute = async () => {
-  const places = await getCollection('workPlaces', ({ data }) => data.status === 'active');
+  const places = await getCollection('work', ({ data }) => data.status === 'active');
   const tested = places
     .filter(p => p.data.wifi.down !== null)
     .sort((a, b) => b.data.wifi.down! - a.data.wifi.down!);

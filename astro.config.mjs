@@ -19,6 +19,7 @@ const lastTested = Object.fromEntries(
 );
 const newestTest = Object.values(lastTested).sort().at(-1);
 
+/** @param {string} url */
 function sitemapLastmod(url) {
   const m = new URL(url).pathname.match(/^(?:\/es)?\/work\/([^/]+)\/$/);
   if (m && lastTested[m[1]]) return lastTested[m[1]];

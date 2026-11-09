@@ -11,7 +11,7 @@ const es = lang === 'es';
 const prefix = es ? '/es' : '';
 const MIN_ENTRIES = 3;
 
-const entries = (await getCollection('workPlaces',
+const entries = (await getCollection('work',
   ({ data }) => data.status === 'active' && !!data.cold_brew
 )).sort((a, b) => {
   const ra = a.data.cold_brew!.rank ?? Infinity;
