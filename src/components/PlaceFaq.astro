@@ -1,0 +1,91 @@
+---
+// Answer-first Q&A for a work spot, generated only from verified frontmatter fields.
+// Phrased the way people ask search engines and AI assistants. Emits FAQPage JSON-LD.
+// Never add claims here that aren't backed by a field in the spot's data.
+import type { CollectionEntry } from 'astro:content';
+
+interface Props { place: CollectionEntry<'workPlaces'>['data']; lang: 'en' | 'es' }
+const { place: p, lang } = Astro.props;
+const es = lang === 'es';
+
+const date = new Date(p.last_tested + 'T12:00:00')
+  .toLocaleDateString(es ? 'es-CO' : 'en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+const hasWifi = p.wifi.down !== null && p.wifi.up !== null;
+const ping = p.wifi.latency_ms ? (es ? `, ${p.wifi.latency_ms} ms de ping` : `, ${p.wifi.latency_ms} ms ping`) : '';
+const speeds = hasWifi ? `${p.wifi.down} Mbps ${es ? 'de bajada' : 'down'} / ${p.wifi.up} Mbps ${es ? 'de subida' : 'up'}${ping}` : '';
+
+// Video calls: use the tester's verdict if recorded, otherwise derive from upload speed.
+const callVerdict = p.wifi.video_calls ?? (hasWifi ? (p.wifi.up! >= 10 ? 'good' : p.wifi.up! >= 3 ? 'fair' : 'poor') : undefined);
+const CALLS = es
+  ? { excellent: 'Sí, excelente para videollamadas.', good: 'Sí, funciona bien para videollamadas.', fair: 'Más o menos — sirve para llamadas, pero puede fallar con video en HD o compartiendo pantalla.', poor: 'No de forma confiable — trae un hotspot de respaldo para llamadas.' }
+  : { excellent: 'Yes — excellent for video calls.', good: 'Yes — it handles video calls well.', fair: 'Mostly — fine for calls, but HD video or screen sharing may struggle.', poor: 'Not reliably — bring a hotspot backup for calls.' };
+
+const OUTLETS = es
+  ? { many: 'Sí, hay muchos enchufes.', some: 'Sí, hay algunos enchufes.', limited: 'Pocos — llega temprano o con la batería cargada.', none: 'No — llega con la batería cargada.' }
+  : { many: 'Yes, plenty of outlets.', some: 'Yes, there are some outlets.', limited: 'Only a few — arrive early or come charged.', none: 'No — come fully charged.' };
+
+const NOISE = es
+  ? { quiet: 'Sí, es tranquilo.', moderate: 'Moderadamente — hay algo de ruido de fondo.', loud: 'No mucho — es ruidoso; mejor para trabajo casual que para concentrarse.', variable: 'Depende — el ruido cambia según la hora.' }
+  : { quiet: 'Yes, it’s quiet.', moderate: 'Moderately — expect some background noise.', loud: 'Not really — it’s loud; better for casual work than deep focus.', variable: 'It varies — noise depends on the time of day.' };
+
+const bestTime = es ? p.best_time?.es : p.best_time?.en;
+const where = p.address && p.address !== `${p.neighborhood}, Cartagena` && !p.address.startsWith(`${p.neighborhood}, Cartagena`)
+  ? p.address : `${p.neighborhood}, Cartagena`;
+
+const faqs: { q: string; a: string }[] = [];
+
+if (hasWifi) {
+  faqs.push({
+    q: es ? `¿${p.name} tiene buen WiFi para trabajar?` : `Does ${p.name} have good WiFi for working?`,
+    a: es
+      ? `Medimos ${speeds} en persona con Speedtest.net el ${date}.`
+      : `We measured ${speeds} in person with Speedtest.net on ${date}.`,
+  });
+  if (callVerdict) faqs.push({
+    q: es ? `¿Puedo hacer videollamadas desde ${p.name}?` : `Can I take video calls at ${p.name}?`,
+    a: `${CALLS[callVerdict]} ${es ? `Subida medida: ${p.wifi.up} Mbps.` : `Measured upload: ${p.wifi.up} Mbps.`}`,
+  });
+}
+if (p.workspace.outlets !== 'n/a') faqs.push({
+  q: es ? `¿Hay enchufes en ${p.name}?` : `Are there power outlets at ${p.name}?`,
+  a: OUTLETS[p.workspace.outlets],
+});
+if (p.workspace.noise !== 'n/a') faqs.push({
+  q: es ? `¿${p.name} es tranquilo para trabajar o estudiar?` : `Is ${p.name} quiet enough to work or study?`,
+  a: NOISE[p.workspace.noise] + (bestTime ? (es ? ` Mejor momento: ${bestTime}.` : ` Best time: ${bestTime}.`) : ''),
+});
+faqs.push({
+  q: es ? `¿${p.name} tiene aire acondicionado?` : `Does ${p.name} have air conditioning?`,
+  a: p.workspace.ac ? (es ? 'Sí.' : 'Yes.') : (es ? 'No — tenlo en cuenta en las horas de más calor.' : 'No — keep that in mind during the hottest hours.'),
+});
+faqs.push({
+  q: es ? `¿Dónde queda ${p.name}?` : `Where is ${p.name}?`,
+  a: (es ? `En ${where}.` : `${where}.`) + (p.hours ? (es ? ` Horario: ${p.hours}.` : ` Hours: ${p.hours}.`) : ''),
+});
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map(f => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+};
+---
+
+<section style="margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border);">
+  <h2 style="font-family: Georgia, serif; font-size: 1.25rem; font-weight: 400; margin: 0 0 1rem; color: var(--fg);">
+    {es ? 'Preguntas rápidas' : 'Quick answers'}
+  </h2>
+  <dl style="display: grid; gap: 1rem; margin: 0;">
+    {faqs.map(f => (
+      <div>
+        <dt style="font-size: 0.9375rem; font-weight: 600; color: var(--fg); margin: 0 0 0.2rem;">{f.q}</dt>
+        <dd style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.6; margin: 0;">{f.a}</dd>
+      </div>
+    ))}
+  </dl>
+  <p style="font-size: 0.75rem; margin: 1rem 0 0;">
+    <a href={es ? '/es/about/#como-probamos' : '/about/#how-we-test'} style="color: #C45C26; text-decoration: none;">
+      {es ? 'Cómo probamos →' : 'How we test →'}
+    </a>
+  </p>
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+</section>

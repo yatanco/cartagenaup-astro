@@ -32,7 +32,7 @@ whatsapp_update_text: "Update for La Triada Punto y Sazón listing on Cartagena 
 
 ## En / Overview
 
-One of the few places in Cartagena that opens at 7am — rare and worth knowing. Movistar fiber gives it the fastest WiFi we've tested in the city: 372 down / 141 up. OK coffee, solid breakfast, quiet until lunchtime. A few outlets inside near the wall. In Manga, a quieter residential neighborhood away from the tourist center — worth the trip. Fuerte de Pastelillo is a short walk away if you need to stretch between sessions. Colombian flags, unpretentious local vibe.
+One of the few places in Cartagena that opens at 7am — rare and worth knowing. Movistar fiber gives it some of the fastest WiFi we've tested in the city: 372 down / 141 up. OK coffee, solid breakfast, quiet until lunchtime. A few outlets inside near the wall. In Manga, a quieter residential neighborhood away from the tourist center — worth the trip. Fuerte de Pastelillo is a short walk away if you need to stretch between sessions. Colombian flags, unpretentious local vibe.
 
 ### Best spot
 
@@ -46,7 +46,7 @@ Breakfast menu available — coffee and food
 
 ## Es / Descripción
 
-Uno de los pocos lugares en Cartagena que abre a las 7am — raro y vale la pena saberlo. La fibra óptica de Movistar le da el WiFi más rápido que hemos probado en la ciudad: 372 de bajada / 141 de subida. Café aceptable, buen desayuno, tranquilo hasta el mediodía. Algunos enchufes adentro cerca de la pared. En Manga, un vecindario residencial más tranquilo lejos del centro turístico — vale la pena el viaje. El Fuerte de Pastelillo está a poca distancia si necesitas estirarte entre sesiones. Banderas colombianas, ambiente local sin pretensiones.
+Uno de los pocos lugares en Cartagena que abre a las 7am — raro y vale la pena saberlo. La fibra óptica de Movistar le da uno de los WiFi más rápidos que hemos probado en la ciudad: 372 de bajada / 141 de subida. Café aceptable, buen desayuno, tranquilo hasta el mediodía. Algunos enchufes adentro cerca de la pared. En Manga, un vecindario residencial más tranquilo lejos del centro turístico — vale la pena el viaje. El Fuerte de Pastelillo está a poca distancia si necesitas estirarte entre sesiones. Banderas colombianas, ambiente local sin pretensiones.
 
 ### Mejor lugar
 

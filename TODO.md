@@ -73,10 +73,12 @@ All 16 active spots were last tested Jun 20 – Jul 24, 2026. Fresh "verified" d
 - [ ] Analytics: add key events for WhatsApp CTA clicks and "Open in Maps" clicks (GA4 shows 0 key events)
 - [ ] Venues with no "What's on" link (no Instagram / `events_url`): Cafetería Central, Kim,
       María Julio, Mercado Bazurto, San Pedro Claver — add a handle or calendar URL if they have one
-- [ ] La Triada's text says "fastest WiFi we've tested in the city: 372" but Mientras (531) is faster —
-      reword La Triada's EN/ES overview (it's quoted verbatim in the generated llms.txt)
-- [ ] robots.txt allows GPTBot + Google-Extended (training crawlers) while Content-Signal says ai-train=no —
-      decide which you mean (robots.txt is likely Cloudflare-managed; check dashboard)
+- [ ] Real street addresses: most spots say just "Centro Histórico, Cartagena". Grab the exact
+      address (Google Maps) on each re-test — feeds structured data, Q&A, and AI "where is" answers
+- [ ] Photo alt text: captions are just "Name — Neighborhood". Write what's in the photo
+      (e.g. "Laptop tables along the wall at Mientras, Centro Histórico")
+- [ ] Confirm "nobody pays to be listed" is true — it's stated on the cold brew page
+- [ ] Cloudflare dashboard: make sure no managed robots.txt / AI-crawler blocking overrides `public/robots.txt`
 - [ ] After deploy: confirm https://cartagenaup.com/this-does-not-exist returns 404, then re-run PageSpeed
 
 ---
@@ -89,3 +91,6 @@ All 16 active spots were last tested Jun 20 – Jul 24, 2026. Fresh "verified" d
 - 2026-11-08 — Removed netlify.toml (site is on Cloudflare); `.node-version` = 22
 - 2026-11-08 — Cold brew page template built
 - 2026-11-08 — Real 404 page (Cloudflare was serving homepage w/ 200 for unknown URLs); llms.txt generated from content per llmstxt.org; sitemap lastmod from last_tested
+- 2026-11-08 — La Triada text no longer claims fastest WiFi (Mientras is fastest)
+- 2026-11-08 — robots.txt: all crawlers allowed, ai-train=yes
+- 2026-11-08 — Answer-first Q&A + FAQPage schema on every active spot (generated from data); "How we test" on About; verified dates show the year; libraries use Library schema

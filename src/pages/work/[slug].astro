@@ -1,5 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
+import PlaceFaq from '../../components/PlaceFaq.astro';
 import WhatsAppCTA from '../../components/WhatsAppCTA.astro';
 import PlaceCarousel from '../../components/PlaceCarousel.jsx';
 import { getCollection, render } from 'astro:content';
@@ -35,7 +36,7 @@ const resolvedImages = await Promise.all(
 
 function shortDate(s: string) {
   const d = new Date(s + 'T12:00:00');
-  return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+  return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
 }
 
 const metaDescription = isActive && hasWifi
@@ -48,7 +49,7 @@ const metaDescription = isActive && hasWifi
 
 const placeJsonLd = {
   "@context": "https://schema.org",
-  "@type": place.type === 'coworking' ? "LocalBusiness" : "CafeOrCoffeeShop",
+  "@type": place.type === 'cafe' ? "CafeOrCoffeeShop" : place.type === 'library' ? "Library" : "LocalBusiness",
   "name": place.name,
   "url": `https://cartagenaup.com/work/${place.slug}/`,
   "address": {
@@ -198,6 +199,8 @@ const placeJsonLd = {
         Share on WhatsApp
       </a>
     </div>
+
+    {isActive && <PlaceFaq place={place} lang="en" />}
 
     <WhatsAppCTA lang="en" />
   </div>
