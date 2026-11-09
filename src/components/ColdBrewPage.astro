@@ -1,0 +1,154 @@
+---
+// "Best cold brew in Cartagena" — shared EN/ES page.
+// Data comes from the `cold_brew` field on work spots (src/content/work/*.md).
+// Stays noindex until there are MIN_ENTRIES reviews, so a thin page never gets indexed.
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+
+interface Props { lang: 'en' | 'es' }
+const { lang } = Astro.props;
+const es = lang === 'es';
+const prefix = es ? '/es' : '';
+const MIN_ENTRIES = 3;
+
+const entries = (await getCollection('workPlaces',
+  ({ data }) => data.status === 'active' && !!data.cold_brew
+)).sort((a, b) => {
+  const ra = a.data.cold_brew!.rank ?? Infinity;
+  const rb = b.data.cold_brew!.rank ?? Infinity;
+  return ra - rb || a.data.name.localeCompare(b.data.name);
+});
+
+const isReady = entries.length >= MIN_ENTRIES;
+const anyRuta = entries.some(e => e.data.cold_brew!.ruta_2026);
+const latest = entries.map(e => e.data.cold_brew!.tried).sort().at(-1);
+
+function shortDate(s?: string) {
+  if (!s) return '';
+  return new Date(s + 'T12:00:00').toLocaleDateString(es ? 'es-CO' : 'en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+}
+function cop(n?: number) {
+  return n ? `$${n.toLocaleString('es-CO')} COP` : '';
+}
+
+const t = es ? {
+  title: 'Mejor Cold Brew en Cartagena — Probado en Persona, con WiFi Medido',
+  h1: 'El mejor cold brew en Cartagena',
+  desc: `Dónde tomar el mejor cold brew en Cartagena: ${entries.length} cafés probados en persona por locales, con precio, nuestra opinión honesta y la velocidad de WiFi medida en cada uno.`,
+  intro: 'Cada bebida de esta lista la probamos nosotros, pagando de nuestro bolsillo. Y como esto es Cartagena Up, también medimos el WiFi — por si quieres quedarte a trabajar.',
+  ruta: 'Varios de estos cafés participaron en La Ruta del Cold Brew 2026.',
+  back: '← Todos los lugares de trabajo',
+  tried: 'Probado',
+  wifi: 'WiFi',
+  noWifi: 'WiFi sin medir',
+  empty: 'Estamos probando cafés para esta lista. Vuelve pronto.',
+  updated: 'Actualizado',
+  howTitle: '¿Cómo elegimos?',
+  how: 'Visitamos cada café, pedimos su cold brew y lo pagamos. Nadie nos paga por aparecer aquí. El orden refleja nuestro gusto personal; la velocidad de WiFi es una medición real con Speedtest.net.',
+} : {
+  title: 'Best Cold Brew in Cartagena — Tasted in Person, WiFi Measured',
+  h1: 'The best cold brew in Cartagena',
+  desc: `Where to get the best cold brew in Cartagena: ${entries.length} cafés tasted in person by locals, with price, our honest take, and the measured WiFi speed at each one.`,
+  intro: "We tried every drink on this list ourselves and paid for it. And because this is Cartagena Up, we measured the WiFi too — in case you want to stay and work.",
+  ruta: 'Several of these cafés took part in La Ruta del Cold Brew 2026.',
+  back: '← All Work Spots',
+  tried: 'Tried',
+  wifi: 'WiFi',
+  noWifi: 'WiFi not tested',
+  empty: "We're tasting our way through the city for this list. Check back soon.",
+  updated: 'Updated',
+  howTitle: 'How we pick',
+  how: "We visit each café, order its cold brew, and pay for it. Nobody pays to be on this list. The order is our personal taste; the WiFi speed is a real Speedtest.net measurement.",
+};
+
+const canonicalUrl = `https://cartagenaup.com${prefix}/work/best-cold-brew-cartagena/`;
+
+const itemListJsonLd = isReady ? {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: t.h1,
+  itemListElement: entries.map((e, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    url: `https://cartagenaup.com${prefix}/work/${e.data.slug}/`,
+    name: e.data.name,
+  })),
+} : undefined;
+---
+
+<Base
+  title={t.title}
+  description={t.desc}
+  lang={lang}
+  canonicalUrl={canonicalUrl}
+  noindex={!isReady}
+  additionalJsonLd={itemListJsonLd}>
+
+  <div style="padding-top: 1.5rem;">
+    <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 1.25rem;">
+      <a href={`${prefix}/work/`} style="color: #C45C26; text-decoration: none;">{t.back}</a>
+    </p>
+
+    <h1 style="font-family: Georgia, serif; font-size: 1.875rem; font-weight: 400; margin: 0 0 0.75rem; line-height: 1.2; color: var(--fg);">
+      {t.h1}
+    </h1>
+
+    <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 0.5rem;">
+      {t.intro}
+      {anyRuta && <> {t.ruta}</>}
+    </p>
+    {latest && (
+      <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 2rem;">
+        {t.updated} {shortDate(latest)}
+      </p>
+    )}
+
+    {entries.length === 0 && (
+      <p style="font-size: 0.9375rem; color: var(--fg); padding: 2rem 0;">{t.empty}</p>
+    )}
+
+    <div>
+      {entries.map((e, i) => {
+        const cb = e.data.cold_brew!;
+        const w = e.data.wifi;
+        return (
+          <article style={`padding: 1.25rem 0; ${i < entries.length - 1 ? 'border-bottom: 1px solid var(--border);' : ''}`}>
+            <div style="display: flex; align-items: baseline; gap: 0.75rem; flex-wrap: wrap;">
+              <span style="font-size: 1.375rem; font-weight: 700; color: var(--text-muted); font-variant-numeric: tabular-nums;">{i + 1}</span>
+              <h2 style="font-family: Georgia, serif; font-size: 1.25rem; font-weight: 400; margin: 0; flex: 1;">
+                <a href={`${prefix}/work/${e.data.slug}/`} style="color: var(--fg); text-decoration: none;">{e.data.name}</a>
+              </h2>
+              <span style="font-size: 0.75rem; color: var(--text-muted);">{e.data.neighborhood}</span>
+            </div>
+
+            <p style="font-size: 0.9375rem; font-weight: 600; color: var(--fg); margin: 0.5rem 0 0.25rem;">
+              {cb.drink[lang]}
+              {cb.price_cop && <span style="font-weight: 400; color: var(--text-muted);"> · {cop(cb.price_cop)}</span>}
+            </p>
+            <p style="font-size: 0.875rem; color: var(--fg); line-height: 1.65; margin: 0 0 0.625rem;">
+              {cb.note[lang]}
+            </p>
+
+            <p style="font-size: 0.75rem; color: var(--text-muted); margin: 0; display: flex; gap: 1rem; flex-wrap: wrap;">
+              <span>
+                {w.down !== null
+                  ? <>{t.wifi}: <strong style="color: var(--fg);">↓{Math.round(w.down)} ↑{Math.round(w.up!)}</strong> Mbps</>
+                  : t.noWifi}
+              </span>
+              <span>{t.tried} {shortDate(cb.tried)}</span>
+              {e.data.maps_link && (
+                <a href={e.data.maps_link} target="_blank" rel="noopener" style="color: #C45C26; text-decoration: none;">📍 Maps</a>
+              )}
+            </p>
+          </article>
+        );
+      })}
+    </div>
+
+    <div style="margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border);">
+      <h2 style="font-family: Georgia, serif; font-size: 1.25rem; font-weight: 400; margin: 0 0 0.5rem; color: var(--fg);">{t.howTitle}</h2>
+      <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.6; margin: 0;">{t.how}</p>
+    </div>
+  </div>
+
+</Base>

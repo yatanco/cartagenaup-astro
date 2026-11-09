@@ -70,6 +70,15 @@ const workPlaces = defineCollection({
       en: z.string().optional(),
       es: z.string().optional(),
     }).optional(),
+    // Cold brew review — when present, the spot appears on /work/best-cold-brew-cartagena/.
+    cold_brew: z.object({
+      drink: z.object({ en: z.string(), es: z.string() }),   // e.g. "Lupin — cold brew with corozo"
+      price_cop: z.number().int().positive().optional(),     // price you actually paid
+      note: z.object({ en: z.string(), es: z.string() }),     // your honest take, 1–3 sentences
+      tried: isoDate,                                         // date you drank it
+      rank: z.number().int().positive().optional(),          // your ordering (1 = best); unranked go last
+      ruta_2026: z.boolean().optional(),                      // took part in La Ruta del Cold Brew 2026
+    }).optional(),
     whatsapp_update_text: z.string().optional(),
     related_listing: z.string().optional(),
     casa_gaviota_note: z.string().optional(),

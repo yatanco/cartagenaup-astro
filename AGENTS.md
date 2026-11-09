@@ -1,3 +1,8 @@
+## Open tasks (read first)
+
+At the start of every session, read `TODO.md` and briefly tell the user what's open.
+When you finish an item, move it to the Done section of `TODO.md` with the date.
+
 ## Images (CRITICAL)
 
 All images go in `src/assets/images/` NOT `public/`.
