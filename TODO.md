@@ -73,6 +73,11 @@ All 16 active spots were last tested Jun 20 – Jul 24, 2026. Fresh "verified" d
 - [ ] Analytics: add key events for WhatsApp CTA clicks and "Open in Maps" clicks (GA4 shows 0 key events)
 - [ ] Venues with no "What's on" link (no Instagram / `events_url`): Cafetería Central, Kim,
       María Julio, Mercado Bazurto, San Pedro Claver — add a handle or calendar URL if they have one
+- [ ] La Triada's text says "fastest WiFi we've tested in the city: 372" but Mientras (531) is faster —
+      reword La Triada's EN/ES overview (it's quoted verbatim in the generated llms.txt)
+- [ ] robots.txt allows GPTBot + Google-Extended (training crawlers) while Content-Signal says ai-train=no —
+      decide which you mean (robots.txt is likely Cloudflare-managed; check dashboard)
+- [ ] After deploy: confirm https://cartagenaup.com/this-does-not-exist returns 404, then re-run PageSpeed
 
 ---
 
@@ -83,3 +88,4 @@ All 16 active spots were last tested Jun 20 – Jul 24, 2026. Fresh "verified" d
 - 2026-11-08 — Rewrote `/work/` EN/ES titles for study/work search intent
 - 2026-11-08 — Removed netlify.toml (site is on Cloudflare); `.node-version` = 22
 - 2026-11-08 — Cold brew page template built
+- 2026-11-08 — Real 404 page (Cloudflare was serving homepage w/ 200 for unknown URLs); llms.txt generated from content per llmstxt.org; sitemap lastmod from last_tested
