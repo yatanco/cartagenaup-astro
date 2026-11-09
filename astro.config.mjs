@@ -55,6 +55,8 @@ export default defineConfig({
     }),
   ],
   output: 'static',
+  // Site CSS is ~4 KiB: inline it to remove a render-blocking request.
+  build: { inlineStylesheets: 'always' },
   prefetch: {
     prefetchAll: false,
     defaultStrategy: 'hover',
