@@ -62,7 +62,7 @@ function shortDate(s: string) {
 
     <!-- Verification / status badge -->
     <div style="margin-bottom: 0.625rem;">
-      <span style={`display: inline-flex; align-items: center; gap: 0.25rem; background: ${isActive ? '#C45C26' : '#6B7280'}; color: #fff; font-size: 0.6rem; font-weight: 700; padding: 0.2rem 0.6rem; border-radius: 9999px; text-transform: uppercase; letter-spacing: 0.08em;`}>
+      <span style={`display: inline-flex; align-items: center; gap: 0.25rem; background: ${isActive ? '#B5521F' : '#6B7280'}; color: #fff; font-size: 0.6rem; font-weight: 700; padding: 0.2rem 0.6rem; border-radius: 9999px; text-transform: uppercase; letter-spacing: 0.08em;`}>
         {isActive
           ? `✓ ${verified} ${shortDate(place.last_tested)}${place.tested_by ? ` · ${place.tested_by}` : ''}`
           : statusLabels[place.status]}
@@ -138,7 +138,7 @@ function shortDate(s: string) {
     <div style="display: flex; gap: 1rem; flex-wrap: wrap; font-size: 0.75rem; margin-top: 0.875rem;">
       {place.maps_link && (
         <a href={place.maps_link} target="_blank" rel="noopener"
-          style="color: #C45C26; text-decoration: none; font-weight: 500;">
+          style="color: var(--accent); text-decoration: none; font-weight: 500;">
           📍 {mapsLabel}
         </a>
       )}

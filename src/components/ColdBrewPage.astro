@@ -86,7 +86,7 @@ const itemListJsonLd = isReady ? {
 
   <div style="padding-top: 1.5rem;">
     <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 1.25rem;">
-      <a href={`${prefix}/work/`} style="color: #C45C26; text-decoration: none;">{t.back}</a>
+      <a href={`${prefix}/work/`} style="color: var(--accent); text-decoration: none;">{t.back}</a>
     </p>
 
     <h1 style="font-family: Georgia, serif; font-size: 1.875rem; font-weight: 400; margin: 0 0 0.75rem; line-height: 1.2; color: var(--fg);">
@@ -137,7 +137,7 @@ const itemListJsonLd = isReady ? {
               </span>
               <span>{t.tried} {shortDate(cb.tried)}</span>
               {e.data.maps_link && (
-                <a href={e.data.maps_link} target="_blank" rel="noopener" style="color: #C45C26; text-decoration: none;">📍 Maps</a>
+                <a href={e.data.maps_link} target="_blank" rel="noopener" style="color: var(--accent); text-decoration: none;">📍 Maps</a>
               )}
             </p>
           </article>

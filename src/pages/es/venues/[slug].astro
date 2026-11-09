@@ -54,7 +54,7 @@ const resolvedImages = await Promise.all(
   <div style="padding-top: 1.5rem;">
     <!-- Breadcrumb -->
     <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 1.25rem;">
-      <a href="/es/venues/" style="color: #C45C26; text-decoration: none;">← Espacios Culturales</a>
+      <a href="/es/venues/" style="color: var(--accent); text-decoration: none;">← Espacios Culturales</a>
     </p>
 
     <!-- Photos -->
@@ -125,7 +125,7 @@ const resolvedImages = await Promise.all(
     <!-- Maps link -->
     {venue.maps_link && (
       <a href={venue.maps_link} target="_blank" rel="noopener"
-        style="display: inline-flex; align-items: center; gap: 0.375rem; background: #C45C26; color: white; text-decoration: none; padding: 0.625rem 1.125rem; border-radius: 8px; font-size: 0.875rem; font-weight: 600; margin-bottom: 1.5rem;">
+        style="display: inline-flex; align-items: center; gap: 0.375rem; background: var(--accent-bg); color: white; text-decoration: none; padding: 0.625rem 1.125rem; border-radius: 8px; font-size: 0.875rem; font-weight: 600; margin-bottom: 1.5rem;">
         📍 Ver en Google Maps
       </a>
     )}

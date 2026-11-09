@@ -58,7 +58,7 @@ const faqJsonLd = {
 
   <div style="padding-top: 1.5rem;">
     <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 1.25rem;">
-      <a href="/work/" style="color: #C45C26; text-decoration: none;">← All Work Spots</a>
+      <a href="/work/" style="color: var(--accent); text-decoration: none;">← All Work Spots</a>
     </p>
 
     <h1 style="font-family: Georgia, serif; font-size: 1.875rem; font-weight: 400; margin: 0 0 0.75rem; line-height: 1.2; color: var(--fg);">
@@ -72,7 +72,7 @@ const faqJsonLd = {
     <div style="border: 0.5px solid var(--card-border); border-radius: 10px; padding: 1.25rem; margin-bottom: 2rem; background: var(--card-bg);">
       <p style="font-size: 0.875rem; line-height: 1.7; color: var(--fg); margin: 0;">
         <strong>Fastest measured:</strong>{' '}
-        <a href={`/work/${fastest?.slug}/`} style="color: #C45C26; text-decoration: none; font-weight: 600;">
+        <a href={`/work/${fastest?.slug}/`} style="color: var(--accent); text-decoration: none; font-weight: 600;">
           {fastest?.name}
         </a>
         {' '}in {fastest?.neighborhood} — {fastest?.wifi.down} Mbps down / {fastest?.wifi.up} Mbps up.

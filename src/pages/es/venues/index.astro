@@ -41,7 +41,7 @@ const venues = (await getCollection('venues', ({ data }) => data.active !== fals
               </p>
             </div>
             {venue.data.also_workplace && (
-              <span style="font-size: 0.65rem; font-weight: 700; background: rgba(196,92,38,0.1); color: #C45C26; padding: 0.25rem 0.6rem; border-radius: 9999px; white-space: nowrap; flex-shrink: 0;">
+              <span style="font-size: 0.65rem; font-weight: 700; background: rgba(196,92,38,0.1); color: var(--accent); padding: 0.25rem 0.6rem; border-radius: 9999px; white-space: nowrap; flex-shrink: 0;">
                 También un lugar de trabajo
               </span>
             )}
@@ -57,7 +57,7 @@ const venues = (await getCollection('venues', ({ data }) => data.active !== fals
             </a>
           )}
           <a href={`/es/venues/${venue.data.slug}/`}
-            style="font-size: 0.75rem; color: #C45C26; text-decoration: none; font-weight: 600;">
+            style="font-size: 0.75rem; color: var(--accent); text-decoration: none; font-weight: 600;">
             Ver espacio →
           </a>
         </div>

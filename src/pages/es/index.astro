@@ -31,23 +31,23 @@ const fastest = verifiedPlaces.reduce((best, p) => (p.data.wifi.down! > best.dat
 
   <!-- Dark hero -->
   <section style="background: #1C1A17; margin: 0 -1.25rem; padding: 2.5rem 1.25rem 2rem;">
-    <p style="font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #C45C26; margin: 0 0 0.875rem;">
+    <p style="font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #E07A45; margin: 0 0 0.875rem;">
       Cartagena de Indias · Verificado {verifiedLabel}
     </p>
     <h1 style="font-family: Georgia, serif; font-weight: 400; font-size: clamp(2.2rem, 6vw, 3.2rem); line-height: 1.1; color: #FAF7F2; margin: 0 0 0.875rem;">
       Cartagena. <em style="font-style: italic; color: #C8943A;">Recién actualizada.</em>
     </h1>
-    <p style="font-size: 0.875rem; color: rgba(250,247,242,0.5); margin: 0 0 1.5rem; line-height: 1.55; max-width: 30rem;">
+    <p style="font-size: 0.875rem; color: rgba(250,247,242,0.65); margin: 0 0 1.5rem; line-height: 1.55; max-width: 30rem;">
       Cafés y lugares de trabajo con velocidades de WiFi reales y medidas — probados en persona por gente que vive aquí.
     </p>
     <div style="border-top: 1px solid rgba(255,255,255,0.08); padding-top: 1.25rem; display: flex; gap: 2.5rem; flex-wrap: wrap;">
       <div>
         <span style="font-size: 1.5rem; font-weight: 700; color: #C8943A;">{verifiedPlaces.length}</span>
-        <span style="font-size: 0.75rem; color: rgba(250,247,242,0.45); margin-left: 0.4rem;">lugares verificados</span>
+        <span style="font-size: 0.75rem; color: rgba(250,247,242,0.65); margin-left: 0.4rem;">lugares verificados</span>
       </div>
       <div>
         <span style="font-size: 1.5rem; font-weight: 700; color: #C8943A;">{Math.round(fastest.data.wifi.down!)} Mbps</span>
-        <span style="font-size: 0.75rem; color: rgba(250,247,242,0.45); margin-left: 0.4rem;">WiFi más rápido medido</span>
+        <span style="font-size: 0.75rem; color: rgba(250,247,242,0.65); margin-left: 0.4rem;">WiFi más rápido medido</span>
       </div>
     </div>
   </section>
@@ -88,7 +88,7 @@ const fastest = verifiedPlaces.reduce((best, p) => (p.data.wifi.down! > best.dat
         );
       })}
     </div>
-    <a href="/es/work/" style="font-size: 0.75rem; font-weight: 600; color: #C45C26; text-decoration: none; display: inline-block; margin-top: 0.875rem;">
+    <a href="/es/work/" style="font-size: 0.75rem; font-weight: 600; color: var(--accent); text-decoration: none; display: inline-block; margin-top: 0.875rem;">
       {t.home.seeAllSpots}
     </a>
   </section>

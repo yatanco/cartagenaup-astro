@@ -4,7 +4,7 @@
 @theme {
   --color-sand: #FAF7F2;
   --color-ink: #1C1A17;
-  --color-terracotta: #C45C26;
+  --color-terracotta: #B5521F; /* darkened from #C45C26 for WCAG AA text contrast */
   --color-terracotta-hover: #A34A1E;
   --color-gold: #C8943A;
   --color-muted: #4A4540;
@@ -27,6 +27,8 @@
   --border: #DDD5C8;
   --section-label: #4A4540;
   --input-bg: #F0EBE1;
+  --accent: #B5521F;      /* text/links on light bg: 4.7:1 */
+  --accent-bg: #B5521F;   /* buttons with white text: 5.0:1 */
 }
 
 .dark {
@@ -34,10 +36,13 @@
   --fg: #FAF7F2;
   --card-bg: #262320;
   --card-border: rgba(255,255,255,0.08);
-  --text-muted: rgba(250,247,242,0.45);
+  --text-muted: rgba(250,247,242,0.62);
   --border: rgba(255,255,255,0.08);
-  --section-label: rgba(250,247,242,0.45);
+  --section-label: rgba(250,247,242,0.62);
   --input-bg: #262320;
+  --accent: #E07A45;      /* text/links on dark bg: 5.8:1 */
+  --accent-bg: #B5521F;
+  --color-terracotta: #E07A45;
 }
 
 html {
@@ -71,7 +76,7 @@ h1, h2, h3 {
 
 /* Event title link */
 .event-title-link:hover {
-  color: #C45C26;
+  color: var(--accent);
 }
 
 /* Section label — small caps + line */
