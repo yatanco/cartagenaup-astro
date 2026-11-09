@@ -76,4 +76,31 @@ const workPlaces = defineCollection({
   }),
 });
 
-export const collections = { workPlaces };
+const venues = defineCollection({
+  loader: glob({
+    pattern: '**/*.yaml',
+    base: './src/data/venues'
+  }),
+  schema: z.object({
+    name: z.string(),
+    slug: z.string(),
+    neighborhood: z.string(),
+    type: z.string(),
+    address: z.string().optional(),
+    maps_link: z.string().optional(),
+    instagram: z.string().optional(),
+    description: z.string(),
+    description_es: z.string(),
+    also_workplace: z.boolean().optional(),
+    workplace_slug: z.string().optional(),
+    images: z.array(z.object({
+      file: z.string(),
+      caption: z.string().optional(),
+      credit: z.string().optional(),
+    })).optional(),
+    source: z.string().optional(),
+    active: z.boolean(),
+  }),
+});
+
+export const collections = { workPlaces, venues };

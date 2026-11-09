@@ -1,0 +1,13 @@
+name: "Mientras"
+slug: mientras-cartagena
+neighborhood: "Getsemaní"
+type: "cafe-venue"
+address: "Getsemaní, Cartagena"
+maps_link: "https://maps.app.goo.gl/RTc1rVMhBwY85tR47"
+instagram: "@mientrasesmientras"
+description: "A Getsemaní favorite that doubles as one of Cartagena's most active live music venues. By day: a café with the fastest WiFi measured on this site (531 Mbps), full food menu from 9am. By night: live concerts, DJ sets, and cultural events — part of Marée Sonore / Fête de la Musique, Puerto Cypher hip-hop nights, and recurring local music programming. One of the few places in the city where you can work in the morning and attend a proper concert the same evening."
+description_es: "Un favorito de Getsemaní que funciona como uno de los espacios de música en vivo más activos de Cartagena. De día: café con el WiFi más rápido medido en este sitio (531 Mbps), menú completo desde las 9am. De noche: conciertos en vivo, DJ sets y eventos culturales — parte de Marée Sonore / Fête de la Musique, noches de hip-hop Puerto Cypher y programación musical local recurrente. Uno de los pocos lugares en la ciudad donde puedes trabajar en la mañana y asistir a un concierto esa misma noche."
+also_workplace: true
+workplace_slug: "mientras-cartagena"
+source: "Instagram @mientrasesmientras, verificado julio 2026"
+active: true

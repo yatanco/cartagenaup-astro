@@ -7,6 +7,7 @@ import { es } from '../i18n/es';
 const t = lang === 'es' ? es : en;
 
 const workHref  = lang === 'es' ? '/es/work/'   : '/work/';
+const venuesHref = lang === 'es' ? '/es/venues/' : '/venues/';
 const aboutHref = lang === 'es' ? '/es/about/'  : '/about/';
 const homeHref  = lang === 'es' ? '/es/'         : '/';
 const fastestWifiHref = lang === 'es' ? '/es/work/fastest-wifi-cartagena/' : '/work/fastest-wifi-cartagena/';
@@ -174,6 +175,9 @@ const altPath = lang === 'es'
           <div class="space-y-2">
             <a href={aboutHref} class="block text-muted hover:text-terracotta no-underline text-xs">
               {lang === 'es' ? 'Acerca de' : 'About'}
+            </a>
+            <a href={venuesHref} class="block text-muted hover:text-terracotta no-underline text-xs">
+              {lang === 'es' ? 'Lugares que vale la pena conocer' : 'Places worth knowing'}
             </a>
             <a href="https://wa.me/573163946401?text=Hi! I found Cartagena Up." target="_blank" rel="noopener" class="block text-muted hover:text-terracotta no-underline text-xs">
               {lang === 'es' ? 'Contactar por WhatsApp' : 'Contact on WhatsApp'}

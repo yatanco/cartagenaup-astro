@@ -1,0 +1,12 @@
+name: "Biblioteca Bartolomé Calvo — Banco de la República"
+slug: biblioteca-bartolome-calvo
+neighborhood: "Centro Histórico"
+type: "library"
+address: "Centro Histórico, Cartagena"
+maps_link: "https://share.google/um9vF4cd6VpXUupXi"
+description: "A neoclassical 1907 Banco de la República library — one of the most beautiful buildings in Cartagena, with Ionic columns, high arched ceilings, and a black marble reading room. Free to enter, free to use. Has a dedicated kids' area, making it one of the few spaces in the city where working parents can bring their children. Also a verified work spot with open WiFi (daily rotating password)."
+description_es: "Una biblioteca neoclásica de 1907 del Banco de la República — uno de los edificios más hermosos de Cartagena, con columnas jónicas, techos arqueados altos y una sala de lectura de mármol negro. Entrada libre, uso gratuito. Cuenta con un área dedicada para niños, lo que la convierte en uno de los pocos espacios de la ciudad donde padres que trabajan pueden llevar a sus hijos. También es un lugar de trabajo verificado, con WiFi abierto (contraseña diaria rotativa)."
+also_workplace: true
+workplace_slug: "biblioteca-bartolome-calvo"
+source: "Field visit, Yatan, 2026-07-08"
+active: true

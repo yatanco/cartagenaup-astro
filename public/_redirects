@@ -1,17 +1,4 @@
-# Events and venues sections retired Nov 2026 — site now focuses on WiFi-tested cafés and work spots.
-# Venues that are also verified work spots go to their work page; everything else goes to /work/.
-/venues/mientras-cartagena/          /work/mientras-cartagena/              301
-/venues/claustro-la-merced/          /work/claustro-la-merced/              301
-/venues/biblioteca-bartolome-calvo/  /work/biblioteca-bartolome-calvo/      301
-/venues/alianza-francesa/            /work/alianza-colombo-francesa-cafe/   301
-/es/venues/mientras-cartagena/          /es/work/mientras-cartagena/              301
-/es/venues/claustro-la-merced/          /es/work/claustro-la-merced/              301
-/es/venues/biblioteca-bartolome-calvo/  /es/work/biblioteca-bartolome-calvo/      301
-/es/venues/alianza-francesa/            /es/work/alianza-colombo-francesa-cafe/   301
-/venues/*     /work/     301
-/es/venues/*  /es/work/  301
-/venues       /work/     301
-/es/venues    /es/work/  301
+# Events section retired Nov 2026 — site focuses on WiFi-tested cafés and work spots.
 /events/*     /work/     301
 /es/events/*  /es/work/  301
 /events       /work/     301
