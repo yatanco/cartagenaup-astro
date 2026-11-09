@@ -21,7 +21,7 @@ Source: La Ruta del Cold Brew 2026 (already happened). Participating cafés, per
 | Café | On site? | Status |
 |---|---|---|
 | Mientras | ✅ `mientras-cartagena` | needs cold brew tasting only |
-| Meeza (Café & Brunch Salón) | ❌ | visit: WiFi + photos + cold brew |
+| Meeza (Café & Brunch Salón) | ✅ `meeza` | ✅ done (WiFi, photo, cold brew, address, hours) |
 | Barra Xperimental | ❌ | visit: WiFi + photos + cold brew |
 | Mura | ❌ | visit: WiFi + photos + cold brew |
 | Just B | ❌ | visit: WiFi + photos + cold brew |
