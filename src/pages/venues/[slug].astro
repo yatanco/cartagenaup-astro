@@ -109,6 +109,19 @@ const resolvedImages = await Promise.all(
       </div>
     )}
 
+    <!-- What's on: link out to the venue's own calendar -->
+    {(venue.events_url || venue.instagram) && (
+      <div class="bg-surface border border-border-warm rounded-xl p-4 mb-6">
+        <p class="text-sm font-semibold text-ink mb-1">What's on</p>
+        <p class="text-xs text-muted mb-3">We don't list events ourselves — the venue keeps its own calendar up to date.</p>
+        <a href={venue.events_url || `https://instagram.com/${venue.instagram!.replace('@', '')}`}
+          target="_blank" rel="noopener"
+          class="text-xs text-terracotta font-semibold no-underline hover:underline">
+          {venue.events_url ? 'See upcoming events on their calendar →' : 'Check their Instagram for upcoming events →'}
+        </a>
+      </div>
+    )}
+
     <!-- Maps link -->
     {venue.maps_link && (
       <a href={venue.maps_link} target="_blank" rel="noopener"
