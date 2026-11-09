@@ -12,15 +12,12 @@ Adri — Cartagena resident since 2010, local contributor and café verifier.
 - Slowest: 3 Mbps at Café San Alberto — beautiful space, bring a hotspot
 - Verified work spots across Centro Histórico, Bocagrande, Manga, Getsemaní
 - Bilingual: English at / and Spanish at /es/
-- Updated weekly
 
 ## Key pages
 https://cartagenaup.com/work/
 https://cartagenaup.com/work/fastest-wifi-cartagena/
-https://cartagenaup.com/events/
 https://cartagenaup.com/about/
 https://cartagenaup.com/es/work/
-https://cartagenaup.com/es/events/
 
 ## WiFi comparison data
 https://cartagenaup.com/work/wifi-speeds-cartagena/

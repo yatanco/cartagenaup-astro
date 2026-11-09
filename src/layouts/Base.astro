@@ -7,12 +7,8 @@ import { es } from '../i18n/es';
 const t = lang === 'es' ? es : en;
 
 const workHref  = lang === 'es' ? '/es/work/'   : '/work/';
-const eventsHref = lang === 'es' ? '/es/events/' : '/events/';
 const aboutHref = lang === 'es' ? '/es/about/'  : '/about/';
 const homeHref  = lang === 'es' ? '/es/'         : '/';
-const venuesHref = lang === 'es' ? '/es/venues/' : '/venues/';
-const archiveHref = lang === 'es' ? '/es/events/archive/' : '/events/archive/';
-const sourcesHref = lang === 'es' ? '/es/events/sources/' : '/events/sources/';
 const fastestWifiHref = lang === 'es' ? '/es/work/fastest-wifi-cartagena/' : '/work/fastest-wifi-cartagena/';
 const wifiSpeedsHref = lang === 'es' ? '/es/work/wifi-speeds-cartagena/' : '/work/wifi-speeds-cartagena/';
 const absoluteOgImage = ogImage.startsWith('http')
@@ -36,8 +32,8 @@ const jsonLd = JSON.stringify({
 });
 
 const currentPath = Astro.url.pathname;
-const isWork   = currentPath.includes('/work');
-const isEvents = currentPath.includes('/events');
+const isWork   = currentPath.includes('/work') && !currentPath.includes('/fastest-wifi');
+const isFastest = currentPath.includes('/fastest-wifi');
 const isAbout  = currentPath.includes('/about');
 
 // Equivalent page in other language, used for language switcher
@@ -69,7 +65,6 @@ const altPath = lang === 'es'
   <link rel="alternate" hreflang="en" href={enHref} />
   <link rel="alternate" hreflang="es" href={esHref} />
   <link rel="alternate" hreflang="x-default" href={enHref} />
-  <link rel="alternate" type="application/rss+xml" title="Cartagena Up Events" href="/rss.xml" />
   <ClientRouter />
   <script type="application/ld+json" set:html={jsonLd} />
   {additionalJsonLd && <script type="application/ld+json" set:html={JSON.stringify(additionalJsonLd)} />}
@@ -134,9 +129,9 @@ const altPath = lang === 'es'
         style={`font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; text-decoration: none; font-weight: 600; color: ${isWork ? '#C45C26' : 'rgba(250,247,242,0.45)'};`}>
         {t.nav.work}
       </a>
-      <a href={eventsHref}
-        style={`font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; text-decoration: none; font-weight: 600; color: ${isEvents ? '#C45C26' : 'rgba(250,247,242,0.45)'};`}>
-        {t.nav.thisWeek}
+      <a href={fastestWifiHref}
+        style={`font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; text-decoration: none; font-weight: 600; color: ${isFastest ? '#C45C26' : 'rgba(250,247,242,0.45)'};`}>
+        {lang === 'es' ? 'WiFi más rápido' : 'Fastest WiFi'}
       </a>
       <a href={aboutHref}
         style={`font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; text-decoration: none; font-weight: 600; color: ${isAbout ? '#C45C26' : 'rgba(250,247,242,0.45)'};`}>
@@ -152,7 +147,7 @@ const altPath = lang === 'es'
   <footer class="border-t border-border-warm mt-16">
     <div class="max-w-2xl mx-auto px-5 py-8">
 
-      <div class="grid grid-cols-2 gap-8 mb-8 text-sm md:grid-cols-3">
+      <div class="grid grid-cols-2 gap-8 mb-8 text-sm">
 
         <div>
           <p class="font-semibold text-ink dark:text-white mb-3 text-xs uppercase tracking-wider">
@@ -171,22 +166,6 @@ const altPath = lang === 'es'
           </div>
         </div>
 
-        <div>
-          <p class="font-semibold text-ink dark:text-white mb-3 text-xs uppercase tracking-wider">
-            {lang === 'es' ? 'Eventos' : 'Events'}
-          </p>
-          <div class="space-y-2">
-            <a href={eventsHref} class="block text-muted hover:text-terracotta no-underline text-xs">
-              {lang === 'es' ? 'Esta semana' : 'This week'}
-            </a>
-            <a href={archiveHref} class="block text-muted hover:text-terracotta no-underline text-xs">
-              {lang === 'es' ? 'Eventos pasados' : 'Past events'}
-            </a>
-            <a href={sourcesHref} class="block text-muted hover:text-terracotta no-underline text-xs">
-              {lang === 'es' ? 'Fuentes de eventos' : 'How we source events'}
-            </a>
-          </div>
-        </div>
 
         <div>
           <p class="font-semibold text-ink dark:text-white mb-3 text-xs uppercase tracking-wider">
@@ -195,9 +174,6 @@ const altPath = lang === 'es'
           <div class="space-y-2">
             <a href={aboutHref} class="block text-muted hover:text-terracotta no-underline text-xs">
               {lang === 'es' ? 'Acerca de' : 'About'}
-            </a>
-            <a href={venuesHref} class="block text-muted hover:text-terracotta no-underline text-xs">
-              {lang === 'es' ? 'Espacios culturales' : 'Cultural venues'}
             </a>
             <a href="https://wa.me/573163946401?text=Hi! I found Cartagena Up." target="_blank" rel="noopener" class="block text-muted hover:text-terracotta no-underline text-xs">
               {lang === 'es' ? 'Contactar por WhatsApp' : 'Contact on WhatsApp'}
@@ -215,9 +191,6 @@ const altPath = lang === 'es'
         <div class="flex gap-4">
           <a href={altPath} class="text-xs text-muted hover:text-terracotta no-underline">
             {lang === 'es' ? 'English' : 'Español'}
-          </a>
-          <a href="/rss.xml" class="text-xs text-muted hover:text-terracotta no-underline">
-            RSS
           </a>
         </div>
       </div>

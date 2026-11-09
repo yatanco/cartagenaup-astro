@@ -3,12 +3,10 @@
 All images go in `src/assets/images/` NOT `public/`.
 - Work spots: `src/assets/images/places/work/`
 - Beaches: `src/assets/images/places/beaches/`
-- Venues: `src/assets/images/venues/`
 
 Use helpers from `src/utils/images.ts`:
   `getWorkImage(filename)`
   `getBeachImage(filename)`
-  `getVenueImage(filename)`
 
 Pre-resolve in Astro components using `getImage()` from `astro:assets`.
 Pass resolved `{ url, webpUrl }` to React islands (they can't call `astro:assets` directly).
@@ -29,7 +27,7 @@ Manage the background server with `astro dev stop`, `astro dev status`, and `ast
 
 ## Competitive Position
 
-Cartagena Up has a meaningful moat against every current competitor: real WiFi speed test data (download, upload, and ping for each spot), personal verification dates, original photography, and a live events pipeline sourced directly from Banco de la República, Alianza Francesa, and Espacio Cultural Claustro de la Merced. No other Cartagena guide — including cartagenaexplorer.com (~41k visits, broad authority) and cartagenaconnections.com (~7k visits, stale content) — publishes actual measured WiFi speeds. The 2018 Lost With Purpose wifi-cartagena article, the highest-ranking result for "wifi cartagena," has visible PHP errors and speed data from 2018. The realistic ranking timeline for a domain this young: 3–6 months for long-tail queries ("café with wifi cartagena", "coworking manga cartagena"), 6–12 months for competitive head terms like "coworking cartagena" or "best cafés to work cartagena." Local SEO signals (consistent NAP, Maps links, neighborhood tagging) will compound faster than domain age alone.
+Cartagena Up has a meaningful moat against every current competitor: real WiFi speed test data (download, upload, and ping for each spot), personal verification dates, and original photography. The site is focused on cafés, coffee, and WiFi-tested work spots — the events and venues sections were retired in Nov 2026 (too much upkeep for little search traffic); old URLs 301 to /work/ via `public/_redirects`. No other Cartagena guide — including cartagenaexplorer.com (~41k visits, broad authority) and cartagenaconnections.com (~7k visits, stale content) — publishes actual measured WiFi speeds. The 2018 Lost With Purpose wifi-cartagena article, the highest-ranking result for "wifi cartagena," has visible PHP errors and speed data from 2018. The realistic ranking timeline for a domain this young: 3–6 months for long-tail queries ("café with wifi cartagena", "coworking manga cartagena"), 6–12 months for competitive head terms like "coworking cartagena" or "best cafés to work cartagena." Local SEO signals (consistent NAP, Maps links, neighborhood tagging) will compound faster than domain age alone.
 
 ## Documentation
 

@@ -1,17 +1,14 @@
 export const en = {
   nav: {
     work: 'Work Spots',
-    thisWeek: 'This Week',
     about: 'About',
   },
   home: {
     h1: 'Cartagena. Just updated.',
-    subhead: 'WiFi-tested work spots, current events, and honest beach logistics — by someone who lives here.',
+    subhead: 'Cafés and work spots with real, measured WiFi speeds — tested in person by people who live here.',
     lastUpdated: 'Last updated',
     workSpots: 'Work spots: last verified',
-    eventsUpdated: 'Events: updated',
     seeAllSpots: 'See all spots →',
-    seeAllEvents: 'See all events →',
   },
   work: {
     title: 'Work in Cartagena',
@@ -28,20 +25,6 @@ export const en = {
     hotspotWarning: 'Bring a hotspot backup',
     down: 'Down',
     up: 'Up',
-  },
-  events: {
-    title: 'This Week in Cartagena',
-    description: 'Current events, nightlife, and live music — updated every Monday.',
-    searchPlaceholder: 'Search events or venues...',
-    filterAll: 'All',
-    filterCulture: 'Culture',
-    filterMusic: 'Music',
-    filterFree: 'Free',
-    filterPride: 'LGTBIQ+',
-    confirmed: '✓ confirmed',
-    onUntil: 'On until',
-    noResults: 'No results',
-    openInMaps: 'Open in Maps',
   },
   cta: {
     text: 'Need a local tip, work spot, or beach day?',
