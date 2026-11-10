@@ -101,24 +101,24 @@ const altPath = lang === 'es'
 <body id="top">
 
   <!-- Header — always dark regardless of theme -->
-  <header style="background: #1C1A17; position: sticky; top: 0; z-index: 40;">
+  <header style="background: var(--header-bg); position: sticky; top: 0; z-index: 40;">
     <!-- Top row: wordmark | controls -->
     <div style="max-width: 42rem; margin: 0 auto; padding: 0 1.25rem; height: 3rem; display: flex; align-items: center; justify-content: space-between;">
       <a href={homeHref}
-        style="font-family: Georgia, serif; font-style: italic; font-weight: 400; font-size: 1.1rem; color: #FAF7F2; text-decoration: none; letter-spacing: -0.01em;">
+        style="font-family: Georgia, serif; font-style: italic; font-weight: 400; font-size: 1.1rem; color: #F4F1DE; text-decoration: none; letter-spacing: -0.01em;">
         Cartagena Up
       </a>
       <div style="display: flex; align-items: center; gap: 1rem;">
         <!-- Theme toggle -->
         <button id="theme-toggle" aria-label="Toggle dark mode"
-          style="background: none; border: none; cursor: pointer; color: rgba(250,247,242,0.7); font-size: 0.95rem; padding: 0.25rem; line-height: 1; display: flex; align-items: center;">
+          style="background: none; border: none; cursor: pointer; color: rgba(244,241,222,0.7); font-size: 0.95rem; padding: 0.25rem; line-height: 1; display: flex; align-items: center;">
           <span id="theme-icon">☾</span>
         </button>
         <!-- Language switcher -->
         <span style="font-size: 0.75rem; letter-spacing: 0.04em; display: flex; align-items: center; gap: 0.35rem;">
           {lang === 'en'
-            ? <><span style="color: #E07A45; font-weight: 700;">EN</span><span style="color: rgba(250,247,242,0.2);">·</span><a href={altPath} style="color: rgba(250,247,242,0.7); text-decoration: none; font-weight: 500;">ES</a></>
-            : <><a href={altPath} style="color: rgba(250,247,242,0.7); text-decoration: none; font-weight: 500;">EN</a><span style="color: rgba(250,247,242,0.2);">·</span><span style="color: #E07A45; font-weight: 700;">ES</span></>
+            ? <><span style="color: #E9C46A; font-weight: 700;">EN</span><span style="color: rgba(244,241,222,0.2);">·</span><a href={altPath} style="color: rgba(244,241,222,0.7); text-decoration: none; font-weight: 500;">ES</a></>
+            : <><a href={altPath} style="color: rgba(244,241,222,0.7); text-decoration: none; font-weight: 500;">EN</a><span style="color: rgba(244,241,222,0.2);">·</span><span style="color: #E9C46A; font-weight: 700;">ES</span></>
           }
         </span>
       </div>
@@ -128,15 +128,15 @@ const altPath = lang === 'es'
     <!-- Nav row -->
     <nav style="max-width: 42rem; margin: 0 auto; padding: 0 1.25rem; height: 2.25rem; display: flex; align-items: center; gap: 1.5rem;">
       <a href={workHref}
-        style={`font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; text-decoration: none; font-weight: 600; color: ${isWork ? '#E07A45' : 'rgba(250,247,242,0.7)'};`}>
+        style={`font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; text-decoration: none; font-weight: 600; color: ${isWork ? '#E9C46A' : 'rgba(244,241,222,0.7)'};`}>
         {t.nav.work}
       </a>
       <a href={fastestWifiHref}
-        style={`font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; text-decoration: none; font-weight: 600; color: ${isFastest ? '#E07A45' : 'rgba(250,247,242,0.7)'};`}>
+        style={`font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; text-decoration: none; font-weight: 600; color: ${isFastest ? '#E9C46A' : 'rgba(244,241,222,0.7)'};`}>
         {lang === 'es' ? 'WiFi más rápido' : 'Fastest WiFi'}
       </a>
       <a href={aboutHref}
-        style={`font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; text-decoration: none; font-weight: 600; color: ${isAbout ? '#E07A45' : 'rgba(250,247,242,0.7)'};`}>
+        style={`font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; text-decoration: none; font-weight: 600; color: ${isAbout ? '#E9C46A' : 'rgba(244,241,222,0.7)'};`}>
         {t.nav.about}
       </a>
     </nav>

@@ -136,7 +136,7 @@ export default function PlaceCarousel({ images, placeName }) {
                   style={{
                     width: selectedIndex === i ? '16px' : '6px',
                     height: '6px', borderRadius: '3px',
-                    background: selectedIndex === i ? '#C45C26' : 'rgba(255,255,255,0.5)',
+                    background: selectedIndex === i ? '#E9C46A' : 'rgba(255,255,255,0.5)',
                     border: 'none', cursor: 'pointer', padding: 0,
                     transition: 'all 0.2s',
                   }}

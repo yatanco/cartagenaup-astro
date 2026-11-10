@@ -1,17 +1,23 @@
 @import "tailwindcss";
 @custom-variant dark (&:where(.dark, .dark *));
 
+/* "Classic Cartagena" palette — Rosario turquoise, colonial mustard,
+   bougainvillea fuchsia on coral sand. Text-on-bg variants are darkened
+   from the source swatches to keep WCAG AA (ratios noted inline). */
 @theme {
-  --color-sand: #FAF7F2;
+  --color-sand: #F4F1DE;        /* Coral Sand */
   --color-ink: #1C1A17;
-  --color-terracotta: #B5521F; /* darkened from #C45C26 for WCAG AA text contrast */
-  --color-terracotta-hover: #A34A1E;
-  --color-gold: #C8943A;
+  --color-sea: #0F2E2B;         /* deep Caribbean teal — header/hero */
+  --color-turquoise: #2A9D8F;   /* Rosario Turquoise — decorative only (2.9:1 on sand) */
+  --color-terracotta: #1A6E64;  /* legacy name, now deep turquoise text: 5.3:1 on sand */
+  --color-terracotta-hover: #145850;
+  --color-gold: #E9C46A;        /* Colonial Mustard — on dark only (8.7:1 on sea) */
+  --color-fuchsia: #D62888;     /* Bougainvillea — CTA buttons, white text 4.65:1 */
   --color-muted: #4A4540;
-  --color-surface: #F0EBE1;
-  --color-border-warm: #DDD5C8;
-  --color-cta-bg: #FDF3E7;
-  --color-cta-border: #E8D5B7;
+  --color-surface: #EAE5CC;
+  --color-border-warm: #D9D2B6;
+  --color-cta-bg: #FBF0D4;
+  --color-cta-border: #E9C46A;
   --color-green-wa: #25D366;
   --font-serif: Georgia, "Times New Roman", serif;
   --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
@@ -19,30 +25,33 @@
 
 /* Semantic tokens — used throughout via var() */
 :root {
-  --bg: #FAF7F2;
+  --bg: #F4F1DE;
   --fg: #1C1A17;
   --card-bg: #FFFFFF;
-  --card-border: #DDD5C8;
-  --text-muted: #4A4540;
-  --border: #DDD5C8;
+  --card-border: #D9D2B6;
+  --text-muted: #4A4540;  /* 8.3:1 on sand */
+  --border: #D9D2B6;
   --section-label: #4A4540;
-  --input-bg: #F0EBE1;
-  --accent: #B5521F;      /* text/links on light bg: 4.7:1 */
-  --accent-bg: #B5521F;   /* buttons with white text: 5.0:1 */
+  --input-bg: #EAE5CC;
+  --accent: #1A6E64;      /* text/links on light bg: 5.3:1 */
+  --accent-bg: #D62888;   /* CTA buttons with white text: 4.65:1 */
+  --header-bg: #0F2E2B;
+  --header-accent: #E9C46A;
 }
 
 .dark {
-  --bg: #1C1A17;
-  --fg: #FAF7F2;
-  --card-bg: #262320;
+  --bg: #14201F;
+  --fg: #F4F1DE;
+  --card-bg: #1C2B29;
   --card-border: rgba(255,255,255,0.08);
-  --text-muted: rgba(250,247,242,0.62);
+  --text-muted: rgba(244,241,222,0.62);
   --border: rgba(255,255,255,0.08);
-  --section-label: rgba(250,247,242,0.62);
-  --input-bg: #262320;
-  --accent: #E07A45;      /* text/links on dark bg: 5.8:1 */
-  --accent-bg: #B5521F;
-  --color-terracotta: #E07A45;
+  --section-label: rgba(244,241,222,0.62);
+  --input-bg: #1C2B29;
+  --accent: #6EC9BC;      /* text/links on dark bg: 8.5:1 */
+  --accent-bg: #D62888;
+  --color-terracotta: #6EC9BC;
+  --header-bg: #0A1F1D;
 }
 
 html {
